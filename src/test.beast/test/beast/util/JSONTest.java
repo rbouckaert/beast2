@@ -42,7 +42,7 @@ public class JSONTest extends TestCase {
     	String json = "{version: \"2.6\",\n" + 
     			"\n" + 
     			"beast: [\n" + 
-    			"{spec:\"beast.core.parameter.RealParameter\",\n" +
+    			"{spec:\"beast.base.inference.parameter.RealParameter\",\n" +
     			" value:\"2.345\"\n" +
     			"}\n" +
     			"]\n" +
@@ -81,8 +81,8 @@ public class JSONTest extends TestCase {
     	
     	
     	// test that default value for param1 comes through
-    	String json2 = "{version: \"2.5\",\n" + 
-    			"namespace: \"beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood\",\n" + 
+    	String json2 = "{version: \"2.7\",\n" + 
+    			"namespace: \"beast.base:beast.base.evolution.alignment\",\n" + 
     			"\n" + 
     			"beast: [\n" + 
     			"\n" + 
@@ -110,8 +110,8 @@ public class JSONTest extends TestCase {
     	
 
     	// test that array of doubles comes through in second constructor
-    	String json3 = "{version: \"2.5\",\n" + 
-    			"namespace: \"beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood\",\n" + 
+    	String json3 = "{version: \"2.7\",\n" + 
+    			"namespace: \"beast.base:beast.base.evolution.alignment\",\n" + 
     			"\n" + 
     			"beast: [\n" + 
     			"\n" + 

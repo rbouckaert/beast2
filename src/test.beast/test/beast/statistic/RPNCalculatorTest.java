@@ -116,7 +116,7 @@ public class RPNCalculatorTest extends TestCase {
 		XMLParser parser = new XMLParser();
 		String xml = 
 				"<parameter id='p1' spec='beast.base.inference.parameter.BooleanParameter' value='0 1 0 1'/>\n" +
-			    "<parameter id='p2' value='5. 6. 7. 8.'/>\n" +
+			    "<parameter id='p2' value='5. 6. 7. 8.' spec='beast.base.inference.parameter.RealParameter'/>\n" +
 			    "<calculator id='calculator' spec='beast.base.inference.util.RPNcalculator' expression='p1 p2 *'>\n" +
 			    "    <parameter idref='p1'/>\n" +
 			    "    <parameter idref='p2'/>\n" +

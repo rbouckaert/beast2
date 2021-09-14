@@ -22,7 +22,8 @@ public class XMLParserTest extends TestCase {
     @Test
     public void testClassMap() throws IOException {
     	// back up version.xml 
-        Files.move(new File("version.xml").toPath(), 
+    	if (new File("version.xml").exists())    	
+    		Files.move(new File("version.xml").toPath(), 
         		new File("version.xml.backup").toPath(), 
         		java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 
@@ -37,7 +38,7 @@ public class XMLParserTest extends TestCase {
     	// parse XML containing entry in map
     	Object o = null;
     	try {
-	    	String xml = "<beast namespace=\"beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood\" version=\"2.6\">"
+	    	String xml = "<beast namespace=\"beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood\" version=\"2.7\">"
 	    			+ "<input spec='JoMamma'/>"
 	    			+ "</beast>";
 	    
@@ -48,7 +49,8 @@ public class XMLParserTest extends TestCase {
     	}
 
     	// restore version.xml
-        Files.move(new File("version.xml.backup").toPath(), 
+    	if (new File("version.xml.backup").exists())    	
+    		Files.move(new File("version.xml.backup").toPath(), 
         		new File("version.xml").toPath(), 
         		java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         

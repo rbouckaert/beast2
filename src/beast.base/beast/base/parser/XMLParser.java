@@ -199,7 +199,7 @@ public class XMLParser {
     static HashMap<String, String> element2ClassMap;
     static HashMap<String, String> oldClass2ClassMap;
     static Set<String> reservedElements;
-    static {
+    static private void initElement2ClassMap() {
         element2ClassMap = new HashMap<>();
         element2ClassMap.put(DISTRIBUTION_ELEMENT, LIKELIHOOD_CLASS);
         element2ClassMap.put(OPERATOR_ELEMENT, OPERATOR_CLASS);
@@ -288,17 +288,26 @@ public class XMLParser {
     
 
     public XMLParser() {
-        this.parserDefinitions = new HashMap<>();
+        this.parserDefinitions = new HashMap<>();        
+        if (element2ClassMap == null) {    	   
+        	initElement2ClassMap();
+        }
     }
     
 	public XMLParser(java.util.Map<String,String> parserDefinitions) {
 		this.parserDefinitions = parserDefinitions;
+		if (element2ClassMap == null) {    	   
+			initElement2ClassMap();
+	    }
 	}
 
 	public XMLParser(java.util.Map<String,String> parserDefinitions, String outFile, boolean hasParserDefinitionsFromFile) {
 		this.parserDefinitions = parserDefinitions;
 		this.outFile = outFile;
 		this.hasParserDefinitionsFromFile = hasParserDefinitionsFromFile;
+        if (element2ClassMap == null) {    	   
+     	    initElement2ClassMap();
+        }
 	}
 
 
