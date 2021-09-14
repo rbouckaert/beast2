@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast namespace="beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" version="2.0">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast namespace="beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood" version="2.0">
 <!-- SRD06 model: split sequences in first together with seconds and thirds of all sites -->
 
     <data dataType="nucleotide" id="Primates">
@@ -16,8 +16,8 @@
         <sequence id="seq_Saimiri_sciureus" taxon="Saimiri_sciureus" totalcount="4" value="AAGCTTCACCGGCGCAATGATCCTAATAATCGCTCACGGGTTTACTTCGTCTATGCTATTCTGCCTAGCAAACTCAAATTACGAACGAATTCACAGCCGAACAATAACATTTACTCGAGGGCTCCAAACACTATTCCCGCTTATAGGCCTCTGATGACTCCTAGCAAATCTCGCTAACCTCGCCCTACCCACAGCTATTAATCTAGTAGGAGAATTACTCACAATCGTATCTTCCTTCTCTTGATCCAACTTTACTATTATATTCACAGGACTTAATATACTAATTACAGCACTCTACTCACTTCATATGTATGCCTCTACACAGCGAGGTCCACTTACATACAGCACCAGCAATATAAAACCAATATTTACACGAGAAAATACGCTAATATTTATACATATAACACCAATCCTCCTCCTTACCTTGAGCCCCAAGGTAATTATAGGACCCTCACCTTGTAATTATAGTTTAGCTAAAACATTAGATTGTGAATCTAATAATAGAAGAATA-TAACTTCTTAATTACCGAGAAAGTG-CGCAAGAACTGCTAATTCATGCTCCCAAGACTAACAACTTGGCTTCCTCAACTTTTAAAGGATAGTAGTTATCCATTGGTCTTAGGAGCCAAAAACATTGGTGCAACTCCAAATAAAAGTAATA---ATACACTTCTCCATCACTCTAATAACACTAATTAGCCTACTAGCGCCAATCCTAGCTACCCTCATTAACCCTAACAAAAGCACACTATACCCGTACTACGTAAAACTAGCCATCATCTACGCCCTCATTACCAGTACCTTATCTATAATATTCTTTATCCTTACAGGCCAAGAATCAATAATTTCAAACTGACACTGAATAACTATCCAAACCATCAAACTATCCCTAAGCTT"/>
     </data>
 
-    <data data="@Primates" dataType="nucleotide" filter="1::3,2::3" id="firstAndSecondSites" name="taxa" spec="beast.evolution.alignment.FilteredAlignment"/>
-    <data data="@Primates" dataType="nucleotide" filter="3::3" id="thirdSites" name="taxa" spec="beast.evolution.alignment.FilteredAlignment"/>
+    <data data="@Primates" dataType="nucleotide" filter="1::3,2::3" id="firstAndSecondSites" name="taxa" spec="beast.base.evolution.alignment.FilteredAlignment"/>
+    <data data="@Primates" dataType="nucleotide" filter="3::3" id="thirdSites" name="taxa" spec="beast.base.evolution.alignment.FilteredAlignment"/>
 
 
     <distribution id="posterior" spec="util.CompoundDistribution">
@@ -26,11 +26,11 @@
             <distribution id="firstAndSecondSites.coalescent" populationModel="@firstAndSecondSites.ConstantPopulation" spec="Coalescent">
                 <treeIntervals id="treeIntervals" spec="TreeIntervals" tree="@tree"/>
             </distribution>
-            <distribution id="firstAndSecondSites.kappa.prior" spec="beast.math.distributions.Prior" x="@firstAndSecondSites.hky.kappa">
-                <distr id="OneOnX0" offset="0.0" spec="beast.math.distributions.OneOnX"/>
+            <distribution id="firstAndSecondSites.kappa.prior" spec="beast.base.inference.distribution.Prior" x="@firstAndSecondSites.hky.kappa">
+                <distr id="OneOnX0" offset="0.0" spec="beast.base.inference.distribution.OneOnX"/>
             </distribution>
-            <distribution id="thirdSites.kappa.prior" spec="beast.math.distributions.Prior" x="@thirdSites.hky.kappa">
-                <distr id="OneOnX1" offset="0.0" spec="beast.math.distributions.OneOnX"/>
+            <distribution id="thirdSites.kappa.prior" spec="beast.base.inference.distribution.Prior" x="@thirdSites.hky.kappa">
+                <distr id="OneOnX1" offset="0.0" spec="beast.base.inference.distribution.OneOnX"/>
             </distribution>
         </distribution>
 
@@ -44,7 +44,7 @@
                         <frequencies estimate="true" frequencies="@firstAndSecondSites.freqParameter" id="firstAndSecondSites.freqs" spec="Frequencies"/>
                     </substModel>
                 </siteModel>
-                <branchRateModel id="firstAndSecondSites.StrictClockModel" spec="beast.evolution.branchratemodel.StrictClockModel">
+                <branchRateModel id="firstAndSecondSites.StrictClockModel" spec="beast.base.evolution.branchratemodel.StrictClockModel">
                     <parameter dimension="1" estimate="false" id="firstAndSecondSites.clockRate" name="clock.rate" value="1.0"/>
                 </branchRateModel>
             </distribution>
@@ -64,7 +64,7 @@
 
     
 <run chainLength="10000000" id="mcmc" preBurnin="0" spec="MCMC" storeEvery="-1">
-    <init estimate="false" id="firstAndSecondSites.RandomTree" initial="@tree" spec="beast.evolution.tree.RandomTree">
+    <init estimate="false" id="firstAndSecondSites.RandomTree" initial="@tree" spec="beast.base.evolution.tree.RandomTree">
         <data idref="firstAndSecondSites" name="taxa"/>
         <populationModel id="firstAndSecondSites.ConstantPopulation" spec="ConstantPopulation">
             <parameter dimension="1" estimate="false" id="firstAndSecondSites.popSize" name="popSize" value="1.0"/>
@@ -98,7 +98,7 @@
     <logger fileName="beast_$(seed).log" id="tracelog" logEvery="10000" mode="autodetect" model="@posterior">
         <distribution idref="likelihood" name="log"/>
         <parameter idref="firstAndSecondSites.hky.kappa" name="log"/>
-        <log id="TreeHeightLogger0" spec="beast.evolution.tree.TreeHeightLogger" tree="@tree"/>
+        <log id="TreeHeightLogger0" spec="beast.base.evolution.tree.TreeHeightLogger" tree="@tree"/>
         <parameter idref="firstAndSecondSites.freqParameter" name="log"/>
         <parameter idref="thirdSites.hky.kappa" name="log"/>
         <parameter idref="thirdSites.freqParameter" name="log"/>

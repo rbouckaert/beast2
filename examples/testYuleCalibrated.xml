@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" version="2.0">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast namespace="beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.alignment:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood" version="2.0">
 
 
     <data dataType="nucleotide" id="alignment" name="alignment" strip="false">
@@ -17,26 +17,26 @@
     <distribution id="posterior" ignore="false" spec="util.CompoundDistribution" useThreads="false">
         <distribution id="prior" ignore="false" spec="util.CompoundDistribution" useThreads="false">
             <distribution birthRate="@birthRateY.t:alignment" id="CalibratedYuleModel.t:alignment"
-                          spec="beast.evolution.speciation.CalibratedYuleModel" tree="@Tree.t:alignment" type="full"/>
-            <distribution id="CalibratedYuleBirthRatePrior.t:alignment" spec="beast.math.distributions.Prior" x="@birthRateY.t:alignment">
-                <distr id="Uniform.0" lower="0.0" offset="0.0" spec="beast.math.distributions.Uniform" upper="1000.0"/>
+                          spec="beast.base.evolution.speciation.CalibratedYuleModel" tree="@Tree.t:alignment" type="full"/>
+            <distribution id="CalibratedYuleBirthRatePrior.t:alignment" spec="beast.base.inference.distribution.Prior" x="@birthRateY.t:alignment">
+                <distr id="Uniform.0" lower="0.0" offset="0.0" spec="beast.base.inference.distribution.Uniform" upper="1000.0"/>
             </distribution>
-            <distribution id="ClockPrior.c:alignment" spec="beast.math.distributions.Prior" x="@clockRate.c:alignment">
-                <distr id="Uniform.01" lower="0.0" offset="0.0" spec="beast.math.distributions.Uniform" upper="Infinity"/>
+            <distribution id="ClockPrior.c:alignment" spec="beast.base.inference.distribution.Prior" x="@clockRate.c:alignment">
+                <distr id="Uniform.01" lower="0.0" offset="0.0" spec="beast.base.inference.distribution.Uniform" upper="Infinity"/>
             </distribution>
-            <distribution id="KappaPrior.s:alignment" spec="beast.math.distributions.Prior" x="@kappa.s:alignment">
-                <distr id="LogNormalDistributionModel.0" meanInRealSpace="true" offset="0.0" spec="beast.math.distributions.LogNormalDistributionModel">
+            <distribution id="KappaPrior.s:alignment" spec="beast.base.inference.distribution.Prior" x="@kappa.s:alignment">
+                <distr id="LogNormalDistributionModel.0" meanInRealSpace="true" offset="0.0" spec="beast.base.inference.distribution.LogNormalDistributionModel">
                     <parameter dimension="1" estimate="false" id="RealParameter.0" minordimension="1" name="M" value="1.0"/>
                     <parameter dimension="1" estimate="false" id="RealParameter.01" minordimension="1" name="S" value="1.25"/>
                 </distr>
             </distribution>
-            <distribution id="chimpgroup.prior" monophyletic="true" spec="beast.math.distributions.MRCAPrior" tipsonly="false" tree="@Tree.t:alignment">
+            <distribution id="chimpgroup.prior" monophyletic="true" spec="beast.base.evolution.tree.MRCAPrior" tipsonly="false" tree="@Tree.t:alignment">
                 <taxonset id="chimpgroup" spec="TaxonSet">
                     <taxon id="bonobo" spec="Taxon"/>
                     <taxon id="chimp" spec="Taxon"/>
                     <taxon id="human" spec="Taxon"/>
                 </taxonset>
-                <distr id="LogNormalDistributionModel.01" meanInRealSpace="true" offset="0.0" spec="beast.math.distributions.LogNormalDistributionModel">
+                <distr id="LogNormalDistributionModel.01" meanInRealSpace="true" offset="0.0" spec="beast.base.inference.distribution.LogNormalDistributionModel">
                     <parameter dimension="1" estimate="false" id="RealParameter.02" minordimension="1" name="M" value="6"/>
                     <parameter dimension="1" estimate="false" id="RealParameter.03" lower="0.0" minordimension="1" name="S" upper="5.0" value="0.25"/>
                 </distr>
@@ -52,7 +52,7 @@
                         <frequencies estimate="true" frequencies="@freqParameter.s:alignment" id="estimatedFreqs.s:alignment" spec="Frequencies"/>
                     </substModel>
                 </siteModel>
-                <branchRateModel clock.rate="@clockRate.c:alignment" id="StrictClock.c:alignment" spec="beast.evolution.branchratemodel.StrictClockModel"/>
+                <branchRateModel clock.rate="@clockRate.c:alignment" id="StrictClock.c:alignment" spec="beast.base.evolution.branchratemodel.StrictClockModel"/>
             </distribution>
         </distribution>
     </distribution>
@@ -110,7 +110,7 @@
         <distribution idref="likelihood" name="log"/>
         <distribution idref="prior" name="log"/>
         <distribution idref="treeLikelihood.alignment" name="log"/>
-        <log id="TreeHeight.t:alignment" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.t:alignment"/>
+        <log id="TreeHeight.t:alignment" spec="beast.base.evolution.tree.TreeHeightLogger" tree="@Tree.t:alignment"/>
         <parameter idref="kappa.s:alignment" name="log"/>
         <distribution idref="CalibratedYuleModel.t:alignment" name="log"/>
         <parameter idref="birthRateY.t:alignment" name="log"/>
@@ -127,10 +127,10 @@
     </logger>
 
     <logger fileName="ape.calyule.$(seed).trees" id="treelog.t:alignment" logEvery="1000" mode="tree" sanitiseHeaders="false" sort="none">
-        <log id="TreeWithMetaDataLogger.t:alignment" spec="beast.evolution.tree.TreeWithMetaDataLogger" tree="@Tree.t:alignment"/>
+        <log id="TreeWithMetaDataLogger.t:alignment" spec="beast.base.evolution.tree.TreeWithMetaDataLogger" tree="@Tree.t:alignment"/>
     </logger>
 
-    <tree estimate="false" id="RandomTree.t:alignment" initial="@Tree.t:alignment" name="init" spec="beast.evolution.tree.RandomTree" taxa="@alignment">
+    <tree estimate="false" id="RandomTree.t:alignment" initial="@Tree.t:alignment" name="init" spec="beast.base.evolution.tree.RandomTree" taxa="@alignment">
         <populationModel id="ConstantPopulation0.t:alignment" spec="ConstantPopulation">
             <parameter dimension="1" estimate="true" id="randomPopSize.t:alignment" minordimension="1" name="popSize" value="1"/>
         </populationModel>

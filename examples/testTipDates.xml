@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beast version='2.0'
-       namespace='beast.math:beast.evolution.alignment:beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood'>
+       namespace='beast.base.math:beast.base.evolution.alignment:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.inference.distribution:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood'>
 
 <!-- 17 taxa, 1485 sites, 138 patterns -->
 <data dataType="nucleotide" id="alignment">
@@ -92,8 +92,8 @@
 
     <parameter id="hky.kappa" value="1.0" lower="0.0"/>
 
-    <tree spec='beast.util.ClusterTree' id='tree' clusterType='upgma'>
-		<trait spec='beast.evolution.tree.TraitSet' traitname='date-forward' units='year'
+    <tree spec='beast.base.evolution.tree.ClusterTree' id='tree' clusterType='upgma'>
+		<trait spec='beast.base.evolution.tree.TraitSet' traitname='date-forward' units='year'
 			value='
 			D4Brazi82  = 1982,
 			D4ElSal83  = 1983,
@@ -127,22 +127,22 @@
                 <treeIntervals id="TreeIntervals" spec="TreeIntervals" tree="@tree"/>
             </distribution>
 
-            <distribution id="tipDates" monophyletic="false" spec="distributions.MRCAPrior" tipsonly="true" tree="@tree">
+            <distribution id="tipDates" monophyletic="false" spec="beast.base.evolution.tree.MRCAPrior" tipsonly="true" tree="@tree">
                 <taxonset id="TaxonSet0" spec="TaxonSet">
                     <taxon id="D4PRico86" spec="Taxon"/>
                 </taxonset>
-                <distr id="Uniform0" lower="1985" offset="0.0" spec="distributions.Uniform" upper="1987"/>
+                <distr id="Uniform0" lower="1985" offset="0.0" spec="distribution.Uniform" upper="1987"/>
             </distribution>
 
-            <distribution id="tipDates2" monophyletic="false" spec="distributions.MRCAPrior" tipsonly="true" tree="@tree">
+            <distribution id="tipDates2" monophyletic="false" spec="beast.base.evolution.tree.MRCAPrior" tipsonly="true" tree="@tree">
                 <taxonset id="TaxonSet1" spec="TaxonSet">
                     <taxon id="D4ElSal94" spec="Taxon"/>
                 </taxonset>
-                <distr id="Noraml0" offset="0.0" spec="distributions.Normal" mean="1994" sigma="1"/>
+                <distr id="Noraml0" offset="0.0" spec="distribution.Normal" mean="1994" sigma="1"/>
             </distribution>
 
-            <distribution id="kappa.prior" spec="distributions.Prior" x="@hky.kappa">
-                <distr id="OneOnX0" offset="0.0" spec="distributions.OneOnX"/>
+            <distribution id="kappa.prior" spec="distribution.Prior" x="@hky.kappa">
+                <distr id="OneOnX0" offset="0.0" spec="distribution.OneOnX"/>
             </distribution>
         </distribution>
         <distribution id="likelihood" spec="util.CompoundDistribution">
@@ -150,7 +150,7 @@
 				<input name='data' idref="alignment"/>
 				<input name='tree' idref="tree"/>
 				<input name='siteModel' idref="siteModel"/>
-                <branchRateModel id="StrictClockModel" spec="beast.evolution.branchratemodel.StrictClockModel">
+                <branchRateModel id="StrictClockModel" spec="beast.base.evolution.branchratemodel.StrictClockModel">
                     <parameter dimension="1" estimate="true" id="clockRate" name="clock.rate" value="1.0"/>
                 </branchRateModel>
 		    </distribution>
@@ -173,7 +173,7 @@
         <operator id='clockRateScaler' spec='ScaleOperator' scaleFactor="0.5" weight="1" parameter="@clockRate"/>
 
         <operator id='treeScaler' spec='ScaleOperator' scaleFactor="0.5" weight="1" tree='@tree'/>
-        <operator spec='Uniform' weight="10" tree='@tree'/>
+        <operator spec='beast.base.evolution.operator.Uniform' weight="10" tree='@tree'/>
         <operator spec='SubtreeSlide' weight="5" gaussian="true" size="1.0" tree='@tree'/>
         <operator id='narrow' spec='Exchange' isNarrow='true' weight="1" tree='@tree'/>
         <operator id='wide' spec='Exchange' isNarrow='false' weight="1" tree='@tree'/>
@@ -185,7 +185,7 @@
 			<log idref='tipDates2'/>
 			<log idref='hky.kappa'/>
 			<log idref='clockRate'/>
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree'/>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree'/>
         </logger>
         <logger logEvery="10000" fileName="test.$(seed).trees">
             <log idref="tree"/>

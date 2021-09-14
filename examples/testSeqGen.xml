@@ -1,5 +1,5 @@
 <beast version='2.0'
-       namespace='beast.evolution.alignment:beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood'>
+       namespace='beast.base.evolution.alignment:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood'>
 
 
     <data id="alignment" dataType="nucleotide">
@@ -13,7 +13,7 @@
 
 
 
-    <tree id='tree' spec='beast.util.TreeParser' IsLabelledNewick='true' newick='((((human:0.02096625515232275,(chimp:0.014857143159686462,bonobo:0.014857143159686462):0.0061091119926362895):0.012862878672687175,gorilla:0.033829133825009926):0.029471223948245952,orangutan:0.06330035777325588):0.0031773962188650223,siamang:0.0664777539921209)' taxa='@alignment'/>
+    <tree id='tree' spec='beast.base.evolution.tree.TreeParser' IsLabelledNewick='true' newick='((((human:0.02096625515232275,(chimp:0.014857143159686462,bonobo:0.014857143159686462):0.0061091119926362895):0.012862878672687175,gorilla:0.033829133825009926):0.029471223948245952,orangutan:0.06330035777325588):0.0031773962188650223,siamang:0.0664777539921209)' taxa='@alignment'/>
 
 
     <run spec="beast.app.seqgen.SequenceSimulator" id="seqgen" data='@alignment' tree='@tree' sequencelength='3000'>
@@ -82,7 +82,7 @@
 -->
 	    </siteModel>
 
-        <branchRateModel id="StrictClock" spec="beast.evolution.branchratemodel.StrictClockModel">
+        <branchRateModel id="StrictClock" spec="beast.base.evolution.branchratemodel.StrictClockModel">
             <parameter dimension="1" estimate="false" id="clockRate" minordimension="1" name="clock.rate" value="1.0"/>
         </branchRateModel>
 	</run>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <beast beautitemplate='Standard' beautistatus=''
-       namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood"
+       namespace="beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.alignment:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood"
        version="2.0">
 
     <data id="primate-mtDNA">
@@ -31,16 +31,16 @@
     </data>
 
 
-    <map name="Beta">beast.math.distributions.Beta</map>
-    <map name="Exponential">beast.math.distributions.Exponential</map>
-    <map name="InverseGamma">beast.math.distributions.InverseGamma</map>
-    <map name="LogNormal">beast.math.distributions.LogNormalDistributionModel</map>
-    <map name="Gamma">beast.math.distributions.Gamma</map>
-    <map name="Uniform">beast.math.distributions.Uniform</map>
-    <map name="prior">beast.math.distributions.Prior</map>
-    <map name="LaplaceDistribution">beast.math.distributions.LaplaceDistribution</map>
-    <map name="OneOnX">beast.math.distributions.OneOnX</map>
-    <map name="Normal">beast.math.distributions.Normal</map>
+    <map name="Beta">beast.base.inference.distribution.Beta</map>
+    <map name="Exponential">beast.base.inference.distribution.Exponential</map>
+    <map name="InverseGamma">beast.base.inference.distribution.InverseGamma</map>
+    <map name="LogNormal">beast.base.inference.distribution.LogNormalDistributionModel</map>
+    <map name="Gamma">beast.base.inference.distribution.Gamma</map>
+    <map name="Uniform">beast.base.inference.distribution.Uniform</map>
+    <map name="prior">beast.base.inference.distribution.Prior</map>
+    <map name="LaplaceDistribution">beast.base.inference.distribution.LaplaceDistribution</map>
+    <map name="OneOnX">beast.base.inference.distribution.OneOnX</map>
+    <map name="Normal">beast.base.inference.distribution.Normal</map>
 
 
     <run chainLength="5000000" id="mcmc" spec="MCMC">
@@ -62,7 +62,7 @@
         </state>
 
         <init estimate="false" id="RandomTree.t:primate" initial="@Tree.t:primate"
-              spec="beast.evolution.tree.RandomTree" taxa="@coding">
+              spec="beast.base.evolution.tree.RandomTree" taxa="@coding">
             <populationModel id="ConstantPopulation0.t:primate" spec="ConstantPopulation">
                 <parameter id="randomPopSize.t:primate" name="popSize" value="1"/>
             </populationModel>
@@ -71,7 +71,7 @@
         <distribution id="posterior" spec="util.CompoundDistribution">
             <distribution id="prior" spec="util.CompoundDistribution">
                 <distribution birthDiffRate="@birthRate.t:primate" id="YuleModel.t:primate"
-                              spec="beast.evolution.speciation.YuleModel" tree="@Tree.t:primate"/>
+                              spec="beast.base.evolution.speciation.YuleModel" tree="@Tree.t:primate"/>
                 <prior id="YuleBirthRatePrior.t:primate" name="distribution" x="@birthRate.t:primate">
                     <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
                 </prior>
@@ -119,7 +119,7 @@
                                          spec="Frequencies"/>
                         </substModel>
                     </siteModel>
-                    <branchRateModel id="StrictClock.c:primate" spec="beast.evolution.branchratemodel.StrictClockModel">
+                    <branchRateModel id="StrictClock.c:primate" spec="beast.base.evolution.branchratemodel.StrictClockModel">
                         <parameter estimate="false" id="clockRate.c:primate" name="clock.rate" value="1.0"/>
                     </branchRateModel>
                 </distribution>
@@ -171,7 +171,7 @@
             <log idref="prior"/>
             <log idref="treeLikelihood.noncoding"/>
             <log idref="treeLikelihood.coding"/>
-            <log id="TreeHeight.t:primate" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.t:primate"/>
+            <log id="TreeHeight.t:primate" spec="beast.base.evolution.tree.TreeHeightLogger" tree="@Tree.t:primate"/>
             <log idref="YuleModel.t:primate"/>
             <parameter idref="birthRate.t:primate" name="log"/>
             <parameter idref="rateGT.s:primate" name="log"/>
@@ -189,7 +189,7 @@
         </logger>
 
         <logger fileName="$(tree).trees" id="treelog.t:primate" logEvery="5000" mode="tree">
-            <log id="TreeWithMetaDataLogger.t:primate" spec="beast.evolution.tree.TreeWithMetaDataLogger"
+            <log id="TreeWithMetaDataLogger.t:primate" spec="beast.base.evolution.tree.TreeWithMetaDataLogger"
                  tree="@Tree.t:primate"/>
         </logger>
 

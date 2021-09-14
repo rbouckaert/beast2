@@ -1,5 +1,5 @@
 <beast version='2.0'
-       namespace='beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.branchratemodel:beast.evolution.likelihood:beast.core.parameter'>
+       namespace='beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.branchratemodel:beast.base.evolution.likelihood:beast.base.inference.parameter'>
 
 
     <!-- The sequence alignment (each sequence refers to a taxon above).         -->
@@ -45,11 +45,11 @@
         </siteModel>
     </input>
 
-    <tree spec='beast.util.ClusterTree' id='tree' clusterType='upgma' taxa='@alignment'/>
+    <tree spec='beast.base.evolution.tree.ClusterTree' id='tree' clusterType='upgma' taxa='@alignment'/>
 
-    <parameter spec='beast.core.parameter.RealParameter' id="hky.kappa">1.0</parameter>
+    <parameter spec='beast.base.inference.parameter.RealParameter' id="hky.kappa">1.0</parameter>
 
-    <parameter spec='beast.core.parameter.RealParameter' id="popSize">1.0</parameter>
+    <parameter spec='beast.base.inference.parameter.RealParameter' id="popSize">1.0</parameter>
 
 
     <run spec="MCMC" id="mcmc" chainLength="2000000"> <!--autoOptimize="true"-->
@@ -91,7 +91,7 @@
 	    <model idref='posterior'/>
             <log idref="coalescent"/>
             <log idref="likelihood"/>
-            <log spec='beast.evolution.tree.TreeHeightLogger'>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger'>
                 <tree idref='tree'/>
             </log>
             <log idref="popSize"/>
@@ -107,7 +107,7 @@
 	    <model idref='posterior'/>
             <log idref="coalescent"/>
             <log idref="likelihood"/>
-            <log spec='beast.evolution.tree.TreeHeightLogger'>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger'>
                 <tree idref='tree'/>
             </log>
             <log idref="popSize"/>

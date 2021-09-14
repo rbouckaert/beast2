@@ -1,5 +1,5 @@
 <beast version='2.0'
-       namespace='beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.branchratemodel:beast.evolution.likelihood:beast.core.parameter'>
+       namespace='beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.branchratemodel:beast.base.evolution.likelihood:beast.base.inference.parameter'>
 
 
     <!-- The sequence alignment (each sequence refers to a taxon above).         -->
@@ -44,7 +44,7 @@
     <input spec='UCRelaxedClockModel' id="branchRates" normalize='true'>
         <!--<parameter name='mutationRate'>1.0</parameter>-->
 		<parameter name='clock.rate' id='ucld.mean' value='1.0'/>
-        <distr id='lognormal' spec="beast.math.distributions.LogNormalDistributionModel">
+        <distr id='lognormal' spec="beast.base.inference.distribution.LogNormalDistributionModel">
             <parameter name='M' id='M' value="1"/>
             <parameter name='S' id='ucld.stdev' value="0.5" lower="0" upper="5"/>
         </distr>
@@ -59,14 +59,14 @@
         <input name="branchRateModel" idref="branchRates"/>
     </input>
 
-    <input spec='beast.util.ClusterTree' id='tree' clusterType='upgma'>
+    <input spec='beast.base.evolution.tree.ClusterTree' id='tree' clusterType='upgma'>
 	<!--trait idref='rateCategories'/--> 
         <input name='taxa' idref='alignment'/>
     </input>
 
-    <input spec='beast.core.parameter.RealParameter' id="hky.kappa">1.0</input>
+    <input spec='beast.base.inference.parameter.RealParameter' id="hky.kappa">1.0</input>
 
-    <input spec='beast.core.parameter.RealParameter' id="popSize">1.0</input>
+    <input spec='beast.base.inference.parameter.RealParameter' id="popSize">1.0</input>
 
 
     <run spec="MCMC" id="mcmc" chainLength="1000000"> <!--autoOptimize="true"-->
@@ -126,7 +126,7 @@
 	    <model idref='posterior'/>
             <log idref="coalescent"/>
             <log idref="likelihood"/>
-            <log spec='beast.evolution.tree.TreeHeightLogger'>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger'>
                 <tree idref='tree'/>
             </log>
             <log idref="popSize"/>
@@ -136,12 +136,12 @@
             <log idref="posterior"/>
         </logger>
         <logger logEvery="1000" fileName="test.(time).$(seed).trees" mode='tree'>
-			<log spec='beast.evolution.tree.TreeWithMetaDataLogger' tree='@tree' dp='6'>
+			<log spec='beast.base.evolution.tree.TreeWithMetaDataLogger' tree='@tree' dp='6'>
 				<branchratemodel idref='branchRates'/>
 			</log>
         </logger>
         <logger logEvery="1000" fileName="test.(subst).$(seed).trees" mode='tree'>
-			<log spec='beast.evolution.tree.TreeWithMetaDataLogger' tree='@tree' substitutions='true' dp='6'>
+			<log spec='beast.base.evolution.tree.TreeWithMetaDataLogger' tree='@tree' substitutions='true' dp='6'>
 				<branchratemodel idref='branchRates'/>
 			</log>
         </logger>
@@ -149,7 +149,7 @@
 	    <model idref='posterior'/>
             <log idref="coalescent"/>
             <log idref="likelihood"/>
-            <log spec='beast.evolution.tree.TreeHeightLogger'>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger'>
                 <tree idref='tree'/>
             </log>
             <log idref="popSize"/>

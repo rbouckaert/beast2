@@ -1,5 +1,5 @@
 <beast version='2.0'
-       namespace='beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood'>
+       namespace='beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood'>
 
 
     <!-- The sequence alignment                                                  -->
@@ -75,7 +75,7 @@
         <parameter id="hky.kappa$(n)" value="1.0" lower="0.0"/>
     </plate>
 
-    <tree spec='beast.util.ClusterTree' id='tree' clusterType='upgma' taxa='@alignment.p1'/>
+    <tree spec='beast.base.evolution.tree.ClusterTree' id='tree' clusterType='upgma' taxa='@alignment.p1'/>
 
 
     <run spec="MCMC" id="mcmc" chainLength="10000000">
@@ -108,7 +108,7 @@
             <plate var='n' range='.p1,.p2,.p3'>
                 <log idref='hky.kappa$(n)'/>
             </plate>
-            <log spec='beast.evolution.tree.TreeHeightLogger'><tree idref='tree'/></log>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger'><tree idref='tree'/></log>
         </logger>
         <logger logEvery="10000" fileName="test.$(seed).trees">
             <log idref="tree"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" standalone="yes"?>
 <beast version='2.0'
-       namespace='beast.evolution.alignment:beast.evolution.speciation:beast.core:beast.evolution.tree.coalescent:beast.util:beast.core.util:beast.evolution.likelihood:beast.math.distributions:beast.evolution.operators'>
+       namespace='beast.base.evolution.alignment:beast.base.evolution.speciation:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree:beast.base.evolution.tree.coalescent:beast.base.util:beast.base.math:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.base.evolution.likelihood:beast.base.math.distributions:beast.base.evolution.operator:beast.base.inference.operator'>
 
     <!-- for Figure 9.1 in BEAST2 book -->
 
@@ -24,14 +24,14 @@
               newick='(((1:1.0,2:1.0):1.0,3:2.0):1.0,4:3.0);'/>
     </input>
 
-    <distribution id='rootPrior' spec='beast.math.distributions.MRCAPrior' tree='@tree' monophyletic='true'>
+    <distribution id='rootPrior' spec='beast.base.evolution.tree.MRCAPrior' tree='@tree' monophyletic='true'>
         <taxonset spec='TaxonSet' id='all'>
             <taxon idref='1'/>
             <taxon idref='2'/>
             <taxon idref='3'/>
             <taxon idref='4'/>
         </taxonset>
-        <distr id='logNormalDistribution' spec='beast.math.distributions.LogNormalDistributionModel'>
+        <distr id='logNormalDistribution' spec='beast.base.inference.distribution.LogNormalDistributionModel'>
             <parameter name='M' value='2'/>
             <parameter name='S' value='0.2'/>
         </distr>
@@ -48,8 +48,8 @@
             <distribution id="yule.prior" idref='yule'/>
             <distribution idref="rootPrior"/>
 
-            <distribution id="birthRate.prior" spec="beast.math.distributions.Prior" x="@birthRate">
-                <distr id="OneOnX" offset="0.0" spec="beast.math.distributions.OneOnX"/>
+            <distribution id="birthRate.prior" spec="beast.base.inference.distribution.Prior" x="@birthRate">
+                <distr id="OneOnX" offset="0.0" spec="beast.base.inference.distribution.OneOnX"/>
             </distribution>
 
         </distribution>
@@ -63,7 +63,7 @@
             <model idref='posterior'/>
             <log idref="posterior"/>
             <log idref="yule"/>
-            <log spec='beast.math.distributions.MRCAPrior' tree='@tree' id='all.age' taxonset='@all' />
+            <log spec='beast.base.evolution.tree.MRCAPrior' tree='@tree' id='all.age' taxonset='@all' />
             <log idref="birthRate"/>
         </logger>
         <logger logEvery="100" fileName="classic_root_prior_oneOnX.$(seed).trees">

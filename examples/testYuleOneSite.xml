@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="yes"?>
 <!-- test Yule birth model and Birth Death model per Gernhard 2008-->
 <beast version='2.0'
-       namespace='beast.evolution.speciation:beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood'>
+       namespace='beast.base.evolution.speciation:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.base.util:beast.base.math:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood'>
 
     <data id="alignment" dataType="nucleotide">
         <sequence taxon="A">A</sequence>
@@ -14,7 +14,7 @@
     <!-- a Yule speciation process (a pure birth process).                       -->
     <input spec='YuleModel' id="yule">
         <parameter name='birthDiffRate' idref="birthRate"/>
-	<tree spec='TreeParser' id='tree' IsLabelledNewick='true' taxa='@alignment'
+	<tree spec='beast.base.evolution.tree.TreeParser' id='tree' IsLabelledNewick='true' taxa='@alignment'
 	        newick='((A:1.0,B:1.0):1.0,(C:1.0,D:1.0):1.0);'/>
     </input>
 
@@ -44,10 +44,10 @@
 	<state>
 	    <stateNode idref='tree'/>
 	    <stateNode idref='birthRate'/>
-	    <stateNode id='tree-test-single-child-parsing' IsLabelledNewick='true' spec='beast.util.TreeParser' singlechild='true' newick='((A:1.0):2,C:3);' >
-			<taxonset spec='beast.evolution.alignment.TaxonSet'>
-				<taxon spec='beast.evolution.alignment.Taxon' id='A'/>
-				<taxon spec='beast.evolution.alignment.Taxon' id='C'/>
+	    <stateNode id='tree-test-single-child-parsing' IsLabelledNewick='true' spec='beast.base.evolution.tree.TreeParser' singlechild='true' newick='((A:1.0):2,C:3);' >
+			<taxonset spec='beast.base.evolution.alignment.TaxonSet'>
+				<taxon spec='beast.base.evolution.alignment.Taxon' id='A'/>
+				<taxon spec='beast.base.evolution.alignment.Taxon' id='C'/>
 			</taxonset>
 		</stateNode>
 	</state>
@@ -77,13 +77,13 @@
 	    <log idref='yule.prior'/>
 	    <!--log idref='treeLikelihood'/-->
 	    <log idref='yulelike.prior'/>
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree'/>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree'/>
 	</logger>
 	<logger logEvery='100' fileName='$(seed).log'>
 	    <log idref='yule.prior'/>
 	    <!--log idref='treeLikelihood'/-->
 	    <!--log idref='yulelike.prior'/-->
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree'/>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree'/>
 	</logger>
     </run>
 

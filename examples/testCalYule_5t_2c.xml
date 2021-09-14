@@ -1,7 +1,7 @@
 <?xml version="1.0" standalone="yes"?>
 <!-- Test calibration implementation: 5 taxa - prior on 2-taxon clade, uniform prior  -->
 <beast version='2.0'
-       namespace='beast.evolution.alignment:beast.evolution.speciation:beast.core:beast.evolution.tree.coalescent:beast.util:beast.core.util:beast.evolution.likelihood:beast.math.distributions:beast.evolution.operators'>
+       namespace='beast.base.evolution.alignment:beast.base.evolution.speciation:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.base.util:beast.base.math:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.base.evolution.likelihood:beast.base.math.distributions:beast.base.evolution.operator:beast.base.inference.operator'>
 
   <taxonset spec='TaxonSet' id='taxa'>
 	<taxon spec='Taxon' id='a'/> 
@@ -20,7 +20,7 @@
 	<taxon idref='a'/> 
 	<taxon idref='b'/>
       </taxonset>
-      <distr id="Uniform" lower="4.0" upper="7.0" spec="Uniform"/>
+      <distr id="Uniform" lower="4.0" upper="7.0" spec="beast.base.inference.distribution.Uniform"/>
     </calibrations>
   </input>
 
@@ -30,7 +30,7 @@
     </init>
 
     <state>
-      <stateNode spec='beast.evolution.tree.Tree' id='tree'/>
+      <stateNode spec='beast.base.evolution.tree.Tree' id='tree'/>
     </state>
 
     <distribution spec='CompoundDistribution' id='posterior'>

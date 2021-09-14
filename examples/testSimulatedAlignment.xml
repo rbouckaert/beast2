@@ -1,5 +1,5 @@
 <beast version='2.0'
-       namespace='beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood:beast.evolution.alignment'>
+       namespace='beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood:beast.base.evolution.alignment'>
 
     <!-- The simulated sequence alignment. -->
     <data spec='beast.app.seqgen.SimulatedAlignment' id="alignment"
@@ -7,7 +7,7 @@
 	  outputFileName="simulated_alignment.xml">
 
       <!-- The true tree down which sequences are simulated. -->
-      <tree spec='beast.util.TreeParser'
+      <tree spec='beast.base.evolution.tree.TreeParser'
 	    newick="((((human:0.021044961362048316,(chimp:0.01010430475937982,bonobo:0.01010430475937982):0.010940656602668497):0.012937366252643932,gorilla:0.03398232761469225):0.019356330316295488,orangutan:0.053338657930987736):0.011836836575646971,siamang:0.0651754945066347):0.0"
 	    IsLabelledNewick="true"/>
 
@@ -47,13 +47,13 @@
     </input>
 
 
-    <input spec='beast.util.ClusterTree' id='tree' clusterType='upgma'>
+    <input spec='beast.base.evolution.tree.ClusterTree' id='tree' clusterType='upgma'>
         <input name='taxa' idref='alignment'/>
     </input>
 
-    <input spec='beast.core.parameter.RealParameter' id="hky.kappa">1.0</input>
+    <input spec='beast.base.inference.parameter.RealParameter' id="hky.kappa">1.0</input>
 
-    <input spec='beast.core.parameter.RealParameter' id="popSize">1.0</input>
+    <input spec='beast.base.inference.parameter.RealParameter' id="popSize">1.0</input>
 
 
     <run spec="MCMC" id="mcmc" chainLength="1000000"> <!--autoOptimize="true"-->

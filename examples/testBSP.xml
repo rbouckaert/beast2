@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beast version='2.0'
-       namespace='beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood'>
+       namespace='beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood'>
 
     <!-- 17 taxa, 1485 sites, 138 patterns -->
     <data dataType="nucleotide" id="alignment">
@@ -78,8 +78,8 @@
 
 
 
-    <tree spec='beast.util.ClusterTree' id='tree' clusterType='upgma'>
-        <trait spec='beast.evolution.tree.TraitSet' traitname='date-forward' units='year'
+    <tree spec='beast.base.evolution.tree.ClusterTree' id='tree' clusterType='upgma'>
+        <trait spec='beast.base.evolution.tree.TraitSet' traitname='date-forward' units='year'
                value='
 		D4Brazi82  = 1982,
 		D4ElSal83  = 1983,
@@ -98,16 +98,16 @@
 		D4Thai63   = 1963,
 		D4Thai78   = 1978,
 		D4Thai84   = 1984'>
-		<taxa spec='beast.evolution.alignment.TaxonSet' alignment='@alignment'/>
+		<taxa spec='beast.base.evolution.alignment.TaxonSet' alignment='@alignment'/>
         </trait>
         <taxa idref='alignment'/>
     </tree>
 
     <distribution spec="CompoundDistribution" id="posterior">
         <distribution spec="CompoundDistribution" id="prior">
-            <distribution id="hky.kappa.prior" spec="beast.math.distributions.Prior" x="@hky.kappa">
+            <distribution id="hky.kappa.prior" spec="beast.base.inference.distribution.Prior" x="@hky.kappa">
                 <distr id="LogNormalDistributionModel" M="1.0" S="1.25" meanInRealSpace="false"
-                              spec="beast.math.distributions.LogNormalDistributionModel"/>
+                              spec="beast.base.inference.distribution.LogNormalDistributionModel"/>
             </distribution>
 
             <distribution spec="BayesianSkyline" id='skyline'>
@@ -118,7 +118,7 @@
                 </treeIntervals>
             </distribution>
 
-            <distribution id='eml1' spec="beast.math.distributions.MarkovChainDistribution" 
+            <distribution id='eml1' spec="beast.base.inference.distribution.MarkovChainDistribution" 
 				jeffreys="true"
 				parameter="@skyline.popSize"/>
         </distribution>
@@ -133,7 +133,7 @@
 					<frequencies id='freqs' spec='Frequencies' data="@alignment"/>
 				</substModel>
 			</siteModel>
-			<branchRateModel spec='beast.evolution.branchratemodel.StrictClockModel' id="branchRates">
+			<branchRateModel spec='beast.base.evolution.branchratemodel.StrictClockModel' id="branchRates">
 				<parameter name='clock.rate' id='clock.rate' value="8.8579E-4" lower="0.0" upper="100.0"/>
 			</branchRateModel>
 		</distribution>
@@ -183,7 +183,7 @@
             <log idref="skyline.popSize"/>
             <log idref="skyline.groupSize"/>
             <log idref="hky.kappa"/>
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree' id='treeModel.rootHeight'/>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree' id='treeModel.rootHeight'/>
             <log idref="likelihood"/>
             <log idref="skyline"/>
             <log idref="eml1"/>
@@ -197,7 +197,7 @@
             <log idref="posterior"/>
             <log idref="likelihood"/>
             <log idref="prior"/>
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree'/>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree'/>
         </logger>
 
     </run>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast namespace="beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" version="2.0">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast namespace="beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood" version="2.0">
 
 <!-- sample tip dates -->
 
@@ -22,16 +22,16 @@
             <distribution id="coalescent" populationModel="@ConstantPopulation" spec="Coalescent">
                 <treeIntervals id="TreeIntervals" spec="TreeIntervals" tree="@tree"/>
             </distribution>
-            <distribution id="tipDates" monophyletic="false" spec="beast.math.distributions.MRCAPrior" tipsonly="true" tree="@tree">
-                <taxonset id="TaxonSet0" spec="beast.evolution.alignment.TaxonSet">
-                    <taxon id="Lemur_catta" spec="beast.evolution.alignment.Taxon"/>
-                    <taxon id="M_fascicularis" spec="beast.evolution.alignment.Taxon"/>
+            <distribution id="tipDates" monophyletic="false" spec="beast.base.evolution.tree.MRCAPrior" tipsonly="true" tree="@tree">
+                <taxonset id="TaxonSet0" spec="beast.base.evolution.alignment.TaxonSet">
+                    <taxon id="Lemur_catta" spec="beast.base.evolution.alignment.Taxon"/>
+                    <taxon id="M_fascicularis" spec="beast.base.evolution.alignment.Taxon"/>
                 </taxonset>
-                <distr id="Uniform0" lower="0.0" offset="0.0" spec="beast.math.distributions.Uniform" upper="1.0"/>
+                <distr id="Uniform0" lower="0.0" offset="0.0" spec="beast.base.inference.distribution.Uniform" upper="1.0"/>
             </distribution>
 
-            <distribution id="kappa.prior" spec="beast.math.distributions.Prior" x="@hky.kappa">
-                <distr id="OneOnX0" offset="0.0" spec="beast.math.distributions.OneOnX"/>
+            <distribution id="kappa.prior" spec="beast.base.inference.distribution.Prior" x="@hky.kappa">
+                <distr id="OneOnX0" offset="0.0" spec="beast.base.inference.distribution.OneOnX"/>
             </distribution>
         </distribution>
         <distribution id="likelihood" spec="util.CompoundDistribution">
@@ -44,7 +44,7 @@
                         <frequencies estimate="true" frequencies="@freqParameter" id="freqs" spec="Frequencies"/>
                     </substModel>
                 </siteModel>
-                <branchRateModel id="StrictClockModel" spec="beast.evolution.branchratemodel.StrictClockModel">
+                <branchRateModel id="StrictClockModel" spec="beast.base.evolution.branchratemodel.StrictClockModel">
                     <parameter dimension="1" estimate="false" id="clockRate" name="clock.rate" value="1.0"/>
                 </branchRateModel>
             </distribution>
@@ -54,7 +54,7 @@
     
 <run chainLength="10000000" id="mcmc" preBurnin="0" spec="MCMC" storeEvery="-1">
 
-    <init estimate="false" id="RandomTree" initial="@tree" spec="beast.evolution.tree.RandomTree">
+    <init estimate="false" id="RandomTree" initial="@tree" spec="beast.base.evolution.tree.RandomTree">
         <data idref="Primates" name="taxa"/>
         <populationModel id="ConstantPopulation" spec="ConstantPopulation">
             <parameter dimension="1" estimate="false" id="popSize" name="popSize" value="1.0"/>
@@ -64,10 +64,10 @@
     <state id="State0" storeEvery="100000">
         <parameter dimension="4" estimate="true" id="freqParameter" name="stateNode" value="0.25"/>
         <tree estimate="true" id="tree" name="stateNode">
-                <trait id="datetrait" spec="beast.evolution.tree.TraitSet" traitname="date" units="year">
+                <trait id="datetrait" spec="beast.base.evolution.tree.TraitSet" traitname="date" units="year">
 Lemur_catta=1,
 M_fascicularis=1
-					<taxa spec='beast.evolution.alignment.TaxonSet' alignment='@Primates'/>
+					<taxa spec='beast.base.evolution.alignment.TaxonSet' alignment='@Primates'/>
                 </trait>
         </tree>
         <parameter dimension="1" estimate="true" id="hky.kappa" lower="0.0" name="stateNode" value="1.0"/>
@@ -89,10 +89,10 @@ M_fascicularis=1
     <logger fileName="beast_$(seed).log" id="tracelog" logEvery="10000" mode="autodetect" model="@posterior">
         <log idref="likelihood"/>
         <log idref="hky.kappa"/>
-        <log id="TreeHeightLogger0" spec="beast.evolution.tree.TreeHeightLogger" tree="@tree"/>
+        <log id="TreeHeightLogger0" spec="beast.base.evolution.tree.TreeHeightLogger" tree="@tree"/>
         <log idref="freqParameter"/>
-        <log spec='beast.math.distributions.MRCAPrior' tree='@tree' id='TipDatesLogger' taxonset='@TaxonSet0' tipsonly='true'/>
-        <log spec='beast.math.distributions.MRCAPrior' tree='@tree' id='TipDatesLogger2' tipsonly='true'/>
+        <log spec='beast.base.evolution.tree.MRCAPrior' tree='@tree' id='TipDatesLogger' taxonset='@TaxonSet0' tipsonly='true'/>
+        <log spec='beast.base.evolution.tree.MRCAPrior' tree='@tree' id='TipDatesLogger2' tipsonly='true'/>
     </logger>
 
     <logger fileName="beast_$(seed).trees" id="treelog" logEvery="10000" mode="autodetect">

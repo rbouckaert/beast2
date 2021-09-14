@@ -1,10 +1,10 @@
-<beast version="2.0" namespace="beast.core
-                              :beast.evolution.alignment
-                              :beast.evolution.tree
-                              :beast.math.distributions
-                              :beast.evolution.speciation
-                              :beast.core.util
-                              :beast.core.parameter">
+<beast version="2.0" namespace="beast.pkgmgmt:beast.base.core:beast.base.inference
+                              :beast.base.evolution.alignment
+                              :beast.base.evolution.tree
+                              :beast.base.evolution.speciation
+                              :beast.base.inference.distribution
+                              :beast.base.inference.util
+                              :beast.base.inference.parameter">
 
 
 
@@ -24,7 +24,7 @@
                 <birthDiffRate spec="RealParameter" id="birthDiffRateParam" value="1.0"/>
             </distribution>
 
-            <distribution spec="beast.math.distributions.Prior" id="birthDiffRatePrior">
+            <distribution spec="beast.base.inference.distribution.Prior" id="birthDiffRatePrior">
                 <distr spec="Exponential" id="xExpParamDist" mean="1"/>
                 <x spec="RealParameter" idref="birthDiffRateParam"/>
             </distribution>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast namespace="beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" version="2.0">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast namespace="beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood" version="2.0">
 
 <!--
 	demographic function: 5 over all interval,
@@ -368,22 +368,22 @@
 
     <distribution id="posterior" spec="util.CompoundDistribution">
         <distribution id="prior" spec="util.CompoundDistribution">
-            <distribution spec="beast.math.distributions.Prior" x="@populationMean">
-                <distr offset="0.0" spec="beast.math.distributions.OneOnX"/>
+            <distribution spec="beast.base.inference.distribution.Prior" x="@populationMean">
+                <distr offset="0.0" spec="beast.base.inference.distribution.OneOnX"/>
             </distribution>
-            <distribution spec="beast.math.distributions.Prior">
-                <x arg="@indicators" id="indsSun" spec="util.Sum"/>
-                <distr offset="0.0" spec="beast.math.distributions.Poisson">
+            <distribution spec="beast.base.inference.distribution.Prior">
+                <x arg="@indicators" id="indsSun" spec="beast.base.evolution.Sum"/>
+                <distr offset="0.0" spec="beast.base.inference.distribution.Poisson">
                     <parameter dimension="1" estimate="true" lower="0.0" name="lambda" upper="0.0" value="0.69314718056"/>
                 </distr>
             </distribution>
-            <distribution id="populationMeanPrior" spec="beast.math.distributions.Prior" x="@popSizes">
-                <distr id="popPriorDist" mean="@populationMean" offset="0.0" spec="beast.math.distributions.Exponential"/>
+            <distribution id="populationMeanPrior" spec="beast.base.inference.distribution.Prior" x="@popSizes">
+                <distr id="popPriorDist" mean="@populationMean" offset="0.0" spec="beast.base.inference.distribution.Exponential"/>
             </distribution>
             <distribution id="coalescent" spec="util.CompoundDistribution">
                 <distribution id="treeModel000Coal" spec="Coalescent" treeIntervals="@treeModel000Intervals">
-                    <populationModel id="scaledDemo4" spec="beast.evolution.tree.coalescent.ScaledPopulationFunction">
-                        <population id="demographic" populationIndicators="@indicators" populationSizes="@popSizes" spec="beast.evolution.tree.coalescent.CompoundPopulationFunction" type="linear" useIntervalsMiddle="false">
+                    <populationModel id="scaledDemo4" spec="beast.base.evolution.tree.coalescent.ScaledPopulationFunction">
+                        <population id="demographic" populationIndicators="@indicators" populationSizes="@popSizes" spec="beast.base.evolution.tree.coalescent.CompoundPopulationFunction" type="linear" useIntervalsMiddle="false">
                             <itree id="treeModel000Intervals" spec="TreeIntervals" tree="@treeModel000"/>
                             <itree id="treeModel001Intervals" spec="TreeIntervals" tree="@treeModel001"/>
                             <itree id="treeModel002Intervals" spec="TreeIntervals" tree="@treeModel002"/>
@@ -397,14 +397,14 @@
                 <distribution id="treeModel002Coal" populationModel="@scaledDemo4" spec="Coalescent" treeIntervals="@treeModel002Intervals"/>
                 <distribution id="treeModel003Coal" populationModel="@demographic" spec="Coalescent" treeIntervals="@treeModel003Intervals"/>
             </distribution>
-            <distribution spec="beast.math.distributions.Prior" x="@hky000.kappa">
-                <distr meanInRealSpace="true" offset="0.0" spec="beast.math.distributions.LogNormalDistributionModel">
+            <distribution spec="beast.base.inference.distribution.Prior" x="@hky000.kappa">
+                <distr meanInRealSpace="true" offset="0.0" spec="beast.base.inference.distribution.LogNormalDistributionModel">
                     <parameter dimension="1" estimate="true" lower="0.0" name="M" upper="0.0" value="1.0"/>
                     <parameter dimension="1" estimate="true" lower="0.0" name="S" upper="0.0" value="1"/>
                 </distr>
             </distribution>
-            <distribution spec="beast.math.distributions.Prior" x="@hky003.kappa">
-                <distr meanInRealSpace="true" offset="0.0" spec="beast.math.distributions.LogNormalDistributionModel">
+            <distribution spec="beast.base.inference.distribution.Prior" x="@hky003.kappa">
+                <distr meanInRealSpace="true" offset="0.0" spec="beast.base.inference.distribution.LogNormalDistributionModel">
                     <parameter dimension="1" estimate="true" lower="0.0" name="M" upper="0.0" value="1.0"/>
                     <parameter dimension="1" estimate="true" lower="0.0" name="S" upper="0.0" value="1"/>
                 </distr>
@@ -455,16 +455,16 @@
         <parameter dimension="1" estimate="true" id="populationMean" lower="0.0" name="stateNode" value="1"/>
         <stateNode dimension="1" estimate="true" id="indicators" spec="parameter.BooleanParameter" value="false"/>
         <parameter dimension="1" estimate="true" id="popSizes" lower="0.0" name="stateNode" value="1"/>
-        <tree clusterType="upgma" estimate="true" id="treeModel000" name="stateNode" nodetype="beast.evolution.tree.Node" spec="beast.util.ClusterTree">
+        <tree clusterType="upgma" estimate="true" id="treeModel000" name="stateNode" nodetype="beast.base.evolution.tree.Node" spec="beast.base.evolution.tree.ClusterTree">
             <taxa idref="alignment000"/>
         </tree>
-        <tree clusterType="upgma" estimate="true" id="treeModel001" name="stateNode" nodetype="beast.evolution.tree.Node" spec="beast.util.ClusterTree">
+        <tree clusterType="upgma" estimate="true" id="treeModel001" name="stateNode" nodetype="beast.base.evolution.tree.Node" spec="beast.base.evolution.tree.ClusterTree">
             <taxa idref="alignment001"/>
         </tree>
-        <tree clusterType="upgma" estimate="true" id="treeModel002" name="stateNode" nodetype="beast.evolution.tree.Node" spec="beast.util.ClusterTree">
+        <tree clusterType="upgma" estimate="true" id="treeModel002" name="stateNode" nodetype="beast.base.evolution.tree.Node" spec="beast.base.evolution.tree.ClusterTree">
             <taxa idref="alignment002"/>
         </tree>
-        <tree clusterType="upgma" estimate="true" id="treeModel003" name="stateNode" nodetype="beast.evolution.tree.Node" spec="beast.util.ClusterTree">
+        <tree clusterType="upgma" estimate="true" id="treeModel003" name="stateNode" nodetype="beast.base.evolution.tree.Node" spec="beast.base.evolution.tree.ClusterTree">
             <taxa idref="alignment003"/>
         </tree>
     </state>
@@ -473,7 +473,7 @@
 
     <operator id="bitflip" parameter="@indicators" spec="BitFlipOperator" uniform="true" weight="1.0"/>
 
-    <operator dist="@popPriorDist" indicators="@indicators" spec="beast.evolution.tree.coalescent.SampleOffValues" values="@popSizes" weight="15.0"/>
+    <operator dist="@popPriorDist" indicators="@indicators" spec="beast.base.evolution.tree.coalescent.SampleOffValues" values="@popSizes" weight="15.0"/>
 
     <operator degreesOfFreedom="1" indicator="@indicators" parameter="@popSizes" scaleAll="false" scaleAllIndependently="false" scaleFactor="0.5" spec="ScaleOperator" weight="15.0"/>
 
@@ -543,7 +543,7 @@
         <log idref="populationMean"/>
         <log idref="hky000.kappa"/>
         <log idref="hky003.kappa"/>
-        <log spec="util.Sum" arg="@indicators"/>
+        <log spec="beast.base.evolution.Sum" arg="@indicators"/>
         <log idref="treeLikelihood000"/>
         <log idref="treeLikelihood001"/>
         <log idref="treeLikelihood002"/>
@@ -557,11 +557,11 @@
         <log idref="populationMean"/>
         <log idref="hky000.kappa"/>
         <log idref="hky003.kappa"/>
-        <log spec="util.Sum" arg="@indicators"/>
-        <log spec="beast.evolution.tree.TreeHeightLogger" tree="@treeModel000"/>
-        <log spec="beast.evolution.tree.TreeHeightLogger" tree="@treeModel001"/>
-        <log spec="beast.evolution.tree.TreeHeightLogger" tree="@treeModel002"/>
-        <log spec="beast.evolution.tree.TreeHeightLogger" tree="@treeModel003"/>
+        <log spec="beast.base.evolution.Sum" arg="@indicators"/>
+        <log spec="beast.base.evolution.tree.TreeHeightLogger" tree="@treeModel000"/>
+        <log spec="beast.base.evolution.tree.TreeHeightLogger" tree="@treeModel001"/>
+        <log spec="beast.base.evolution.tree.TreeHeightLogger" tree="@treeModel002"/>
+        <log spec="beast.base.evolution.tree.TreeHeightLogger" tree="@treeModel003"/>
         <log idref="treeLikelihood000"/>
         <log idref="treeLikelihood001"/>
         <log idref="treeLikelihood002"/>

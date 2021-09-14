@@ -1,5 +1,5 @@
-{version: "2.6",
-namespace: "beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood",
+{version: "2.7",
+namespace: "beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.alignment:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood",
 
 beast: [
 	{id: "dna",
@@ -22,7 +22,7 @@ beast: [
 		 spec: "State", storeEvery: 5000,
 		 stateNode: [
 			{id: "Tree.t:dna",
-			 spec: "beast.evolution.tree.Tree",
+			 spec: "beast.base.evolution.tree.Tree",
 				 taxonset: {id: "TaxonSet.dna", spec: "TaxonSet", alignment: "@dna" }
 			},
 			 {id: "birthRate.t:dna", spec: "parameter.RealParameter", value: [ 1.0 ] },
@@ -34,7 +34,7 @@ beast: [
 		},
 	 init: [
 		{id: "RandomTree.t:dna",
-		 spec: "beast.evolution.tree.RandomTree", taxa: "@dna", initial: "@Tree.t:dna", estimate: false,
+		 spec: "beast.base.evolution.tree.RandomTree", taxa: "@dna", initial: "@Tree.t:dna", estimate: false,
 			 populationModel: {id: "ConstantPopulation0.t:dna", spec: "ConstantPopulation", popSize: "1.0" }
 		}
 	  ],
@@ -44,18 +44,18 @@ beast: [
 			{id: "prior",
 			 spec: "util.CompoundDistribution",
 			 distribution: [
-				 {id: "YuleModel.t:dna", spec: "beast.evolution.speciation.YuleModel", birthDiffRate: "@birthRate.t:dna", tree: "@Tree.t:dna" },
+				 {id: "YuleModel.t:dna", spec: "beast.base.evolution.speciation.YuleModel", birthDiffRate: "@birthRate.t:dna", tree: "@Tree.t:dna" },
 				{id: "YuleBirthRatePrior.t:dna",
-				 spec: "beast.math.distributions.Prior", x: "@birthRate.t:dna",
-					 distr: {id: "Uniform.0", spec: "beast.math.distributions.Uniform", upper: Infinity }
+				 spec: "distribution.Prior", x: "@birthRate.t:dna",
+					 distr: {id: "Uniform.0", spec: "distribution.Uniform", upper: Infinity }
 				},
 				{id: "KappaPrior.s:dna",
-				 spec: "beast.math.distributions.Prior", x: "@kappa.s:dna",
-					 distr: {id: "LogNormalDistributionModel.0", spec: "beast.math.distributions.LogNormalDistributionModel", M: "1.0", S: "1.25" }
+				 spec: "distribution.Prior", x: "@kappa.s:dna",
+					 distr: {id: "LogNormalDistributionModel.0", spec: "distribution.LogNormalDistributionModel", M: "1.0", S: "1.25" }
 				},
 				{id: "ucldStdevPrior.c:dna",
-				 spec: "beast.math.distributions.Prior", x: "@ucldStdev.c:dna",
-					 distr: {id: "Gamma.0", spec: "beast.math.distributions.Gamma", alpha: "0.5396", beta: "0.3819" }
+				 spec: "distribution.Prior", x: "@ucldStdev.c:dna",
+					 distr: {id: "Gamma.0", spec: "distribution.Gamma", alpha: "0.5396", beta: "0.3819" }
 				}
 			  ]
 			},
@@ -72,8 +72,8 @@ beast: [
 						}
 					},
 				 branchRateModel: {id: "RelaxedClock.c:dna",
-					 spec: "beast.evolution.branchratemodel.UCRelaxedClockModel", rateCategories: "@rateCategories.c:dna", tree: "@Tree.t:dna", clock.rate: "1.0",
-						 distr: {id: "LogNormalDistributionModel.c:dna", spec: "beast.math.distributions.LogNormalDistributionModel", M: "1.0", S: "@ucldStdev.c:dna", meanInRealSpace: true }
+					 spec: "beast.base.evolution.branchratemodel.UCRelaxedClockModel", rateCategories: "@rateCategories.c:dna", tree: "@Tree.t:dna", clock.rate: "1.0",
+						 distr: {id: "LogNormalDistributionModel.c:dna", spec: "distribution.LogNormalDistributionModel", M: "1.0", S: "@ucldStdev.c:dna", meanInRealSpace: true }
 					}
 				}
 			  ]
@@ -91,11 +91,11 @@ beast: [
 		 {id: "YuleModelWilsonBalding.t:dna", spec: "WilsonBalding", tree: "@Tree.t:dna", weight: 3.0 },
 		 {id: "KappaScaler.s:dna", spec: "ScaleOperator", parameter: "@kappa.s:dna", scaleFactor: 0.5, weight: 0.1 },
 		 {id: "ucldStdevScaler.c:dna", spec: "ScaleOperator", parameter: "@ucldStdev.c:dna", scaleFactor: 0.5, weight: 3.0 },
-		 {id: "CategoriesRandomWalk.c:dna", spec: "IntRandomWalkOperator", windowSize: 1, parameter: "@rateCategories.c:dna", weight: 10.0 },
-		 {id: "CategoriesSwapOperator.c:dna", spec: "SwapOperator", intparameter: "@rateCategories.c:dna", weight: 10.0 },
-		 {id: "CategoriesUniform.c:dna", spec: "UniformOperator", parameter: "@rateCategories.c:dna", weight: 10.0 },
+		 {id: "CategoriesRandomWalk.c:dna", spec: "operator.IntRandomWalkOperator", windowSize: 1, parameter: "@rateCategories.c:dna", weight: 10.0 },
+		 {id: "CategoriesSwapOperator.c:dna", spec: "operator.SwapOperator", intparameter: "@rateCategories.c:dna", weight: 10.0 },
+		 {id: "CategoriesUniform.c:dna", spec: "operator.UniformOperator", parameter: "@rateCategories.c:dna", weight: 10.0 },
 		{id: "FrequenciesExchanger.s:dna",
-		 spec: "DeltaExchangeOperator", delta: 0.01, weight: 0.1,
+		 spec: "operator.DeltaExchangeOperator", delta: 0.01, weight: 0.1,
 		 parameter: [
 			 {idref: "freqParameter.s:dna" }
 		  ]
@@ -109,12 +109,12 @@ beast: [
 			 {idref: "likelihood" },
 			 {idref: "prior" },
 			 {idref: "treeLikelihood.dna" },
-			 {id: "TreeHeight.t:dna", spec: "beast.evolution.tree.TreeHeightLogger", tree: "@Tree.t:dna" },
+			 {id: "TreeHeight.t:dna", spec: "beast.base.evolution.tree.TreeHeightLogger", tree: "@Tree.t:dna" },
 			 {idref: "YuleModel.t:dna" },
 			 {idref: "birthRate.t:dna" },
 			 {idref: "kappa.s:dna" },
 			 {idref: "ucldStdev.c:dna" },
-			 {id: "rate.c:dna", spec: "beast.evolution.branchratemodel.RateStatistic", branchratemodel: "@RelaxedClock.c:dna", tree: "@Tree.t:dna" },
+			 {id: "rate.c:dna", spec: "beast.base.evolution.branchratemodel.RateStatistic", branchratemodel: "@RelaxedClock.c:dna", tree: "@Tree.t:dna" },
 			 {idref: "freqParameter.s:dna" }
 		  ]
 		},
@@ -130,7 +130,7 @@ beast: [
 		{id: "treelog.t:dna",
 		 spec: "Logger", fileName: "$(tree).trees", logEvery: 1000, mode: "tree",
 		 log: [
-			 {id: "TreeWithMetaDataLogger.t:dna", spec: "beast.evolution.tree.TreeWithMetaDataLogger", tree: "@Tree.t:dna", branchratemodel: "@RelaxedClock.c:dna" }
+			 {id: "TreeWithMetaDataLogger.t:dna", spec: "beast.base.evolution.tree.TreeWithMetaDataLogger", tree: "@Tree.t:dna", branchratemodel: "@RelaxedClock.c:dna" }
 		  ]
 		}
 	  ]
