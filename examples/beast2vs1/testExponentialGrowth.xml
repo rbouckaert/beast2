@@ -1,5 +1,5 @@
 <beast version='2.0'
-       namespace='beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood'>
+       namespace='beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood'>
 
 
     <!-- The sequence alignment (each sequence refers to a taxon above).         -->
@@ -45,7 +45,7 @@
     </input>
 
 
-    <input spec='beast.util.ClusterTree' id='tree' clusterType='upgma'>
+    <input spec='beast.base.evolution.tree.ClusterTree' id='tree' clusterType='upgma'>
         <taxa idref='alignment'/>
     </input>
 
@@ -72,20 +72,20 @@
 
         <distribution spec="CompoundDistribution" id="posterior">
             <distribution spec="CompoundDistribution" id="prior">
-                <distribution id="hky.kappa.prior" spec="beast.math.distributions.Prior" x="@hky.kappa">
+                <distribution id="hky.kappa.prior" spec="beast.base.inference.distribution.Prior" x="@hky.kappa">
                     <distr id="LogNormalDistributionModel" M="1.0" S="1.25" meanInRealSpace="false"
-                                  spec="beast.math.distributions.LogNormalDistributionModel"/>
+                                  spec="beast.base.inference.distribution.LogNormalDistributionModel"/>
                 </distribution>
-                <distribution id="hky.frequencies.prior" spec="beast.math.distributions.Prior" x="@hky.frequencies">
-                    <distr id="Uniform" lower="0.0" upper="1.0" spec="beast.math.distributions.Uniform"/>
+                <distribution id="hky.frequencies.prior" spec="beast.base.inference.distribution.Prior" x="@hky.frequencies">
+                    <distr id="Uniform" lower="0.0" upper="1.0" spec="beast.base.inference.distribution.Uniform"/>
                 </distribution>
-                <distribution id="popSize.prior" spec="beast.math.distributions.Prior" x="@popSize">
-                    <distr id="OneOnX" offset="0.0" spec="beast.math.distributions.OneOnX"/>
+                <distribution id="popSize.prior" spec="beast.base.inference.distribution.Prior" x="@popSize">
+                    <distr id="OneOnX" offset="0.0" spec="beast.base.inference.distribution.OneOnX"/>
                 </distribution>
 
-                <distribution id="growthRate.prior" spec="beast.math.distributions.Prior" x="@growthRate">
+                <distribution id="growthRate.prior" spec="beast.base.inference.distribution.Prior" x="@growthRate">
                     <distr id="LaplaceDistribution" mu="0.001" scale="119.61481002566472"
-                                  spec="beast.math.distributions.LaplaceDistribution"/>
+                                  spec="beast.base.inference.distribution.LaplaceDistribution"/>
                 </distribution>
 
                 <distribution id="coalescent" spec="Coalescent">
@@ -119,7 +119,7 @@
             <model idref='posterior'/>
             <log idref="posterior"/>
             <log idref="prior"/>
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree'/>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree'/>
             <log idref="popSize"/>
             <log idref="growthRate"/>
             <log idref="hky.kappa"/>
@@ -134,7 +134,7 @@
             <model idref='posterior'/>
             <log idref="posterior"/>
             <log idref="prior"/>
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree'/>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree'/>
             <log idref="popSize"/>
             <log idref="growthRate"/>
             <log idref="hky.kappa"/>

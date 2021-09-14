@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import beast.base.parser.XMLModelLogger;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
 
@@ -22,14 +23,14 @@ public class ModelLogger {
     static public void findModelLoggers() {
         // build up list of ModelLoggers
     	modelLoggers = new HashSet<>();
-        List<String> loggers = PackageManager.find(ModelLogger.class, "beast");
-        for (String loggerName : loggers) {
-            try {
-            	ModelLogger logger = (ModelLogger) BEASTClassLoader.forName(loggerName).getConstructors()[0].newInstance();
-                modelLoggers.add(logger);
-            } catch (Exception e) {
-                // TODO: handle exception
-            }
+        try {
+	        Iterable<ModelLogger> loggers = (Iterable<ModelLogger>) BEASTClassLoader.load(ModelLogger.class);
+	        for (ModelLogger logger : loggers) {
+	            	// ModelLogger logger = (ModelLogger) BEASTClassLoader.forName(loggerName).getConstructors()[0].newInstance();
+	                modelLoggers.add(logger);
+	        }
+        } catch (Throwable e) {
+            // TODO: handle exception
         }
     }
 		
@@ -47,6 +48,11 @@ public class ModelLogger {
 	}
 	
 	public static String modelToString(Object o) {
+		if (modelLoggers.size() == 0) {
+			// hack to get around lack of model loggers
+			// TODO: fix this properly
+			modelLoggers.add(new XMLModelLogger());
+		}
 		int i = -1;
 		ModelLogger bestLogger = null;
 		for (ModelLogger m : modelLoggers) {

@@ -26,5 +26,6 @@ module test.beast {
 	exports test.beast.core;	
 	exports test.beast.util;	
 	exports test.beast.evolution.operator;
+	exports test.beast.beast2vs1.trace;
 
 }

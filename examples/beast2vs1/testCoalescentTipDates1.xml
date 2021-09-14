@@ -1,5 +1,5 @@
 <beast version='2.0'
-       namespace='beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood'>
+       namespace='beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood'>
 
     <data id="alignment" dataType="nucleotide">
         <sequence taxon="A">
@@ -16,14 +16,14 @@
         </sequence>
     </data>
 
-   <tree spec='beast.util.ClusterTree' id='tree' clusterType='upgma'>
-        <trait spec='beast.evolution.tree.TraitSet' traitname='date-forward' units='day'
+   <tree spec='beast.base.evolution.tree.ClusterTree' id='tree' clusterType='upgma'>
+        <trait spec='beast.base.evolution.tree.TraitSet' traitname='date-forward' units='day'
                value='
 		A  = 0,
 		B  = 0,
 		C  = 0,
 		D  = 0'>
-		<taxa spec='beast.evolution.alignment.TaxonSet' alignment='@alignment'/>
+		<taxa spec='beast.base.evolution.alignment.TaxonSet' alignment='@alignment'/>
         </trait>
 		<taxa idref='alignment'/>
     </tree>
@@ -51,7 +51,7 @@
         <logger logEvery="5" fileName="test.$(seed).log">
    	        <model idref='posterior'/>
             <log idref="coalescent"/>
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree'/>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree'/>
             <log idref="popSize"/>
             <log idref="posterior"/>
         </logger>
@@ -61,7 +61,7 @@
         <logger logEvery="5000">
 	        <model idref='posterior'/>
             <log idref="coalescent"/>
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree'/>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree'/>
             <log idref="popSize"/>
             <log idref="posterior"/>
         </logger>

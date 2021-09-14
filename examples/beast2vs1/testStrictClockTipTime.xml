@@ -1,5 +1,5 @@
 <beast version='2.0'
-	namespace='beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.branchratemodel:beast.evolution.likelihood:beast.core.parameter'>
+	namespace='beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.branchratemodel:beast.base.evolution.likelihood:beast.base.inference.parameter'>
 
 	<data dataType="nucleotide" id="alignment">
 		<sequence taxon="D4Brazi82">
@@ -78,14 +78,14 @@
 		<branchRateModel idref="branchRates" />
 	</input>
 
-	<input spec='beast.util.ClusterTree' id='tree' clusterType='upgma'>
-		<trait spec='beast.evolution.tree.TraitSet' traitname='date-forward' units='year'
+	<input spec='beast.base.evolution.tree.ClusterTree' id='tree' clusterType='upgma'>
+		<trait spec='beast.base.evolution.tree.TraitSet' traitname='date-forward' units='year'
 			value='
         D4Brazi82  = 1982, D4ElSal83  = 1983, D4ElSal94  = 1994, D4Indon76  = 1976, D4Indon77  = 1977,
         D4Mexico84  = 1984, D4NewCal81  = 1981, D4Philip64  = 1964, D4Philip56  = 1956, D4Philip84  = 1984,
         D4PRico86  = 1986, D4SLanka78  = 1978, D4Tahiti79  = 1979, D4Tahiti85  = 1985, D4Thai63  = 1963,
         D4Thai78  = 1978, D4Thai84 = 1984'>
-			<taxa spec='beast.evolution.alignment.TaxonSet' alignment='@alignment' />
+			<taxa spec='beast.base.evolution.alignment.TaxonSet' alignment='@alignment' />
 		</trait>
 		<taxa idref='alignment' />
 	</input>
@@ -106,18 +106,18 @@
 
 		<distribution spec="CompoundDistribution" id="posterior">
 			<distribution spec="CompoundDistribution" id="prior">
-				<distribution id="hky.kappa.prior" spec="beast.math.distributions.Prior" x="@hky.kappa">
+				<distribution id="hky.kappa.prior" spec="beast.base.inference.distribution.Prior" x="@hky.kappa">
 					<distr id="LogNormalDistributionModel" M="1.0" S="1.25" meanInRealSpace="false"
-						spec="beast.math.distributions.LogNormalDistributionModel" />
+						spec="beast.base.inference.distribution.LogNormalDistributionModel" />
 				</distribution>
-				<distribution id="hky.frequencies.prior" spec="beast.math.distributions.Prior" x="@hky.frequencies">
-					<distr id="Uniform" lower="0.0" upper="1.0" spec="beast.math.distributions.Uniform" />
+				<distribution id="hky.frequencies.prior" spec="beast.base.inference.distribution.Prior" x="@hky.frequencies">
+					<distr id="Uniform" lower="0.0" upper="1.0" spec="beast.base.inference.distribution.Uniform" />
 				</distribution>
-				<distribution id="popSize.prior" spec="beast.math.distributions.Prior" x="@popSize">
-					<distr id="OneOnX" offset="0.0" spec="beast.math.distributions.OneOnX" />
+				<distribution id="popSize.prior" spec="beast.base.inference.distribution.Prior" x="@popSize">
+					<distr id="OneOnX" offset="0.0" spec="beast.base.inference.distribution.OneOnX" />
 				</distribution>
-				<distribution id="clockRate.prior" spec="beast.math.distributions.Prior" x="@clockRate">
-					<distr id="Uniform2" lower="0.0" upper="100.0" spec="beast.math.distributions.Uniform" />
+				<distribution id="clockRate.prior" spec="beast.base.inference.distribution.Prior" x="@clockRate">
+					<distr id="Uniform2" lower="0.0" upper="100.0" spec="beast.base.inference.distribution.Uniform" />
 				</distribution>
 
 				<distribution id="coalescent" spec="Coalescent">
@@ -148,7 +148,7 @@
 			<model idref='posterior' />
 			<log idref="posterior" />
 			<log idref="prior" />
-			<log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree' />
+			<log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree' />
 			<log idref="popSize" />
 			<log idref="hky.kappa" />
 			<log idref="hky.frequencies" />
@@ -161,7 +161,7 @@
 			<model idref='posterior' />
 			<log idref="posterior" />
 			<log idref="prior" />
-			<log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree' />
+			<log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree' />
 			<log idref="popSize" />
 			<log idref="hky.kappa" />
 			<log idref="hky.frequencies" />

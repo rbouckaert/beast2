@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast beautitemplate='Standard' beautistatus='' namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" required="" version="2.6">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast beautitemplate='Standard' beautistatus='' namespace="beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.alignment:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood" required="" version="2.6">
 
 
     <data
@@ -16,22 +16,22 @@ $(sequences)
 
 
     
-<map name="Uniform" >beast.math.distributions.Uniform</map>
-<map name="Exponential" >beast.math.distributions.Exponential</map>
-<map name="LogNormal" >beast.math.distributions.LogNormalDistributionModel</map>
-<map name="Normal" >beast.math.distributions.Normal</map>
-<map name="Beta" >beast.math.distributions.Beta</map>
-<map name="Gamma" >beast.math.distributions.Gamma</map>
-<map name="LaplaceDistribution" >beast.math.distributions.LaplaceDistribution</map>
-<map name="prior" >beast.math.distributions.Prior</map>
-<map name="InverseGamma" >beast.math.distributions.InverseGamma</map>
-<map name="OneOnX" >beast.math.distributions.OneOnX</map>
+<map name="Uniform" >beast.base.inference.distribution.Uniform</map>
+<map name="Exponential" >beast.base.inference.distribution.Exponential</map>
+<map name="LogNormal" >beast.base.inference.distribution.LogNormalDistributionModel</map>
+<map name="Normal" >beast.base.inference.distribution.Normal</map>
+<map name="Beta" >beast.base.inference.distribution.Beta</map>
+<map name="Gamma" >beast.base.inference.distribution.Gamma</map>
+<map name="LaplaceDistribution" >beast.base.inference.distribution.LaplaceDistribution</map>
+<map name="prior" >beast.base.inference.distribution.Prior</map>
+<map name="InverseGamma" >beast.base.inference.distribution.InverseGamma</map>
+<map name="OneOnX" >beast.base.inference.distribution.OneOnX</map>
 
 
 <run id="mcmc" spec="MCMC" chainLength="$(chainLength=1000000)">
     <state id="state" spec="State" storeEvery="5000">
-        <tree id="Tree.t:RSV2" spec="beast.evolution.tree.Tree" name="stateNode">
-            <trait id="dateTrait.t:RSV2" spec="beast.evolution.tree.TraitSet" traitname="date" value="$(dates)">
+        <tree id="Tree.t:RSV2" spec="beast.base.evolution.tree.Tree" name="stateNode">
+            <trait id="dateTrait.t:RSV2" spec="beast.base.evolution.tree.TraitSet" traitname="date" value="$(dates)">
                 <taxa id="TaxonSet.RSV2" spec="TaxonSet">
                     <alignment idref="RSV2"/>
                 </taxa>
@@ -45,7 +45,7 @@ $(sequences)
         <parameter id="freqParameter.s:RSV2" spec="parameter.RealParameter" dimension="4" lower="0.0" name="stateNode" upper="1.0">0.25</parameter>
     </state>
 
-    <init id="RandomTree.t:RSV2" spec="beast.evolution.tree.RandomTree" estimate="false" initial="@Tree.t:RSV2" taxa="@RSV2">
+    <init id="RandomTree.t:RSV2" spec="beast.base.evolution.tree.RandomTree" estimate="false" initial="@Tree.t:RSV2" taxa="@RSV2">
         <populationModel id="ConstantPopulation0.t:RSV2" spec="ConstantPopulation">
             <parameter id="randomPopSize.t:RSV2" spec="parameter.RealParameter" name="popSize">1.0</parameter>
         </populationModel>
@@ -87,7 +87,7 @@ $(sequences)
                         <frequencies id="estimatedFreqs.s:RSV2" spec="Frequencies" frequencies="@freqParameter.s:RSV2"/>
                     </substModel>
                 </siteModel>
-                <branchRateModel id="StrictClock.c:RSV2" spec="beast.evolution.branchratemodel.StrictClockModel" clock.rate="@clockRate.c:RSV2"/>
+                <branchRateModel id="StrictClock.c:RSV2" spec="beast.base.evolution.branchratemodel.StrictClockModel" clock.rate="@clockRate.c:RSV2"/>
             </distribution>
         </distribution>
     </distribution>
@@ -128,7 +128,7 @@ $(sequences)
         <log idref="likelihood"/>
         <log idref="prior"/>
         <log idref="treeLikelihood.RSV2"/>
-        <log id="TreeHeight.t:RSV2" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.t:RSV2"/>
+        <log id="TreeHeight.t:RSV2" spec="beast.base.evolution.tree.TreeHeightLogger" tree="@Tree.t:RSV2"/>
         <log idref="clockRate.c:RSV2"/>
         <log idref="kappa.s:RSV2"/>
         <log idref="gammaShape.s:RSV2"/>
@@ -144,7 +144,7 @@ $(sequences)
     </logger>
 
     <logger id="treelog.t:RSV2" spec="Logger" fileName="$(filebase).trees" logEvery="10000" mode="tree">
-        <log id="TreeWithMetaDataLogger.t:RSV2" spec="beast.evolution.tree.TreeWithMetaDataLogger" tree="@Tree.t:RSV2"/>
+        <log id="TreeWithMetaDataLogger.t:RSV2" spec="beast.base.evolution.tree.TreeWithMetaDataLogger" tree="@Tree.t:RSV2"/>
     </logger>
 
     <operatorschedule id="OperatorSchedule" spec="OperatorSchedule"/>

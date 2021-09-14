@@ -36,6 +36,7 @@ public class NexusParserTest extends TestCase {
                 try {
                     parser.parseFile(new File(dirName + "/" + fileName));
                 } catch (Exception e) {
+                	e.printStackTrace();
                     System.out.println("ExampleNexusParsing::Failed for " + fileName
                             + ": " + e.getMessage());
                     failedFiles.add(fileName);

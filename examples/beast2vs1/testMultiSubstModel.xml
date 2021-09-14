@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood" version="2.0">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast namespace="beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.alignment:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood" version="2.0">
 
 
     <data dataType="nucleotide" filter="1-449" id="firsthalf" name="alignment" spec="FilteredAlignment" strip="false">
@@ -29,14 +29,14 @@
                 </populationModel>
                 <treeIntervals id="TreeIntervals.firsthalf" spec="TreeIntervals" tree="@Tree.firsthalf"/>
             </distribution>
-            <distribution id="KappaPrior.firsthalf" spec="beast.math.distributions.Prior" x="@kappa.firsthalf">
-                    <distr id="LogNormalDistributionModel.firsthalf" M="1.0" S="1.25" meanInRealSpace="false" spec="beast.math.distributions.LogNormalDistributionModel"/>
+            <distribution id="KappaPrior.firsthalf" spec="beast.base.inference.distribution.Prior" x="@kappa.firsthalf">
+                    <distr id="LogNormalDistributionModel.firsthalf" M="1.0" S="1.25" meanInRealSpace="false" spec="beast.base.inference.distribution.LogNormalDistributionModel"/>
                 </distribution>
-            <distribution id="KappaPrior.secondhalf" spec="beast.math.distributions.Prior" x="@kappa.secondhalf">
-                    <distr id="LogNormalDistributionModel.secondhalf" M="1.0" S="1.25" meanInRealSpace="false" spec="beast.math.distributions.LogNormalDistributionModel"/>
+            <distribution id="KappaPrior.secondhalf" spec="beast.base.inference.distribution.Prior" x="@kappa.secondhalf">
+                    <distr id="LogNormalDistributionModel.secondhalf" M="1.0" S="1.25" meanInRealSpace="false" spec="beast.base.inference.distribution.LogNormalDistributionModel"/>
                 </distribution>
-            <distribution id="popSize.prior" spec="beast.math.distributions.Prior" x="@popSize.firsthalf">
-                    <distr id="OneOnX" offset="0.0" spec="beast.math.distributions.OneOnX"/>
+            <distribution id="popSize.prior" spec="beast.base.inference.distribution.Prior" x="@popSize.firsthalf">
+                    <distr id="OneOnX" offset="0.0" spec="beast.base.inference.distribution.OneOnX"/>
                 </distribution>
         </distribution>
         <distribution id="likelihood" spec="util.CompoundDistribution" useThreads="false">
@@ -49,7 +49,7 @@
                         <frequencies estimate="true" frequencies="@freqParameter.firsthalf" id="estimatedFreqs.firsthalf" spec="Frequencies"/>
                     </substModel>
                 </siteModel>
-                <branchRateModel clock.rate="@clockRate.firsthalf" id="StrictClock.firsthalf" spec="beast.evolution.branchratemodel.StrictClockModel"/>
+                <branchRateModel clock.rate="@clockRate.firsthalf" id="StrictClock.firsthalf" spec="beast.base.evolution.branchratemodel.StrictClockModel"/>
             </distribution>
             <distribution branchRateModel="@StrictClock.firsthalf" id="treeLikelihood.secondhalf" spec="TreeLikelihood" tree="@Tree.firsthalf" useAmbiguities="false">
                 <data idref="secondhalf"/>
@@ -115,7 +115,7 @@
         <distribution idref="posterior" name="log"/>
         <distribution idref="likelihood" name="log"/>
         <distribution idref="prior" name="log"/>
-        <log id="TreeHeight.firsthalf" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.firsthalf"/>
+        <log id="TreeHeight.firsthalf" spec="beast.base.evolution.tree.TreeHeightLogger" tree="@Tree.firsthalf"/>
         <parameter idref="clockRate.firsthalf" name="log"/>
         <parameter idref="kappa.firsthalf" name="log"/>
         <parameter idref="freqParameter.firsthalf" name="log"/>
@@ -134,7 +134,7 @@
         <distribution idref="prior" name="log"/>
     </logger>
 
-    <tree estimate="false" id="RandomTree.firsthalf" initial="@Tree.firsthalf" name="init" populationModel="@ConstantPopulation.firsthalf" spec="beast.evolution.tree.RandomTree" taxa="@firsthalf"/>
+    <tree estimate="false" id="RandomTree.firsthalf" initial="@Tree.firsthalf" name="init" populationModel="@ConstantPopulation.firsthalf" spec="beast.base.evolution.tree.RandomTree" taxa="@firsthalf"/>
 
 </run>
 

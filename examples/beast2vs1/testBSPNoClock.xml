@@ -1,5 +1,5 @@
 <beast version='2.0'
-       namespace='beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.branchratemodel:beast.evolution.likelihood:beast.core.parameter'>
+       namespace='beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.branchratemodel:beast.base.evolution.likelihood:beast.base.inference.parameter'>
 
 
     <!-- The sequence alignment (each sequence refers to a taxon above).         -->
@@ -44,7 +44,7 @@
         <siteModel idref="siteModel"/>
     </input>
 
-    <input spec='beast.util.ClusterTree' id='tree' clusterType='upgma'>
+    <input spec='beast.base.evolution.tree.ClusterTree' id='tree' clusterType='upgma'>
         <taxa idref='alignment'/>
     </input>
 
@@ -64,12 +64,12 @@
 
         <distribution spec="CompoundDistribution" id="posterior">
             <distribution spec="CompoundDistribution" id="prior">
-                <distribution id="hky.kappa.prior" spec="beast.math.distributions.Prior" x="@hky.kappa">
+                <distribution id="hky.kappa.prior" spec="beast.base.inference.distribution.Prior" x="@hky.kappa">
                     <distr id="LogNormalDistributionModel" M="1.0" S="1.25" meanInRealSpace="false"
-                           spec="beast.math.distributions.LogNormalDistributionModel"/>
+                           spec="beast.base.inference.distribution.LogNormalDistributionModel"/>
                 </distribution>
-                <distribution id="hky.frequencies.prior" spec="beast.math.distributions.Prior" x="@hky.frequencies">
-                    <distr id="Uniform" lower="0.0" upper="1.0" spec="beast.math.distributions.Uniform"/>
+                <distribution id="hky.frequencies.prior" spec="beast.base.inference.distribution.Prior" x="@hky.frequencies">
+                    <distr id="Uniform" lower="0.0" upper="1.0" spec="beast.base.inference.distribution.Uniform"/>
                 </distribution>
 
                 <distribution spec="BayesianSkyline" id='skyline'>
@@ -80,7 +80,7 @@
                     </treeIntervals>
                 </distribution>
 
-                <distribution id='eml1' spec="beast.math.distributions.MarkovChainDistribution"
+                <distribution id='eml1' spec="beast.base.inference.distribution.MarkovChainDistribution"
 				jeffreys="true"
 				parameter="@popSizes"/>
             </distribution>
@@ -105,7 +105,7 @@
             <model idref='posterior'/>
             <log idref="posterior"/>
             <log idref="prior"/>
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree'/>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree'/>
             <log idref="popSizes"/>
             <log idref="groupSizes"/>
             <log idref="hky.kappa"/>
@@ -123,7 +123,7 @@
             <model idref='posterior'/>
             <log idref="posterior"/>
             <log idref="prior"/>
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree'/>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree'/>
             <log idref="popSizes"/>
             <log idref="groupSizes"/>
             <log idref="hky.kappa"/>

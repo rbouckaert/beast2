@@ -9,7 +9,6 @@ import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.fest.swing.security.ExitException;
 import org.junit.Test;
 
 import beast.app.beastapp.BeastMain;
@@ -38,7 +37,12 @@ public class ExampleXmlParsingTest extends TestCase {
 
     @Test
     public void test_ThatXmlExamplesParse() {
-        String dir = System.getProperty("user.dir") + "/examples";
+        String dir;
+        dir = System.getProperty("user.dir") + "/examples/benchmark/II";
+    	test_ThatXmlExamplesParse(dir);
+        dir = System.getProperty("user.dir") + "/examples/";
+    	test_ThatXmlExamplesParse(dir);
+        dir = System.getProperty("user.dir") + "/examples/beast2vs1";
     	test_ThatXmlExamplesParse(dir);
     }
     
@@ -62,6 +66,8 @@ public class ExampleXmlParsingTest extends TestCase {
                 try {
                     parser.parseFile(new File(dir + "/" + fileName));
                 } catch (Exception e) {
+                	e.printStackTrace()
+                	;
                     System.out.println("ExampleXmlParsing::Failed for " + fileName
                             + ": " + e.getMessage());
                     failedFiles.add(fileName);

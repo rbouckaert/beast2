@@ -1,5 +1,5 @@
 <beast version='2.0'
-    namespace='beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.branchratemodel:beast.evolution.likelihood:beast.core.parameter'>
+    namespace='beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.branchratemodel:beast.base.evolution.likelihood:beast.base.inference.parameter'>
 
 
     <!-- The sequence alignment (each sequence refers to a taxon above). -->
@@ -41,7 +41,7 @@
 
     <input spec='UCRelaxedClockModel' id="branchRates">
         <!-- <parameter name='mutationRate'>1.0</parameter> -->
-        <distr id='lognormal' spec="beast.math.distributions.LogNormalDistributionModel" meanInRealSpace="true">
+        <distr id='lognormal' spec="beast.base.inference.distribution.LogNormalDistributionModel" meanInRealSpace="true">
             <parameter name='M' id='M' value="1" lower="0.0" />
             <parameter name='S' id='S' value="0.3333333333333333" lower="0" />
         </distr>
@@ -56,7 +56,7 @@
         <branchRateModel idref="branchRates" /> 
     </input>
 
-    <tree spec='beast.util.TreeParser' id='tree' IsLabelledNewick='true' newick=
+    <tree spec='beast.base.evolution.tree.TreeParser' id='tree' IsLabelledNewick='true' newick=
             '(siamang:0.06318470579939774,((gorilla:0.031056173315146828,((chimp:0.00982869388112981,bonobo:0.00982869388112981)
         :0.01030402958978773,human:0.02013272347091754):0.010923449844229289):0.022256750048834654,orangutan:0.05331292336398148)
         :0.009871782435416254);'
@@ -70,18 +70,18 @@
 
         <distribution spec="CompoundDistribution" id="posterior">
             <distribution spec="CompoundDistribution" id="prior">
-                <distribution id="hky.kappa.prior" spec="beast.math.distributions.Prior" x="@hky.kappa">
+                <distribution id="hky.kappa.prior" spec="beast.base.inference.distribution.Prior" x="@hky.kappa">
                     <distr id="LogNormalDistributionModel" M="1.0" S="1.25" meanInRealSpace="false"
-                        spec="beast.math.distributions.LogNormalDistributionModel" />
+                        spec="beast.base.inference.distribution.LogNormalDistributionModel" />
                 </distribution>
-                <distribution id="hky.frequencies.prior" spec="beast.math.distributions.Prior" x="@hky.frequencies">
-                    <distr id="Uniform" lower="0.0" upper="1.0" spec="beast.math.distributions.Uniform" />
+                <distribution id="hky.frequencies.prior" spec="beast.base.inference.distribution.Prior" x="@hky.frequencies">
+                    <distr id="Uniform" lower="0.0" upper="1.0" spec="beast.base.inference.distribution.Uniform" />
                 </distribution>
-                <distribution id="popSize.prior" spec="beast.math.distributions.Prior" x="@popSize">
-                    <distr id="OneOnX" offset="0.0" spec="beast.math.distributions.OneOnX" />
+                <distribution id="popSize.prior" spec="beast.base.inference.distribution.Prior" x="@popSize">
+                    <distr id="OneOnX" offset="0.0" spec="beast.base.inference.distribution.OneOnX" />
                 </distribution>
-                <distribution id="S.prior" spec="beast.math.distributions.Prior" x="@S">
-                    <distr id="Exponential" mean="0.3333333333333333" spec="beast.math.distributions.Exponential" />
+                <distribution id="S.prior" spec="beast.base.inference.distribution.Prior" x="@S">
+                    <distr id="Exponential" mean="0.3333333333333333" spec="beast.base.inference.distribution.Exponential" />
                 </distribution>   
 
                 <distribution id="coalescent" spec="Coalescent">
@@ -121,7 +121,7 @@
             <log idref="treeLikelihood" />
             <log idref="coalescent" />
             <log idref="popSize" />
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree' />
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree' />
             <log idref="hky.kappa" />
             <log idref="hky.frequencies" />
             <log idref="M" />
@@ -138,7 +138,7 @@
             <log idref="coalescent" />
             <log idref="treeLikelihood" />
             <log idref="popSize" />
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree' />
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree' />
             <log idref="hky.kappa" />
             <log idref="S" />
             <log idref="rateCategories" /> 

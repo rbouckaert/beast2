@@ -62,11 +62,16 @@ public abstract class TestFramework extends TestCase {
         LogAnalyser logAnalyser = new LogAnalyser(logFile, giveExpectations(index_XML)); // burnIn = 0.1 * maxState
 
         for (Expectation expectation : logAnalyser.m_pExpectations.get()) {
+        	try {
             Assert.assertTrue(xmls[index_XML] + ": Expected " + expectation.traceName.get() + " delta mean: "
-                    + expectation.expValue.get() + " - " + expectation.getTraceStatistics().getMean()
+	                    + expectation.expValue.get() + " - " + expectation.getTraceStatistics().getMean()
                     + " <= delta stdErr: 2*(" + expectation.getStdError() + " + "
                     + expectation.getTraceStatistics().getStdErrorOfMean() + ")", expectation.isPassed());
-
+        	} catch (NullPointerException e) {
+        		System.err.println(expectation.traceName.get() + " might be missing from trace log");
+        		throw e;
+        	}
+        	
             if (checkESS)
             	Assert.assertTrue(xmls[index_XML] + ":  has very low effective sample sizes (ESS) "
                     + expectation.getTraceStatistics().getESS(), expectation.isValid());

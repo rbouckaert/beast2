@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beast xmlns="http://www.w3.org/TR/xhtml1/strict" version="2.0" namespace="beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood">
+<beast xmlns="http://www.w3.org/TR/xhtml1/strict" version="2.0" namespace="beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood">
 <data dataType="nucleotide" id="alignment">
 <sequence taxon="Zodiomyces_vorticellarius">
 			
@@ -193,10 +193,10 @@
 
     <tree id='tree'/>
 
-    <tree spec='beast.util.ClusterTree' id='upgmatree' clusterType='upgma' initial='@tree'>
+    <tree spec='beast.base.evolution.tree.ClusterTree' id='upgmatree' clusterType='upgma' initial='@tree'>
         <taxa idref='alignment'/>
     </tree>
-    <tree spec='beast.evolution.tree.RandomTree' id='coalescentSimulator' initial='@tree' taxa='@alignment'>
+    <tree spec='beast.base.evolution.tree.RandomTree' id='coalescentSimulator' initial='@tree' taxa='@alignment'>
         <populationModel spec='ConstantPopulation'>
             <popSize spec='parameter.RealParameter' value='1'/>
         </populationModel>
@@ -209,8 +209,8 @@
         <distribution spec='CompoundDistribution' id='posterior'>
 <!--
 	make it comparable to the files in the BEAST 1 directory, that do not use a prior either
-            <distribution spec='beast.math.distributions.Prior' x='@hky.kappa'>
-                <distr spec='beast.math.distributions.OneOnX'/>
+            <distribution spec='beast.base.inference.distribution.Prior' x='@hky.kappa'>
+                <distr spec='beast.base.inference.distribution.OneOnX'/>
             </distribution>
 -->
             <distribution id='likelihood' idref="treeLikelihood"/>
@@ -230,7 +230,7 @@
             <model idref='likelihood'/>
             <log idref="likelihood"/>
             <log idref='hky.kappa'/>
-            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree'/>
+            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree'/>
         </logger>
         <logger logEvery="10000" fileName="test.trees">
             <log idref="tree"/>

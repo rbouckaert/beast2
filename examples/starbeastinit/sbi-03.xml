@@ -1,4 +1,4 @@
-<beast namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood:util:beast.evolution.speciation:beast.math.distributions:beast.evolution.tree" version="2.0">
+<beast namespace="beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.alignment:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood:util:beast.base.evolution.speciation:beast.base.math.distributions:beast.base.evolution.tree" version="2.0">
   <data dataType="nucleotide" id="sb_l0_example03" name="alignment" strip="false">
     <sequence id="seq_sb_l0_example03_s6_tip0" taxon="s6_tip0" totalcount="4" value="TTCAACTTCCGTAGATTATGAGGTATATTCTTTACTTCCCCCAGATTGCCAGACTTTTAATATGATTGCCCTTCCATCTCGGTTCAACGGGAATCCGTGTCGTAAAATGACTCTGTGAGCCATGAACAAGCGCTACGATCCAGGCAGAGCGGGTTCGATTTATTTGGCCCGGCGGTGTATCGAACTCGGGATGGGATCGATAGCTATTAGTTGTTCTGATTGTTAGAAGAAGCGGATCGGGTGCCTCGACAGCCAAGGCCAAGAATCTTACGTGCCTGAGTCTGCGAGACTTAGGGTAATCCGAGCCCCGGAGTGAAGAACCGTCCGGCGGGCCTCCCCGACAAGTGTATGCATGGTTATAACGCCGTTAGACGGGATCGTACAGTGAGAGTCATTGCGTCCCTTCGGCGCAATGAATGAGTGGTGGGAGATTGCTCGTCTTTGCGAAGCCCCGCTGCCGTAGACCATCAAAAGTTCTAGGTGAAACTCCTGGCCAGTATATCTGGGACAGCAGACGTGTCGAGTTACACGGTGAACGACACGTCCGTGCAGAGTATACCCCAGGCTGCGCCTCCGTCTAAAAAGGTCCGCGATTTACTGAATGATTGGATTTGACCCCCTCCAACGTAGATATCGAATTCGCCCGGTACGCCACGCTCCGTACTTATATCCTGGCCAATTGTATCCGATAATTATGCCTTGGCGAGATTGTTCGGGACTACTTGAGACAAGGTGTGGATTAAAAACTATGGCAATGACGCCGTACAGATCCGGACAGATCGGTATAAAGCAGCGGATTT"/>
     <sequence id="seq_sb_l0_example03_s6_tip1" taxon="s6_tip1" totalcount="4" value="TTCAACTTCCGTAGATTATGAGGTATATTCTTTACTTCCCCCAGATTGCCAGACTTTTAATATGATTGCCCTTCCATCTCGGTTCAACGGGAATCCGTGTCGTAAAATGACTCTGTGAGCCATGAACAAGCGCTACGATCCAGGCAGAGCGGGTTCGATTTATTTGGCCCGGCGGTGTATCGAACTCGGGATGGGATCGATAGCTATTAGTTGTTCTGATTGTTAGAAGAAGCGGATCGGGTGCCTCGACAGCCAAGGCCAAGAATCTTACGTGCCTGAGTCTGCGAGACTTAGGGTAATCCGAGCCCCGGAGTGAAGAACCGTCCGGCGGGCCTCCCCGACAAGTGTATGCATGGTTATAACGCCGTTAGACGGGATCGTACAGTGAGAGTCATTGCGTCCCTTCGGCGCAATGAATGAGTGGTGGGAGATTGCTCGTCTTTGCGAAGCCCCGCTGCCGTAGACCATCAAAAGTTCTAGGTGAAACTCCTGGCCAGTATATCTGGGACAGCAGACGTGTCGAGTTACACGGTGAACGACACGTCCGTGCAGAGTATACCCCAGGCTGCGCCTCCGTCTAAAAAGGTCCGCGATTTACTGAATGATTGGATTTGACCCCCTCCAACGTAGATATCGAATTCGCCCGGTACGCCACGCTCCGTACTTATATCCTGGCCAATTGTATCCGATAATTATGCCTTGGCGAGATTGTTCGGGACTACTTGAGACAAGGTGTGGATTAAAAACTATGGCAATGACGCCGTACAGATCCGGACAGATCGGTATAAAGCAGCGGATTT"/>
@@ -58,7 +58,7 @@
           <parameter estimate="false" id="proportionInvariant.sb_l0_example03" name="proportionInvariant" value="0.0"/>
           <substModel id="JC69.sb_l0_example03" spec="JukesCantor"/>
         </siteModel>
-        <branchRateModel id="StrictClock.sb_l0_example03" spec="beast.evolution.branchratemodel.StrictClockModel">
+        <branchRateModel id="StrictClock.sb_l0_example03" spec="beast.base.evolution.branchratemodel.StrictClockModel">
           <parameter estimate="false" id="clockRate.sb_l0_example03" name="clock.rate" value="0.005"/>
         </branchRateModel>
       </distribution>
@@ -69,7 +69,7 @@
           <parameter estimate="false" id="proportionInvariant.sb_l1_example03" name="proportionInvariant" value="0.0"/>
           <substModel id="JC69.sb_l1_example03" spec="JukesCantor"/>
         </siteModel>
-        <branchRateModel id="StrictClock.sb_l1_example03" spec="beast.evolution.branchratemodel.StrictClockModel">
+        <branchRateModel id="StrictClock.sb_l1_example03" spec="beast.base.evolution.branchratemodel.StrictClockModel">
           <parameter estimate="false" id="clockRate.sb_l1_example03" name="clock.rate" value="0.005"/>
         </branchRateModel>
       </distribution>
@@ -170,8 +170,8 @@
       <distribution idref="YuleModel.Species" name="log"/>
       <log id="SpeciesTreeHeight" spec="TreeHeightLogger" tree="@Tree.Species"/>
       <log idref="popMean"/>
-      <log id="TreeHeight.sb_l0_example03" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.sb_l0_example03"/>
-      <log id="TreeHeight.sb_l1_example03" spec="beast.evolution.tree.TreeHeightLogger" tree="@Tree.sb_l1_example03"/>
+      <log id="TreeHeight.sb_l0_example03" spec="beast.base.evolution.tree.TreeHeightLogger" tree="@Tree.sb_l0_example03"/>
+      <log id="TreeHeight.sb_l1_example03" spec="beast.base.evolution.tree.TreeHeightLogger" tree="@Tree.sb_l1_example03"/>
     </logger>
     <logger fileName="sb_example03_species_$(seed).trees" id="speciesTreeLogger" logEvery="10000" mode="tree">
       <log id="SpeciesTreeLogger.0" popSize="@popSize" spec="SpeciesTreeLogger" speciesTreePrior="@SpeciesTreePopSize.Species" tree="@Tree.Species">

@@ -48,6 +48,8 @@ public class ExampleJSONParsingTest extends TestCase {
                 try {
                     parser.parseFile(new File(dir + "/" + fileName));
                 } catch (Exception e) {
+                	e.printStackTrace()
+                	;
                     System.out.println("ExampleJSONParsing::Failed for " + fileName
                             + ": " + e.getMessage());
                     failedFiles.add(fileName);
