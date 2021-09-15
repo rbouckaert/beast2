@@ -1,5 +1,5 @@
 <beast version='2.0'
-       namespace='beast.app.beauti:beast.core:beast.evolution.branchratemodel:beast.evolution.speciation:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood:beast.evolution:beast.math.distributions'>
+       namespace='beast.app.beauti:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.branchratemodel:beast.base.evolution.speciation:beast.base.evolution.tree.coalescent:beast.base.util:beast.base.math:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood:beast.evolution:beast.base.inference.distribution'>
 
        
     <mergewith point='misc'>
@@ -26,13 +26,13 @@
     <!-- tree priors -->
     <mergewith point='treePriorTemplates'>
         <!-- Yule -->
-        <subtemplate id='YuleModel' class='beast.evolution.speciation.YuleModel' mainid='YuleModel.t:$(n)'>
+        <subtemplate id='YuleModel' class='beast.base.evolution.speciation.YuleModel' mainid='YuleModel.t:$(n)'>
             <![CDATA[
             <plugin spec='YuleModel' id="YuleModel.t:$(n)" tree='@Tree.t:$(n)'>
                 <parameter name='birthDiffRate' id="birthRate.t:$(n)" value='1.0'/>
             </plugin>
 
-            <prior id='YuleBirthRatePrior.t:$(n)' x='@birthRate.t:$(n)'><distr spec="beast.math.distributions.Uniform" lower='0' upper='1000'/></prior>
+            <prior id='YuleBirthRatePrior.t:$(n)' x='@birthRate.t:$(n)'><distr spec="beast.base.inference.distribution.Uniform" lower='0' upper='1000'/></prior>
 
   		    <scale id='YuleBirthRateScaler.t:$(n)' spec='ScaleOperator' scaleFactor="0.75" weight="3" parameter="@birthRate.t:$(n)"/>
 ]]>
@@ -63,15 +63,15 @@
         </subtemplate>
 
         <!-- Calibrated Yule -->
-        <subtemplate id='CalibratedYuleModel' class='beast.evolution.speciation.CalibratedYuleModel'
+        <subtemplate id='CalibratedYuleModel' class='beast.base.evolution.speciation.CalibratedYuleModel'
                      mainid='CalibratedYuleModel.t:$(n)'
-                     suppressInputs='beast.evolution.speciation.CalibratedYuleModel.logMarginal,beast.evolution.speciation.CalibratedYuleModel.tree,beast.evolution.speciation.CalibratedYuleModel.treeIntervals,beast.evolution.speciation.CalibratedYuleModel.calibrations'>
+                     suppressInputs='beast.base.evolution.speciation.CalibratedYuleModel.logMarginal,beast.base.evolution.speciation.CalibratedYuleModel.tree,beast.base.evolution.speciation.CalibratedYuleModel.treeIntervals,beast.base.evolution.speciation.CalibratedYuleModel.calibrations'>
             <![CDATA[
             <plugin spec='CalibratedYuleModel' id="CalibratedYuleModel.t:$(n)" tree='@Tree.t:$(n)'>
                 <parameter name='birthRate' id="birthRateY.t:$(n)" value='1.0'/>
             </plugin>
 
-            <prior id='CalibratedYuleBirthRatePrior.t:$(n)' x='@birthRateY.t:$(n)'><distr spec="beast.math.distributions.Uniform" lower='0' upper='1000'/></prior>
+            <prior id='CalibratedYuleBirthRatePrior.t:$(n)' x='@birthRateY.t:$(n)'><distr spec="beast.base.inference.distribution.Uniform" lower='0' upper='1000'/></prior>
 
   		    <scale id='CalibratedYuleBirthRateScaler.t:$(n)' spec='ScaleOperator' scaleFactor="0.75" weight="3" parameter="@birthRateY.t:$(n)"/>
 ]]>
@@ -103,7 +103,7 @@
         </subtemplate>
 
         <!-- Birth Death model according to Gernhard'08 -->
-        <subtemplate id='BirthDeathModel' class='beast.evolution.speciation.BirthDeathGernhard08Model'
+        <subtemplate id='BirthDeathModel' class='beast.base.evolution.speciation.BirthDeathGernhard08Model'
                      mainid='BirthDeath.t:$(n)'>
             <![CDATA[
             <distribution id="BirthDeath.t:$(n)" spec="speciation.BirthDeathGernhard08Model" tree='@Tree.t:$(n)'>
@@ -111,8 +111,8 @@
             	<relativeDeathRate spec='parameter.RealParameter' id="BDDeathRate.t:$(n)" value='0.5' lower='0' upper='1' />
             </distribution>
 
-            <prior id='BirthRatePrior.t:$(n)' x='@BDBirthRate.t:$(n)'><distr spec="beast.math.distributions.Uniform" lower='0' upper='1000'/></prior>
-            <prior id='DeathRatePrior.t:$(n)' x='@BDDeathRate.t:$(n)'><distr spec="beast.math.distributions.Uniform" lower='0' upper='1'/></prior>
+            <prior id='BirthRatePrior.t:$(n)' x='@BDBirthRate.t:$(n)'><distr spec="beast.base.inference.distribution.Uniform" lower='0' upper='1000'/></prior>
+            <prior id='DeathRatePrior.t:$(n)' x='@BDDeathRate.t:$(n)'><distr spec="beast.base.inference.distribution.Uniform" lower='0' upper='1'/></prior>
 
   		    <scale id='BirthRateScaler.t:$(n)' spec='ScaleOperator' scaleFactor="0.75" weight="3" parameter="@BDBirthRate.t:$(n)"/>
   		    <scale id='DeathRateScaler.t:$(n)' spec='ScaleOperator' scaleFactor="0.75" weight="3" parameter="@BDDeathRate.t:$(n)"/>
@@ -158,7 +158,7 @@
 
 
         <!-- Coalescent for Constant population -->
-        <subtemplate id='CoalescentConstantPopulation' class='beast.evolution.tree.coalescent.Coalescent'
+        <subtemplate id='CoalescentConstantPopulation' class='beast.base.evolution.tree.coalescent.Coalescent'
                      mainid='CoalescentConstant.t:$(n)'>
             <![CDATA[
             <distribution id="CoalescentConstant.t:$(n)" spec="Coalescent">
@@ -198,7 +198,7 @@
 
 
         <!-- Coalescent for Exponential population -->
-        <subtemplate id='CoalescentExponentialPopulation' class='beast.evolution.tree.coalescent.Coalescent'
+        <subtemplate id='CoalescentExponentialPopulation' class='beast.base.evolution.tree.coalescent.Coalescent'
                      mainid='CoalescentExponential.t:$(n)'>
             <![CDATA[
             <distribution id="CoalescentExponential.t:$(n)" spec="Coalescent">
@@ -255,10 +255,10 @@
 
 
         <!-- Coalescent for Bayesian skyline -->
-        <subtemplate id='CoalescentBayesianSkyline' class='beast.evolution.tree.coalescent.Coalescent'
+        <subtemplate id='CoalescentBayesianSkyline' class='beast.base.evolution.tree.coalescent.Coalescent'
                      mainid='BayesianSkyline.t:$(n)'
-                     suppressInputs='beast.math.distributions.MarkovChainDistribution.parameter,
-                     beast.math.distributions.MarkovChainDistribution.initialMean'>
+                     suppressInputs='beast.base.inference.distribution.MarkovChainDistribution.parameter,
+                     beast.base.inference.distribution.MarkovChainDistribution.initialMean'>
             <![CDATA[
             <distribution spec="BayesianSkyline" id='BayesianSkyline.t:$(n)'>
                 <parameter name='popSizes' id='bPopSizes.t:$(n)' dimension="5" value="380.0" lower="0.0" estimate='true'/>
@@ -266,7 +266,7 @@
                 <treeIntervals spec='TreeIntervals' id='BSPTreeIntervals.t:$(n)' tree='@Tree.t:$(n)'/>
             </distribution>
 
-            <distribution id='MarkovChainedPopSizes.t:$(n)' spec="beast.math.distributions.MarkovChainDistribution" 
+            <distribution id='MarkovChainedPopSizes.t:$(n)' spec="beast.base.inference.distribution.MarkovChainDistribution" 
 				jeffreys="true"
 				parameter="@bPopSizes.t:$(n)"/>
 
@@ -308,7 +308,7 @@
 
 
         <!-- Coalescent for Extended Bayesian skyline -->
-        <subtemplate id='CoalescentExtendedBayesianSkyline' class='beast.evolution.tree.coalescent.Coalescent'
+        <subtemplate id='CoalescentExtendedBayesianSkyline' class='beast.base.evolution.tree.coalescent.Coalescent'
                      mainid='ExtendedBayesianSkyline.t:$(n)'>
             <![CDATA[
 	        <stateNode id="indicators.alltrees" spec="parameter.BooleanParameter" value="false"/>
@@ -317,10 +317,10 @@
 
             <distribution id="ExtendedBayesianSkyline.t:$(n)" spec="Coalescent">
                  <treeIntervals id="treeIntervals.t:$(n)" spec="TreeIntervals" tree="@Tree.t:$(n)"/>
-                 <populationModel id="scaledDemo.t:$(n)" spec="beast.evolution.tree.coalescent.ScaledPopulationFunction" factor='1' population='@demographic.alltrees'/>
+                 <populationModel id="scaledDemo.t:$(n)" spec="beast.base.evolution.tree.coalescent.ScaledPopulationFunction" factor='1' population='@demographic.alltrees'/>
             </distribution>
 
-            <population id="demographic.alltrees" populationIndicators="@indicators.alltrees" populationSizes="@popSizes.alltrees" spec="beast.evolution.tree.coalescent.CompoundPopulationFunction" type="linear" useIntervalsMiddle="false">
+            <population id="demographic.alltrees" populationIndicators="@indicators.alltrees" populationSizes="@popSizes.alltrees" spec="beast.base.evolution.tree.coalescent.CompoundPopulationFunction" type="linear" useIntervalsMiddle="false">
                 <itree idref="treeIntervals.t:$(n)"/>
 			</population>
 
@@ -340,11 +340,11 @@
             <logger id="EBSPLogger" fileName='EBSP.log' logEvery='5000' model="@demographic.alltrees">
                 <log idref='demographic.alltrees'/>
             </logger>
-            <log id='sumIndicators' spec='beast.core.util.Sum' arg='@indicators.alltrees'/>
+            <log id='sumIndicators' spec='beast.base.evolution.Sum' arg='@indicators.alltrees'/>
 
 
 			<operator id="bitflip.alltrees" parameter="@indicators.alltrees" spec="BitFlipOperator" uniform="true" weight="30.0"/>
-			<operator id="indicatorSampler.alltrees" dist="@popPriorDist.EBSP" indicators="@indicators.alltrees" spec="beast.evolution.tree.coalescent.SampleOffValues" values="@popSizes.alltrees" weight="15.0"/>
+			<operator id="indicatorSampler.alltrees" dist="@popPriorDist.EBSP" indicators="@indicators.alltrees" spec="beast.base.evolution.tree.coalescent.SampleOffValues" values="@popSizes.alltrees" weight="15.0"/>
 			<operator id="indicatorScaler.alltrees" degreesOfFreedom="1" indicator="@indicators.alltrees" parameter="@popSizes.alltrees" scaleAll="false" scaleAllIndependently="false" scaleFactor="0.5" spec="ScaleOperator" weight="15.0"/>
 			<operator id="EBSPupDownOperator.alltrees" scaleFactor="0.7" spec="UpDownOperator" weight="5.0">
 				<up idref="popSizes.alltrees"/>

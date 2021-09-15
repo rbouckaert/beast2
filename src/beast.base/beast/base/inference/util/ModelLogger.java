@@ -1,15 +1,13 @@
 package beast.base.inference.util;
 
 import java.util.HashSet;
-import java.util.List;
+import java.util.ServiceLoader;
 import java.util.Set;
 
-import beast.base.parser.XMLModelLogger;
-import beast.pkgmgmt.BEASTClassLoader;
-import beast.pkgmgmt.PackageManager;
 
 
-/** log model at the start of a trace log **/ 
+/** log model at the start of a trace log **/
+// This uses the Service Provider Interface to break dependencies on XMLModelLogger, which is in the beast.base.parser package/module
 public class ModelLogger {
 
 	static Set
@@ -24,7 +22,7 @@ public class ModelLogger {
         // build up list of ModelLoggers
     	modelLoggers = new HashSet<>();
         try {
-	        Iterable<ModelLogger> loggers = (Iterable<ModelLogger>) BEASTClassLoader.load(ModelLogger.class);
+	        Iterable<ModelLogger> loggers = (Iterable<ModelLogger>) ServiceLoader.load(ModelLogger.class);
 	        for (ModelLogger logger : loggers) {
 	            	// ModelLogger logger = (ModelLogger) BEASTClassLoader.forName(loggerName).getConstructors()[0].newInstance();
 	                modelLoggers.add(logger);
@@ -51,7 +49,8 @@ public class ModelLogger {
 		if (modelLoggers.size() == 0) {
 			// hack to get around lack of model loggers
 			// TODO: fix this properly
-			modelLoggers.add(new XMLModelLogger());
+			// modelLoggers.add(new XMLModelLogger());
+			findModelLoggers();
 		}
 		int i = -1;
 		ModelLogger bestLogger = null;

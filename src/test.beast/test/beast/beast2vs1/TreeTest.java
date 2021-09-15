@@ -37,7 +37,7 @@ public class TreeTest extends TestFramework {
                 addExpIntoList(expList, "posterior", -1884.6966, 6.3796E-2);
                 addExpIntoList(expList, "prior", -68.0023, 2.114E-2);
                 addExpIntoList(expList, "tree.height", 6.3129E-2, 6.5853E-5);
-                addExpIntoList(expList, "mrcatime(human,chimp)", 2.0326E-2, 3.5906E-5);
+                addExpIntoList(expList, "mrca.age(human,chimp)", 2.0326E-2, 3.5906E-5);
                 addExpIntoList(expList, "popSize", 9.7862E-2, 6.2387E-4);
                 addExpIntoList(expList, "hky.kappa", 25.8288, 0.1962);
                 addExpIntoList(expList, "hky.frequencies.1", 0.3262, 5.9501E-4);
@@ -53,7 +53,7 @@ public class TreeTest extends TestFramework {
                 addExpIntoList(expList, "posterior", -1897.3811, 6.5818E-2);
                 addExpIntoList(expList, "prior", -68.6144, 1.9896E-2);
                 addExpIntoList(expList, "tree.height", 6.3258E-2, 6.7751E-5);
-                addExpIntoList(expList, "mrcatime(human,chimp)", 1.7069E-2, 3.3455E-5);
+                addExpIntoList(expList, "mrca.age(human,chimp)", 1.7069E-2, 3.3455E-5);
                 addExpIntoList(expList, "popSize", 0.1049, 6.4588E-4);
                 addExpIntoList(expList, "hky.kappa", 26.7792, 0.1851);
                 addExpIntoList(expList, "hky.frequencies.1", 0.328, 7.1121E-4);

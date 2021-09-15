@@ -10,6 +10,7 @@ import org.junit.Test;
 import beast.base.evolution.substitutionmodel.JukesCantor;
 import beast.base.parser.XMLParser;
 import beast.pkgmgmt.BEASTVersion;
+import beast.pkgmgmt.PackageManager;
 import junit.framework.TestCase;
 
 public class XMLParserTest extends TestCase {
@@ -21,17 +22,30 @@ public class XMLParserTest extends TestCase {
 	// (which this test temporarily changes) will not be picked up		
     @Test
     public void testClassMap() throws IOException {
+    	String versionFile = null;
+    	System.setProperty("beast.user.package.dir", System.getProperty("user.dir")+ "/NONE");
+    	
+        // make sure output goes to test directory
+        File testDir =  new File(System.getProperty("user.dir")+ "/NONE");
+        if (!testDir.exists()) {
+             testDir.mkdir();
+        }
+    	for (String dir : PackageManager.getBeastDirectories()) {
+    		if (dir.contains("NONE")) {
+    	    	versionFile = dir+"/version.xml";
+    		}
+    	};
     	// back up version.xml 
-    	if (new File("version.xml").exists())    	
-    		Files.move(new File("version.xml").toPath(), 
+    	if (new File(versionFile).exists())    	
+    		Files.move(new File(versionFile).toPath(), 
         		new File("version.xml.backup").toPath(), 
         		java.nio.file.StandardCopyOption.REPLACE_EXISTING);
 
     	
     	// create new version.xml
-    	PrintStream out = new PrintStream(new File("version.xml"));
+    	PrintStream out = new PrintStream(new File(versionFile));
     	out.println("<package name='BEAST' version='" + new BEASTVersion().getVersion() + "'>");
-    	out.println("<map from='beast.evolution.substitutionmodel.JoMamma' to='beast.base.evolution.substitutionmodel.JukesCantor'/>");
+    	out.println("<map from='beast.base.evolution.substitutionmodel.JoMamma' to='beast.base.evolution.substitutionmodel.JukesCantor'/>");
     	out.println("</package>");
     	out.close();
     	
@@ -51,7 +65,7 @@ public class XMLParserTest extends TestCase {
     	// restore version.xml
     	if (new File("version.xml.backup").exists())    	
     		Files.move(new File("version.xml.backup").toPath(), 
-        		new File("version.xml").toPath(), 
+        		new File(versionFile).toPath(), 
         		java.nio.file.StandardCopyOption.REPLACE_EXISTING);
         
         assertEquals(true, o instanceof JukesCantor);

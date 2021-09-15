@@ -48,10 +48,10 @@ public class ClockModelTest extends TestFramework {
                 addExpIntoList(expList, "tree.height", 6.32E-02, 6.76E-05);
                 addExpIntoList(expList, "popSize", 9.67E-02, 5.99E-04);
                 addExpIntoList(expList, "hky.kappa", 25.807, 0.1812);
-                addExpIntoList(expList, "hky.frequencies1", 0.327, 6.15E-04);
-                addExpIntoList(expList, "hky.frequencies2", 0.258, 6.09E-04);
-                addExpIntoList(expList, "hky.frequencies3", 0.155, 3.88E-04);
-                addExpIntoList(expList, "hky.frequencies4", 0.261, 5.17E-04);
+                addExpIntoList(expList, "hky.frequencies.1", 0.327, 6.15E-04);
+                addExpIntoList(expList, "hky.frequencies.2", 0.258, 6.09E-04);
+                addExpIntoList(expList, "hky.frequencies.3", 0.155, 3.88E-04);
+                addExpIntoList(expList, "hky.frequencies.4", 0.261, 5.17E-04);
                 addExpIntoList(expList, "clockRate", 1.0, 0.0);
                 addExpIntoList(expList, "treeLikelihood", -1816.691, 0.0522);
                 addExpIntoList(expList, "coalescent", 7.24, 9.58E-03);

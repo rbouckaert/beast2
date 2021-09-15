@@ -8,6 +8,7 @@ module beast.base {
 	requires java.desktop;
 
 	
+	// Data types
 	uses beast.base.evolution.datatype.DataType;
 	
 	provides beast.base.evolution.datatype.DataType with 
@@ -18,6 +19,12 @@ module beast.base {
 		beast.base.evolution.datatype.IntegerData,
 		beast.base.evolution.datatype.StandardData,
 		beast.base.evolution.datatype.UserDataType;
+
+	
+	// Model logger service -- for breaking dependency between beast.base.inference and beast.base.parser
+	uses beast.base.inference.util.ModelLogger;
+	
+	provides beast.base.inference.util.ModelLogger with beast.base.parser.XMLModelLogger;
 
 	
 	// external libraries from lib folder

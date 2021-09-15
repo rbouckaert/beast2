@@ -17,6 +17,7 @@ module test.beast {
 	requires colt;
 	requires jam;
 	requires junit;
+	requires fest;
 	
 	// libraries customised for BEAST 2 from build/dist folder
 	requires json;
