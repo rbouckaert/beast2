@@ -17,6 +17,10 @@ public class StateNodeListInputEditor extends ListInputEditor {
 		super(doc);
 	}
 	
+	public StateNodeListInputEditor() {
+		super();
+	}
+
 	@Override
 	public Class<?> type() {
 		return List.class;

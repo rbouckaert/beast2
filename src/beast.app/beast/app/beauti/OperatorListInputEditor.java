@@ -34,7 +34,11 @@ public class OperatorListInputEditor extends ListInputEditor {
 		super(doc);
 	}
 
-    @Override
+    public OperatorListInputEditor() {
+		super();
+	}
+
+	@Override
     public Class<?> type() {
         return List.class;
     }

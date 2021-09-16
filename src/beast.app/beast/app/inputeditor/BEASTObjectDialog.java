@@ -61,7 +61,7 @@ public class BEASTObjectDialog extends JDialog {
     final public static String ICONPATH = "beast/app/draw/icons/";
     
     public boolean showDialog() {
-        URL url = BEASTClassLoader.classLoader.getResource(ICONPATH + "beast.png");
+        URL url = BEASTObjectDialog.class.getClassLoader().getResource(ICONPATH + "beast.png");
         Icon icon = new ImageIcon(url);
         JOptionPane optionPane = new JOptionPane(m_panel,
                 JOptionPane.QUESTION_MESSAGE,

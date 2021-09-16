@@ -22,6 +22,9 @@ import beast.base.inference.distribution.ParametricDistribution;
 
 public class ParametricDistributionInputEditor extends BEASTObjectInputEditor {
 
+	public ParametricDistributionInputEditor() {
+		super();
+	}
     public ParametricDistributionInputEditor(BeautiDoc doc) {
 		super(doc);
 	}

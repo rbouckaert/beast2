@@ -32,6 +32,10 @@ public class TaxonSetListInputEditor extends ListInputEditor implements TreeMode
 		super(doc);
 	}
 
+	public TaxonSetListInputEditor() {
+		super();
+	}
+
 	private static final long serialVersionUID = 1L;
 	List<TaxonSet> m_taxonset;
 	Map<String,Taxon> m_taxonMap;

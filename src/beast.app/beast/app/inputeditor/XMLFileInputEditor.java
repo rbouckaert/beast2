@@ -22,6 +22,10 @@ public class XMLFileInputEditor extends FileInputEditor {
 		super(doc);
 	}
 
+	public XMLFileInputEditor() {
+		super();
+	}
+
 	@Override
 	public void init(Input<?> input, BEASTInterface plugin, int itemNr, ExpandOption bExpandOption, boolean bAddButtons) {
 		init(input, plugin, itemNr, bExpandOption, bAddButtons, "BEAST XML files", "xml");

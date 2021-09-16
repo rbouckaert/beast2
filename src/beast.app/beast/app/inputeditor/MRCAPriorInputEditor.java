@@ -39,6 +39,10 @@ public class MRCAPriorInputEditor extends InputEditor.Base {
 		super(doc);
 	}
 
+	public MRCAPriorInputEditor() {
+		super();
+	}
+
 	@Override
 	public Class<?> type() {
 		return MRCAPrior.class;

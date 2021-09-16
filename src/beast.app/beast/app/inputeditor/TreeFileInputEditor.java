@@ -22,6 +22,10 @@ public class TreeFileInputEditor extends FileInputEditor {
 		super(doc);
 	}
 
+	public TreeFileInputEditor() {
+		super();
+	}
+
 	@Override
 	public void init(Input<?> input, BEASTInterface plugin, int itemNr, ExpandOption bExpandOption, boolean bAddButtons) {
 		init(input, plugin, itemNr, bExpandOption, bAddButtons, "tree files", "trees");

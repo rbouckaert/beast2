@@ -21,6 +21,10 @@ public class LogFileInputEditor extends FileInputEditor {
 		super(doc);
 	}
 
+	public LogFileInputEditor() {
+		super();
+	}
+
 	@Override
 	public void init(Input<?> input, BEASTInterface plugin, int itemNr, ExpandOption bExpandOption, boolean bAddButtons) {
 		init(input, plugin, itemNr, bExpandOption, bAddButtons, "trace files", "log");

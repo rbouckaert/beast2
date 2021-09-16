@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ServiceLoader;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,6 +20,7 @@ import beast.base.core.BEASTInterface;
 import beast.base.core.Input;
 import beast.base.core.Log;
 import beast.base.core.Input.Validate;
+import beast.base.inference.util.ModelLogger;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
 
@@ -47,11 +49,17 @@ public class InputEditorFactory {
 //        String [] knownEditors = new String [] {"beast.app.draw.DataInputEditor","beast.app.beauti.AlignmentListInputEditor", "beast.app.beauti.FrequenciesInputEditor", "beast.app.beauti.OperatorListInputEditor", "beast.app.beauti.ParametricDistributionInputEditor", "beast.app.beauti.PriorListInputEditor", "beast.app.beauti.SiteModelInputEditor", "beast.app.beauti.TaxonSetInputEditor", "beast.app.beauti.TipDatesInputEditor", "beast.app.draw.BooleanInputEditor", "beast.app.draw.DoubleInputEditor", "beast.app.draw.EnumInputEditor", "beast.app.draw.IntegerInputEditor", "beast.app.draw.ListInputEditor", 
 //        		"beast.app.draw.ParameterInputEditor", "beast.app.draw.PluginInputEditor", "beast.app.draw.StringInputEditor"};
 //        registerInputEditors(knownEditors);
-        String[] PACKAGE_DIRS = {"beast.app",};
-        for (String packageName : PACKAGE_DIRS) {
-            List<String> inputEditors = PackageManager.find("beast.app.draw.InputEditor", packageName);
-            registerInputEditors(inputEditors.toArray(new String[0]));
+        
+        Iterable<InputEditor> editors = (Iterable<InputEditor>) ServiceLoader.load(InputEditor.class);
+        for (InputEditor editor : editors) {
+            registerInputEditors(new String[]{editor.getClass().getName()});
         }
+
+//        String[] PACKAGE_DIRS = {"beast.app",};
+//        for (String packageName : PACKAGE_DIRS) {
+//            List<String> inputEditors = PackageManager.find("beast.app.inputeditor.InputEditor", packageName);
+//            registerInputEditors(inputEditors.toArray(new String[0]));
+//        }
     }
 
     private void registerInputEditors(String[] inputEditors) {

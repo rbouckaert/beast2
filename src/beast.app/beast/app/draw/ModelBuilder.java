@@ -2172,7 +2172,7 @@ public class ModelBuilder extends JPanel implements ComponentListener {
         f.add(drawTest, BorderLayout.CENTER);
 
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        java.net.URL tempURL = BEASTClassLoader.classLoader.getResource(ModelBuilder.ICONPATH + "/GenerationD.png");
+        java.net.URL tempURL = ModelBuilder.class.getClassLoader().getResource(ModelBuilder.ICONPATH + "/GenerationD.png");
         try {
             f.setIconImage(ImageIO.read(tempURL));
         } catch (Exception e) {

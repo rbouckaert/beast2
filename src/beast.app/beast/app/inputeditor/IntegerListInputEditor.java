@@ -47,7 +47,11 @@ public class IntegerListInputEditor extends ListInputEditor {
 		super(doc);
 	}
 
-    @Override
+    public IntegerListInputEditor() {
+		super();
+	}
+
+	@Override
     public Class<?> type() {
         return List.class;
     }

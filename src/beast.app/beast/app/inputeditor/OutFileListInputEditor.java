@@ -10,7 +10,11 @@ public class OutFileListInputEditor extends FileListInputEditor {
 		super(doc);
 	}
 	
-    @Override
+    public OutFileListInputEditor() {
+		super();
+	}
+
+	@Override
     public Class<?> baseType() {
 		return TreeFile.class;
     }

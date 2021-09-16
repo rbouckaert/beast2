@@ -8,7 +8,11 @@ public class StringInputEditor extends InputEditor.Base {
         super(doc);
     }
 
-    @Override
+    public StringInputEditor() {
+		super();
+	}
+
+	@Override
     public Class<?> type() {
         return String.class;
     }

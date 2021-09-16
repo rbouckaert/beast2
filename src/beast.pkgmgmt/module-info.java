@@ -4,4 +4,5 @@ module beast.pkgmgmt {
 	requires java.base;
 	requires java.desktop;
 
+	opens beast.pkgmgmt.icons;
 }

@@ -30,7 +30,11 @@ public class DoubleListInputEditor extends ListInputEditor {
 		super(doc);
 	}
 
-    @Override
+    public DoubleListInputEditor() {
+		super();
+	}
+
+	@Override
     public Class<?> type() {
         return List.class;
     }

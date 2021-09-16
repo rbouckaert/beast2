@@ -402,7 +402,7 @@ public class EBSPAnalyser {
                 System.setProperty("apple.awt.showGrowBox", "true");
 
                 // TODO: set up ICON
-                java.net.URL url = EBSPAnalyser.class.getResource("images/EBSPAnalyser.png");
+                java.net.URL url = EBSPAnalyser.class.getClassLoader().getResource("images/EBSPAnalyser.png");
                 javax.swing.Icon icon = null;
 
                 if (url != null) {

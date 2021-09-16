@@ -66,6 +66,10 @@ public class FileListInputEditor extends ListInputEditor {
 		super(doc);
 	}
 
+	public FileListInputEditor() {
+		super();
+	}
+
 	@Override
 	public void init(Input<?> input, BEASTInterface beastObject, int itemNr, ExpandOption isExpandOption, boolean addButtons) {
         m_bAddButtons = addButtons;

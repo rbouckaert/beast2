@@ -57,7 +57,11 @@ public class PriorListInputEditor extends ListInputEditor {
 		super(doc);
 	}
 
-    @Override
+    public PriorListInputEditor() {
+		super();
+	}
+
+	@Override
     public Class<?> type() {
         return List.class;
     }

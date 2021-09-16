@@ -30,7 +30,9 @@ import beast.base.parser.PartitionContext;
 public class ParameterInputEditor extends BEASTObjectInputEditor {
 	boolean isParametricDistributionParameter = false;
 	
-    //public ParameterInputEditor() {}
+    public ParameterInputEditor() {
+    	super();
+    }
     public ParameterInputEditor(BeautiDoc doc) {
 		super(doc);
 	}

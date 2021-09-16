@@ -102,6 +102,10 @@ public class AlignmentListInputEditor extends ListInputEditor {
 		super(doc);
 	}
 
+	public AlignmentListInputEditor() {
+		super();
+	}
+
 	@Override
 	public Class<?> type() {
 		return List.class;

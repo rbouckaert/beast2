@@ -544,7 +544,7 @@ public class LogCombiner extends LogAnalyser {
                 System.setProperty("apple.awt.showGrowBox", "true");
 
                 // TODO: set up ICON
-                java.net.URL url = LogCombiner.class.getResource("images/logcombiner.png");
+                java.net.URL url = LogCombiner.class.getClassLoader().getResource("images/logcombiner.png");
                 javax.swing.Icon icon = null;
 
                 if (url != null) {

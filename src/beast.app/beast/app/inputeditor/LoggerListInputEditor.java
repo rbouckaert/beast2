@@ -18,7 +18,11 @@ public class LoggerListInputEditor extends ListInputEditor {
 		super(doc);
 	}
 
-    @Override
+    public LoggerListInputEditor() {
+		super();
+	}
+
+	@Override
     public Class<?> type() {
         return List.class;
     }

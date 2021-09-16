@@ -35,6 +35,9 @@ public class SiteModelInputEditor extends BEASTObjectInputEditor {
     DeltaExchangeOperator operator;
     protected SmallLabel fixMeanRatesValidateLabel;
 
+	public SiteModelInputEditor() {
+		super();
+	}
 	public SiteModelInputEditor(BeautiDoc doc) {
 		super(doc);
 	}

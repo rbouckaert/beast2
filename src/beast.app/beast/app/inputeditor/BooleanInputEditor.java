@@ -13,7 +13,9 @@ public class BooleanInputEditor extends InputEditor.Base {
     public BooleanInputEditor(BeautiDoc doc) {
 		super(doc);
 	}
-    //public BooleanInputEditor() {}
+	public BooleanInputEditor() {
+		super();
+	}
 
 	private static final long serialVersionUID = 1L;
     JCheckBox m_entry;

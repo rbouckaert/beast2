@@ -162,7 +162,7 @@ public class Utils6 {
 
 	public static ImageIcon getIcon(String iconLocation) {
 	    try {
-	        URL url = BEASTClassLoader.classLoader.getResource(iconLocation);
+	        URL url = Utils6.class.getClassLoader().getResource(iconLocation);
 	        if (url == null) {
 	        	System.err.println("Cannot find icon " + iconLocation);
 	            return null;

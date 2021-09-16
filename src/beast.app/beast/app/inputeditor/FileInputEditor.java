@@ -32,6 +32,10 @@ public class FileInputEditor extends InputEditor.Base {
 		super(doc);
 	}
 
+	public FileInputEditor() {
+		super();
+	}
+
 	@Override
 	public void init(Input<?> input, BEASTInterface plugin, int itemNr, ExpandOption bExpandOption, boolean bAddButtons) {
 		init(input, plugin, itemNr, bExpandOption, bAddButtons, "All files", Utils.isWindows() ? "*" : "");

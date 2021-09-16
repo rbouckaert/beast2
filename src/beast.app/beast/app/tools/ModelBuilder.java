@@ -85,7 +85,7 @@ public class ModelBuilder extends beast.app.draw.ModelBuilder {
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        java.net.URL tempURL = ClassLoader.getSystemResource(beast.app.draw.ModelBuilder.ICONPATH + "/GenerationD.png");
         try {
-            URL url = BEASTClassLoader.classLoader.getResource(beast.app.draw.ModelBuilder.ICONPATH + "/GenerationD.png");
+            URL url = ModelBuilder.class.getClassLoader().getResource(beast.app.draw.ModelBuilder.ICONPATH + "/GenerationD.png");
             ImageIcon icon = new ImageIcon(url);
             f.setIconImage(icon.getImage());
         } catch (Exception e) {

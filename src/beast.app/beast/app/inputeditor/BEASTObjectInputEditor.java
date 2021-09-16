@@ -23,6 +23,10 @@ public class BEASTObjectInputEditor extends InputEditor.Base {
 
     BEASTObjectInputEditor _this;
 
+    public BEASTObjectInputEditor() {    
+    	_this = this;
+    }
+    
     public BEASTObjectInputEditor(BeautiDoc doc) {
         super(doc);
         _this = this;

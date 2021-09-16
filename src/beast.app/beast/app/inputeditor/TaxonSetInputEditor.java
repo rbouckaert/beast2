@@ -60,7 +60,11 @@ public class TaxonSetInputEditor extends InputEditor.Base {
 		super(doc);
 	}
 
-    @Override
+    public TaxonSetInputEditor() {
+		super();
+	}
+
+	@Override
     public Class<?> type() {
         return TaxonSet.class;
     }

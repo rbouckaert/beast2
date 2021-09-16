@@ -21,6 +21,10 @@ public class EnumInputEditor extends InputEditor.Base {
 	}
     //public EnumInputEditor() {}
 
+	public EnumInputEditor() {
+		super();
+	}
+
 	private static final long serialVersionUID = 1L;
     JComboBox<String> m_selectPluginBox;
 

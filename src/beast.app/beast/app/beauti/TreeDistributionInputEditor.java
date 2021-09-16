@@ -33,7 +33,11 @@ public class TreeDistributionInputEditor extends InputEditor.Base {
         super(doc);
     }
 
-    @Override
+    public TreeDistributionInputEditor() {
+		super();
+	}
+
+	@Override
     public Class<?> type() {
         return TreeDistribution.class;
     }

@@ -1297,7 +1297,7 @@ public class TreeAnnotator {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
             System.setProperty("apple.awt.showGrowBox", "true");
 
-            java.net.URL url = TreeAnnotator.class.getResource("../tools/images/utility.png");
+            java.net.URL url = TreeAnnotator.class.getClassLoader().getResource("../tools/images/utility.png");
             javax.swing.Icon icon = null;
 
             if (url != null) {

@@ -39,7 +39,11 @@ public class ClockModelListInputEditor extends ListInputEditor {
 		super(doc);
 	}
 
-    @Override
+    public ClockModelListInputEditor() {
+		super();
+	}
+
+	@Override
     public Class<?> type() {
         return List.class;
     }

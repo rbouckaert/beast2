@@ -62,7 +62,7 @@ public class Utils {
      */
     public static Image getImage(Object caller, String name) {
 
-        java.net.URL url = BEASTClassLoader.classLoader.getResource(name);
+        java.net.URL url = Utils.class.getClassLoader().getResource(name);
         if (url != null) {
             return Toolkit.getDefaultToolkit().createImage(url);
         } else {
@@ -325,7 +325,7 @@ public class Utils {
      */
 	public static ImageIcon getIcon(String iconLocation) {
 	    try {
-	        URL url = BEASTClassLoader.classLoader.getResource(iconLocation);
+	        URL url = Utils.class.getClassLoader().getResource(iconLocation);
 	        if (url == null) {
 //	            System.err.println("Cannot find icon " + iconLocation);
 	            return null;

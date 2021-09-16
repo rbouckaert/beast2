@@ -157,6 +157,9 @@ public abstract class Base extends JPanel implements InputEditor {
     // TODO since its currently set by an input of BeautiPanelConfig, which can be different for each BeautiPanel.
     public static int g_nLabelWidth = 150;
 
+	public Base() {		
+	}
+	
 	public Base(BeautiDoc doc) {
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
 		this.doc = doc;

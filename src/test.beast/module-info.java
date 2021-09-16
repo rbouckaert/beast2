@@ -9,7 +9,6 @@ module test.beast {
 	requires java.base;
 	requires java.desktop;
 	requires java.logging;
-
 	
 	// external libraries from lib folder
 	requires beagle;

@@ -32,6 +32,10 @@ public class StateNodeInitialiserListInputEditor extends ListInputEditor {
 		super(doc);
 	}
 
+	public StateNodeInitialiserListInputEditor() {
+		super();
+	}
+
 	@Override
 	public Class<?> type() {
 		return List.class;

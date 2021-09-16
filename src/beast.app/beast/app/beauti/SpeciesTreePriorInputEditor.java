@@ -14,6 +14,9 @@ import beast.base.evolution.speciation.SpeciesTreePrior;
 public class SpeciesTreePriorInputEditor extends BEASTObjectInputEditor {
 	private static final long serialVersionUID = 1L;
 
+	public SpeciesTreePriorInputEditor() {
+		super();
+	}
 	public SpeciesTreePriorInputEditor(BeautiDoc doc) {
 		super(doc);
 	}

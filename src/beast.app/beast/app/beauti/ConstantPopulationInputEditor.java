@@ -15,6 +15,10 @@ public class ConstantPopulationInputEditor extends InputEditor.Base {
 		super(doc);
 	}
 	
+	public ConstantPopulationInputEditor() {
+		super();
+	}
+
 	@Override
 	public Class<?> type() {
 		return ConstantPopulation.class;

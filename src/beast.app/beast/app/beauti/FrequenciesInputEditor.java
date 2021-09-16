@@ -25,6 +25,10 @@ public class FrequenciesInputEditor extends BEASTObjectInputEditor {
     private static final long serialVersionUID = 1L;
     boolean useDefaultBehavior;
 
+	public FrequenciesInputEditor() {
+		super();
+	}
+	
 	public FrequenciesInputEditor(BeautiDoc doc) {
 		super(doc);
 	}

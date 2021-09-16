@@ -37,10 +37,12 @@ public class ListInputEditor extends InputEditor.Base {
 
     {
         try {
-            java.net.URL downURL = BEASTClassLoader.classLoader.getResource(ICONPATH + "down.png");
-            DOWN_ICON = ImageIO.read(downURL); 
-            java.net.URL leftURL = BEASTClassLoader.classLoader.getResource(ICONPATH + "right.png");
-            RIGHT_ICON = ImageIO.read(leftURL);
+            java.net.URL downURL = ListInputEditor.class.getClassLoader().getResource(ICONPATH + "down.png");
+            if (downURL != null)
+            	DOWN_ICON = ImageIO.read(downURL); 
+            java.net.URL rightURL = ListInputEditor.class.getClassLoader().getResource(ICONPATH + "right.png");
+            if (rightURL != null)
+            	RIGHT_ICON = ImageIO.read(rightURL);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,7 +98,11 @@ public class ListInputEditor extends InputEditor.Base {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     }
 
-    @Override
+    public ListInputEditor() {
+		super();
+	}
+
+	@Override
     public Class<?> type() {
         return ArrayList.class;
     }

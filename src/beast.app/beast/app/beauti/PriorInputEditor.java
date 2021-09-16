@@ -32,6 +32,10 @@ public class PriorInputEditor extends InputEditor.Base {
 		super(doc);
 	}
 
+	public PriorInputEditor() {
+		super();
+	}
+
 	@Override
 	public Class<?> type() {
 		return Prior.class;

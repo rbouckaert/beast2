@@ -19,6 +19,10 @@ public class GeneTreeForSpeciesTreeDistributionInputEditor extends InputEditor.B
 		super(doc);
 	}
 
+	public GeneTreeForSpeciesTreeDistributionInputEditor() {
+		super();
+	}
+
 	@Override
 	public Class<?> type() {
 		return GeneTreeForSpeciesTreeDistribution.class;

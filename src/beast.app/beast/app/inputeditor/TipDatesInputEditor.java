@@ -60,6 +60,9 @@ public class TipDatesInputEditor extends BEASTObjectInputEditor {
                     "doesn't allow days to be uniquely identified.";
 
 
+    public TipDatesInputEditor() {
+    	super();
+    }    
     public TipDatesInputEditor(BeautiDoc doc) {
         super(doc);
     }

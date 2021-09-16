@@ -8,7 +8,11 @@ public class DoubleInputEditor extends InputEditor.Base {
     }
     //public DoubleInputEditor() {}
 
-    @Override
+    public DoubleInputEditor() {
+    	super();
+	}
+
+	@Override
     public Class<?> type() {
         return Double.class;
     }

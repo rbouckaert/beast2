@@ -97,11 +97,4 @@ public class BEASTClassLoader extends URLClassLoader {
 			throw new ClassNotFoundException(e2.getMessage());
 		}
 	}
-
-	/** 
-	 * load service like DataType from all available modules 
-	 * **/	
-	public static Iterable<?> load(Class<?> clazz) {
-		return ServiceLoader.load(clazz);
-	}
 }

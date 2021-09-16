@@ -8,7 +8,11 @@ public class LongInputEditor extends InputEditor.Base {
     }
     //public IntegerInputEditor() {}
 
-    @Override
+    public LongInputEditor() {
+		super();
+	}
+
+	@Override
     public Class<?> type() {
         return Long.class;
     }
