@@ -1,3 +1,5 @@
+import beast.app.beauti.MRCAPriorProvider;
+
 module beast.app {
 	
 	// module depends on beast.pkgmgmt and beast.base
@@ -74,6 +76,25 @@ module beast.app {
 		beast.app.beauti.StateNodeListInputEditor,
 		beast.app.beauti.TreeDistributionInputEditor
 	;
+	
+	// AlignmentImporter declares classes for parsing different alignment formats
+	uses beast.app.inputeditor.AlignmentImporter;
+	provides beast.app.inputeditor.AlignmentImporter with
+		beast.app.inputeditor.NexusImporter,
+		beast.app.inputeditor.FastaImporter,
+		beast.app.inputeditor.XMLImporter
+		;
+	
+	// BeautiHelpAction is for adding help menu items
+	// like the model description stuff
+	uses beast.app.beauti.BeautiHelpAction;
+	
+	
+	// PriorProvider is for providing extra priors in the prior panel of BEAUti
+	// like MultiMonophyleticConstrains
+	uses beast.app.beauti.PriorProvider;
+	provides beast.app.beauti.PriorProvider with 
+		beast.app.beauti.MRCAPriorProvider;
 	
 	opens beast.app.draw.icons;
 }

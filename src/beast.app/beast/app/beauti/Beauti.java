@@ -800,9 +800,14 @@ public class Beauti extends beast.app.inputeditor.Beauti implements BeautiDocLis
         String[] PACKAGE_DIRS = {"beast.app",};
         String helpClass = "beast.app.beauti.BeautiHelpAction";
         List<String> helpActions = new ArrayList<>();
-        for (String packageName : PACKAGE_DIRS) {
-        	helpActions.addAll(PackageManager.find(helpClass, packageName));
+//        for (String packageName : PACKAGE_DIRS) {
+//        	helpActions.addAll(PackageManager.find(helpClass, packageName));
+//        }
+        
+        for (BeautiHelpAction helpAction : ServiceLoader.load(BeautiHelpAction.class)) {
+        	helpActions.add(helpAction.getClass().getName());
         }
+        
         if (helpActions.size() > 1) {
             helpMenu.addSeparator();
             for (String className : helpActions) {

@@ -404,13 +404,13 @@ public class BeautiDoc extends BEASTObject implements RequiredInputProvider {
 //      fireDocHasChanged();
     }
 
-    public void importXMLAlignment(File file)  {
-        Alignment data = (Alignment) BeautiAlignmentProvider.getXMLData(file);
-        data.initAndValidate();
-        addAlignmentWithSubnet(data, beautiConfig.partitionTemplate.get());
-//      connectModel();
-//      fireDocHasChanged();
-    }
+//    public void importXMLAlignment(File file)  {
+//        Alignment data = (Alignment) BeautiAlignmentProvider.getXMLData(file);
+//        data.initAndValidate();
+//        addAlignmentWithSubnet(data, beautiConfig.partitionTemplate.get());
+////      connectModel();
+////      fireDocHasChanged();
+//    }
 
     public void fireDocHasChanged()  {
         for (BeautiDocListener listener : listeners) {

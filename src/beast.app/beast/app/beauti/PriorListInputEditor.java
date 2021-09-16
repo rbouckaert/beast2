@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.Set;
 
 import javax.swing.Box;
@@ -178,7 +179,7 @@ public class PriorListInputEditor extends ListInputEditor {
                 "," + (upper == null ? "\u221E" : upper + "") + "]";
     }
 
-    protected Set<Taxon> getTaxonCandidates(MRCAPrior prior) {
+    static protected Set<Taxon> getTaxonCandidates(MRCAPrior prior, BeautiDoc doc) {
         Set<Taxon> candidates = new HashSet<>();
         Tree tree = prior.treeInput.get();
         String [] taxa = null;
@@ -235,8 +236,12 @@ public class PriorListInputEditor extends ListInputEditor {
     	priorProviders.add(new MRCAPriorProvider());
     	
         // build up list of data types
-        List<String> importerClasses = PackageManager.find(PriorProvider.class, new String[]{"beast.app"});
-        for (String _class: importerClasses) {
+    	List<String> providerClasses = new ArrayList<>();
+    	for (PriorProvider provider : ServiceLoader.load(PriorProvider.class)) {
+    		providerClasses.add(provider.getClass().getName());
+    	}
+        // = PackageManager.find(PriorProvider.class, new String[]{"beast.app"});
+        for (String _class: providerClasses) {
         	try {
         		if (!_class.startsWith(this.getClass().getName())) {
         			PriorProvider priorProvider = (PriorProvider) BEASTClassLoader.forName(_class).newInstance();
@@ -287,109 +292,7 @@ public class PriorListInputEditor extends ListInputEditor {
         return selectedPlugins;
     }
     
-    public class MRCAPriorProvider implements PriorProvider {
-    	@Override
-    	public List<Distribution> createDistribution(BeautiDoc doc) {
-	    	MRCAPrior prior = new MRCAPrior();
-	        try {
-	
-	            List<Tree> trees = new ArrayList<>();
-	            getDoc().scrubAll(true, false);
-	            State state = (State) doc.pluginmap.get("state");
-	            for (StateNode node : state.stateNodeInput.get()) {
-	                if (node instanceof Tree) { // && ((Tree) node).m_initial.get() != null) {
-	                    trees.add((Tree) node);
-	                }
-	            }
-	            int treeIndex = 0;
-	            if (trees.size() > 1) {
-	                String[] treeIDs = new String[trees.size()];
-	                for (int j = 0; j < treeIDs.length; j++) {
-	                    treeIDs[j] = trees.get(j).getID();
-	                }
-	                treeIndex = JOptionPane.showOptionDialog(null, "Select a tree", "MRCA selector",
-	                        JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-	                        treeIDs, trees.get(0));
-	            }
-	            if (treeIndex < 0) {
-	                return null;
-	            }
-	            prior.treeInput.setValue(trees.get(treeIndex), prior);
-	            TaxonSet taxonSet = new TaxonSet();
-	
-	            TaxonSetDialog dlg = new TaxonSetDialog(taxonSet, getTaxonCandidates(prior), doc);
-	            if (!dlg.showDialog() || dlg.taxonSet.getID() == null || dlg.taxonSet.getID().trim().equals("")) {
-	                return null;
-	            }
-	            taxonSet = dlg.taxonSet;
-	            if (taxonSet.taxonsetInput.get().size() == 0) {
-	            	JOptionPane.showMessageDialog(doc.beauti, "At least one taxon should be included in the taxon set",
-	            			"Error specifying taxon set", JOptionPane.ERROR_MESSAGE);
-	            	return null;
-	            }
-	            int i = 1;
-	            String id = taxonSet.getID();
-	            while (doc.pluginmap.containsKey(taxonSet.getID()) && doc.pluginmap.get(taxonSet.getID()) != taxonSet) {
-	            	taxonSet.setID(id + i);
-	            	i++;
-	            }
-	            BEASTObjectPanel.addPluginToMap(taxonSet, doc);
-	            prior.taxonsetInput.setValue(taxonSet, prior);
-	            prior.setID(taxonSet.getID() + ".prior");
-	            // this sets up the type
-	            prior.distInput.setValue(new OneOnX(), prior);
-	            // this removes the parametric distribution
-	            prior.distInput.setValue(null, prior);
-	
-	            Logger logger = (Logger) doc.pluginmap.get("tracelog");
-	            logger.loggersInput.setValue(prior, logger);
-	        } catch (Exception e) {
-	            // TODO: handle exception
-	        }
-	        List<Distribution> selectedPlugins = new ArrayList<>();
-	        selectedPlugins.add(prior);
-	        g_collapsedIDs.add(prior.getID());
-	        return selectedPlugins;
-	    }
-
-    	
-    	/* expect args to be TaxonSet, Distribution, tree partition (if any) */
-    	@Override
-    	public List<Distribution> createDistribution(BeautiDoc doc, List<Object> args) {
-	    	MRCAPrior prior = new MRCAPrior();
-            TaxonSet taxonSet = (TaxonSet) args.get(0);
-            BEASTObjectPanel.addPluginToMap(taxonSet, doc);
-            prior.taxonsetInput.setValue(taxonSet, prior);
-            prior.setID(taxonSet.getID() + ".prior");
-            // this removes the parametric distribution
-            prior.distInput.setValue(args.get(1), prior);
-
-            Logger logger = (Logger) doc.pluginmap.get("tracelog");
-            logger.loggersInput.setValue(prior, logger);
-
-            if (args.size() <= 2) {
-	            getDoc().scrubAll(true, false);
-	            State state = (State) doc.pluginmap.get("state");
-	            for (StateNode node : state.stateNodeInput.get()) {
-	                if (node instanceof Tree) { 
-	    	            prior.treeInput.setValue(node, prior);
-	    	            break;
-	                }
-	            }
-            } else {
-            	Object tree = doc.pluginmap.get("Tree.t:" + args.get(2));
-                prior.treeInput.setValue(tree, prior);
-            }
-            
-            List<Distribution> selectedPlugins = new ArrayList<>();
-	        selectedPlugins.add(prior);
-	        return selectedPlugins;
-    	}
-    	
-		@Override
-		public String getDescription() {
-			return "MRCA prior";
-		}
-    	
-    }
+	public static void addCollapsedID(String id) {
+		g_collapsedIDs.add(id);		
+	}
 }
