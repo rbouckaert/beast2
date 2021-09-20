@@ -328,7 +328,7 @@
                 <distr spec="OneOnX" id='OneOnX.EBSP'/>
             </prior>
             <prior id="indicatorsPrior.alltrees">
-                <x arg="@indicators.alltrees" id="indsSun.alltrees" spec="util.Sum"/>
+                <x arg="@indicators.alltrees" id="indsSun.alltrees" spec="beast.base.evolution.Sum"/>
                 <distr spec="Poisson"  id='Poisson.EBSP'>
                     <parameter name="lambda" upper="0.0" value="0.69314718056" estimate='false'/>
                 </distr>

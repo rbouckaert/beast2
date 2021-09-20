@@ -3,18 +3,18 @@ package test.beast.app.beauti;
 
 
 
-import static org.fest.swing.edt.GuiActionRunner.execute;
+import static org.assertj.swing.edt.GuiActionRunner.execute;
 
 import java.io.File;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.fest.assertions.Assertions;
-import org.fest.swing.data.TableCell;
-import org.fest.swing.edt.GuiTask;
-import org.fest.swing.fixture.JComboBoxFixture;
-import org.fest.swing.fixture.JTabbedPaneFixture;
-import org.fest.swing.fixture.JTableFixture;
+import org.assertj.core.api.Assertions;
+import org.assertj.swing.data.TableCell;
+import org.assertj.swing.edt.GuiTask;
+import org.assertj.swing.fixture.JComboBoxFixture;
+import org.assertj.swing.fixture.JTabbedPaneFixture;
+import org.assertj.swing.fixture.JTableFixture;
 import org.junit.Test;
 
 import beast.app.util.Utils;
@@ -32,7 +32,7 @@ public class LinkUnlinkTest extends BeautiBase {
 		JTableFixture t = beautiFrame.table();
 		for (int attempt = 0; attempt < 5; attempt++) {
 			t.selectRows(rows);
-			if (t.target.getSelectedRowCount() == rows.length) {
+			if (t.target().getSelectedRowCount() == rows.length) {
 				return;
 			}
 			try {
@@ -426,7 +426,7 @@ public class LinkUnlinkTest extends BeautiBase {
 		assertPriorsEqual("YuleModel.t:26", "YuleBirthRatePrior.t:26", "YuleModel.t:59", "YuleBirthRatePrior.t:59");
 
 		JTableFixture t = beautiFrame.table();
-		Assertions.assertThat(t.target.getRowCount()).isEqualTo(2);
+		Assertions.assertThat(t.target().getRowCount()).isEqualTo(2);
 		
 		makeSureXMLParses();
 	}
@@ -454,7 +454,7 @@ public class LinkUnlinkTest extends BeautiBase {
 		assertPriorsEqual("YuleModel.t:26", "YuleBirthRatePrior.t:26", "YuleModel.t:59", "ClockPrior.c:59", "YuleBirthRatePrior.t:59");
 
 		JTableFixture t = beautiFrame.table();
-		Assertions.assertThat(t.target.getRowCount()).isEqualTo(2);
+		Assertions.assertThat(t.target().getRowCount()).isEqualTo(2);
 		
 		makeSureXMLParses();
 	}
@@ -486,7 +486,7 @@ public class LinkUnlinkTest extends BeautiBase {
 		assertPriorsEqual("YuleModel.t:26", "YuleBirthRatePrior.t:26", "YuleModel.t:59", "YuleBirthRatePrior.t:59");
 
 		JTableFixture t = beautiFrame.table();
-		Assertions.assertThat(t.target.getRowCount()).isEqualTo(2);
+		Assertions.assertThat(t.target().getRowCount()).isEqualTo(2);
 		
 		makeSureXMLParses();
 	}
@@ -523,7 +523,7 @@ public class LinkUnlinkTest extends BeautiBase {
 		assertPriorsEqual("YuleModel.t:26", "YuleBirthRatePrior.t:26");
 
 		JTableFixture t = beautiFrame.table();
-		Assertions.assertThat(t.target.getRowCount()).isEqualTo(2);
+		Assertions.assertThat(t.target().getRowCount()).isEqualTo(2);
 		
 		makeSureXMLParses();
 	}
@@ -569,7 +569,7 @@ public class LinkUnlinkTest extends BeautiBase {
 //		assertPriorsEqual("YuleModel.t:26", "YuleBirthRatePrior.t:26");
 		
 		JTableFixture t = beautiFrame.table();
-		Assertions.assertThat(t.target.getRowCount()).isEqualTo(1);
+		Assertions.assertThat(t.target().getRowCount()).isEqualTo(1);
 
 		// does not parse unless taxon set is specified
 		//makeSureXMLParses();
@@ -592,6 +592,6 @@ public class LinkUnlinkTest extends BeautiBase {
 		beautiFrame.button("-").click();
 
 		JTableFixture t = beautiFrame.table();
-		Assertions.assertThat(t.target.getRowCount()).isEqualTo(0);
+		Assertions.assertThat(t.target().getRowCount()).isEqualTo(0);
 	}
 }

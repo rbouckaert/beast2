@@ -3,7 +3,7 @@ package test.beast.app.beauti;
 
 import java.io.File;
 
-import org.fest.swing.fixture.JTabbedPaneFixture;
+import org.assertj.swing.fixture.JTabbedPaneFixture;
 import org.junit.Test;
 
 public class SimpleTreePriorTest extends BeautiBase {

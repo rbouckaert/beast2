@@ -2,9 +2,9 @@ package test.beast.app.beauti;
 
 
 
-import static org.fest.assertions.Assertions.assertThat;
-import static org.fest.swing.edt.GuiActionRunner.execute;
-import static org.fest.swing.finder.JFileChooserFinder.findFileChooser;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.swing.edt.GuiActionRunner.execute;
+import static org.assertj.swing.finder.JFileChooserFinder.findFileChooser;
 
 import java.awt.Dimension;
 import java.awt.FileDialog;
@@ -19,14 +19,14 @@ import java.util.Set;
 
 import javax.swing.JFrame;
 
-import org.fest.swing.annotation.RunsInEDT;
-import org.fest.swing.edt.GuiQuery;
-import org.fest.swing.edt.GuiTask;
-import org.fest.swing.fixture.FrameFixture;
-import org.fest.swing.fixture.JFileChooserFixture;
-import org.fest.swing.fixture.JTabbedPaneFixture;
-import org.fest.swing.fixture.JTableFixture;
-import org.fest.swing.junit.testcase.FestSwingJUnitTestCase;
+import org.assertj.swing.annotation.RunsInEDT;
+import org.assertj.swing.edt.GuiQuery;
+import org.assertj.swing.edt.GuiTask;
+import org.assertj.swing.fixture.FrameFixture;
+import org.assertj.swing.fixture.JFileChooserFixture;
+import org.assertj.swing.fixture.JTabbedPaneFixture;
+import org.assertj.swing.fixture.JTableFixture;
+import org.assertj.swing.junit.testcase.AssertJSwingJUnitTestCase;
 
 import beast.app.beauti.Beauti;
 import beast.app.inputeditor.BeautiDoc;
@@ -51,7 +51,7 @@ import beast.base.parser.XMLParser;
  * Basic test methods for Beauti  
  * 
  */
-public class BeautiBase extends FestSwingJUnitTestCase {
+public class BeautiBase extends AssertJSwingJUnitTestCase {
 
 	protected FrameFixture beautiFrame;
 	protected Beauti beauti;
@@ -63,7 +63,7 @@ public class BeautiBase extends FestSwingJUnitTestCase {
 		beautiFrame.show();
 		beautiFrame.resizeTo(new Dimension(1224, 786));
 		JTabbedPaneFixture f = beautiFrame.tabbedPane();
-		beauti = (Beauti) f.target;
+		beauti = (Beauti) f.target();
 		doc = beauti.doc;
 	}
 
@@ -288,19 +288,19 @@ public class BeautiBase extends FestSwingJUnitTestCase {
 	
 	void makeSureXMLParses() {
 		warning("Make sure that XML that BEAUti produces parses");
-		File XMLFile = new File(org.fest.util.Files.temporaryFolder() + "/x.xml");
+		File XMLFile = new File(org.assertj.core.util.Files.temporaryFolder() + "/x.xml");
 		if (XMLFile.exists()) {
 			XMLFile.delete();
 		}
 		
-		saveFile(""+org.fest.util.Files.temporaryFolder(), "x.xml");
+		saveFile(""+org.assertj.core.util.Files.temporaryFolder(), "x.xml");
 
 //		JFileChooserFixture fileChooser = findFileChooser().using(robot());
-//		fileChooser.setCurrentDirectory(org.fest.util.Files.temporaryFolder());
+//		fileChooser.setCurrentDirectory(org.assertj.core.util.Files.temporaryFolder());
 //		fileChooser.selectFile(new File("x.xml")).approve();
 		
 		XMLParser parser = new XMLParser();
-		XMLFile = new File(org.fest.util.Files.temporaryFolder() + "/x.xml");
+		XMLFile = new File(org.assertj.core.util.Files.temporaryFolder() + "/x.xml");
 		try {
 			parser.parseFile(XMLFile);
 		} catch (Exception e) {

@@ -1,11 +1,11 @@
 package test.beast.app.beauti;
 
 
-import org.fest.swing.data.Index;
-import org.fest.swing.data.TableCell;
-import org.fest.swing.finder.WindowFinder;
-import org.fest.swing.fixture.*;
-import org.fest.swing.image.ScreenshotTaker;
+import org.assertj.swing.data.Index;
+import org.assertj.swing.data.TableCell;
+import org.assertj.swing.finder.WindowFinder;
+import org.assertj.swing.fixture.*;
+import org.assertj.swing.image.ScreenshotTaker;
 import org.junit.Test;
 
 import javax.swing.*;
@@ -14,7 +14,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Arrays;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class BeautiDivergenceDatingTest extends BeautiBase {
     final static String PREFIX = "doc/tutorials/DivergenceDating/figures/BEAUti_";
@@ -213,7 +213,7 @@ public class BeautiDivergenceDatingTest extends BeautiBase {
         //7a. Create a Normal calibration prior
         warning("7a. Create a Normal calibration prior");
         f.selectTab("Priors");
-        Component c = beautiFrame.robot.finder().findByName("addItem");
+        Component c = beautiFrame.robot().finder().findByName("addItem");
         JButtonFixture addButton = new JButtonFixture(robot(), (JButton) c);
         addButton.click();
         JOptionPaneFixture dialog = new JOptionPaneFixture(robot());
@@ -238,7 +238,7 @@ public class BeautiDivergenceDatingTest extends BeautiBase {
 
         //8. Run MCMC and look at results in Tracer, TreeAnnotator->FigTree
         warning("8. Run MCMC and look at results in Tracer, TreeAnnotator->FigTree");
-        File fout = new File(org.fest.util.Files.temporaryFolder() + "/primates.xml");
+        File fout = new File(org.assertj.core.util.Files.temporaryFolder() + "/primates.xml");
         if (fout.exists()) {
             fout.delete();
         }
@@ -249,11 +249,11 @@ public class BeautiDivergenceDatingTest extends BeautiBase {
 		beautiFrame.textBox("chainLength").selectAll().setText("2000000");
 
 
-        fout = new File(org.fest.util.Files.temporaryFolder() + "/divtutorial.xml");
+        fout = new File(org.assertj.core.util.Files.temporaryFolder() + "/divtutorial.xml");
         if (fout.exists()) {
             fout.delete();
         }
-		saveFile(""+org.fest.util.Files.temporaryFolder(), "divtutorial.xml");
+		saveFile(""+org.assertj.core.util.Files.temporaryFolder(), "divtutorial.xml");
 
 		makeSureXMLParses();
 
@@ -302,9 +302,9 @@ public class BeautiDivergenceDatingTest extends BeautiBase {
             JTableFixture t = beautiFrame.table();
             t.selectCell(TableCell.row(0).column(2)).doubleClick();
             DialogFixture dlg = WindowFinder.findDialog("AlignmentViewer").using(robot());
-            dlg.target.setSize(768, 300);
+            dlg.target().setSize(768, 300);
             dlg.checkBox("UseColor").check();
-            screenshotTaker.saveComponentAsPng(dlg.target, PREFIX + "Alignment.png");
+            screenshotTaker.saveComponentAsPng(dlg.target(), PREFIX + "Alignment.png");
             dlg.close();
 
             // check table
@@ -467,7 +467,7 @@ public class BeautiDivergenceDatingTest extends BeautiBase {
             beautiFrame.comboBox("TreeDistribution").selectItem("Calibrated Yule Model");
             screenshotTaker.saveComponentAsPng(beauti.frame, PREFIX + "Prior1.png");
 
-            Component c = beautiFrame.robot.finder().findByName("addItem");
+            Component c = beautiFrame.robot().finder().findByName("addItem");
             JButtonFixture addButton = new JButtonFixture(robot(), (JButton) c);
             addButton.click();
             JOptionPaneFixture dialog = new JOptionPaneFixture(robot());
@@ -519,7 +519,7 @@ public class BeautiDivergenceDatingTest extends BeautiBase {
 
             //8. Run MCMC and look at results in Tracer, TreeAnnotator->FigTree
             warning("8. Run MCMC and look at results in Tracer, TreeAnnotator->FigTree");
-            File fout = new File(org.fest.util.Files.temporaryFolder() + "/primates.xml");
+            File fout = new File(org.assertj.core.util.Files.temporaryFolder() + "/primates.xml");
             if (fout.exists()) {
                 fout.delete();
             }

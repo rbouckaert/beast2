@@ -2,7 +2,7 @@ package test.beast.app.beauti;
 
 
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.awt.Component;
 import java.awt.event.KeyEvent;
@@ -11,14 +11,14 @@ import java.util.Arrays;
 
 import javax.swing.JComboBox;
 
-import org.fest.swing.data.Index;
-import org.fest.swing.data.TableCell;
-import org.fest.swing.fixture.JComboBoxFixture;
-import org.fest.swing.fixture.JTabbedPaneFixture;
-import org.fest.swing.fixture.JTableCellFixture;
-import org.fest.swing.fixture.JTableFixture;
-import org.fest.swing.fixture.JTextComponentFixture;
-import org.fest.swing.image.ScreenshotTaker;
+import org.assertj.swing.data.Index;
+import org.assertj.swing.data.TableCell;
+import org.assertj.swing.fixture.JComboBoxFixture;
+import org.assertj.swing.fixture.JTabbedPaneFixture;
+import org.assertj.swing.fixture.JTableCellFixture;
+import org.assertj.swing.fixture.JTableFixture;
+import org.assertj.swing.fixture.JTextComponentFixture;
+import org.assertj.swing.image.ScreenshotTaker;
 import org.junit.Test;
 
 

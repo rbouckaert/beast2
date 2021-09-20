@@ -84,7 +84,7 @@ public class BeautiSubTemplateTest extends TestCase {
 		assertEquals("stateNode", c.inputNameInput.get());
 		assertEquals("kappa/estimate=true", c.conditionInput.get());
 		String xml = t.xMLInput.get();
-		assertEquals("<![CDATA[\n<parameter id=\"kappa\" name=\"stateNode\" value=\"1.0\"/>\n]]>", xml);
+		assertEquals("<![CDATA[\n    <parameter id=\"kappa\" name=\"stateNode\" value=\"1.0\"/>\n]]>", xml);
 	}
 	
 	@Test
@@ -112,8 +112,8 @@ public class BeautiSubTemplateTest extends TestCase {
 		assertEquals("kappa/estimate=true", c.conditionInput.get());
 		String xml = t.xMLInput.get();
 		assertEquals("<![CDATA[\n"+
-"<parameter id=\"kappa\" name=\"stateNode\" value=\"1.0\"/>\n"+
-"<parameter id=\"gamma\" value=\"3.0\"/>\n"+
+"    <parameter id=\"kappa\" name=\"stateNode\" value=\"1.0\"/>\n"+
+"    <parameter id=\"gamma\" value=\"3.0\"/>\n"+
 "]]>", xml);
 
 		t = new BeautiSubTemplate();
@@ -139,7 +139,7 @@ public class BeautiSubTemplateTest extends TestCase {
 		assertEquals("kappa/estimate=true", c.conditionInput.get());
 		xml = t.xMLInput.get();
 		assertEquals("<![CDATA[\n"+
-"<parameter id=\"kappa\" name=\"stateNode\" value=\"1.0\"/>\n"+
+"    <parameter id=\"kappa\" name=\"stateNode\" value=\"1.0\"/>\n"+
 "]]>", xml);
 
 		t = new BeautiSubTemplate();
@@ -165,7 +165,7 @@ public class BeautiSubTemplateTest extends TestCase {
 		assertEquals("kappa/estimate=true", c.conditionInput.get());
 		xml = t.xMLInput.get();
 		assertEquals("<![CDATA[\n"+
-"<parameter id=\"kappa\" name=\"stateNode\" value=\"1.0\"/>\n"+
+"    <parameter id=\"kappa\" name=\"stateNode\" value=\"1.0\"/>\n"+
 "]]>", xml);
 	}
 	
@@ -209,8 +209,8 @@ public class BeautiSubTemplateTest extends TestCase {
 		assertEquals("tracer", c.targetIDInput.get());
 		assertEquals("log", c.inputNameInput.get());
 		assertEquals("gamma/estimate=true", c.conditionInput.get());
-		String xml = t.xMLInput.get();
-		assertEquals("<![CDATA[      <parameter id=\"kappa\" name=\"stateNode\" value=\"1.0\"/>    <parameter id=\"gamma\" value=\"3.0\"/>              ]]>"
+		String xml = t.xMLInput.get().replaceAll("\\s+", " ");
+		assertEquals("<![CDATA[ <parameter id=\"kappa\" name=\"stateNode\" value=\"1.0\"/> <parameter id=\"gamma\" value=\"3.0\"/> ]]>"
 , xml);
 	}
 

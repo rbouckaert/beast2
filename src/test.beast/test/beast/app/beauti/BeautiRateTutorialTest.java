@@ -3,11 +3,11 @@ package test.beast.app.beauti;
 
 
 
-import org.fest.swing.data.Index;
-import org.fest.swing.data.TableCell;
-import org.fest.swing.edt.GuiTask;
-import org.fest.swing.fixture.*;
-import org.fest.swing.image.ScreenshotTaker;
+import org.assertj.swing.data.Index;
+import org.assertj.swing.data.TableCell;
+import org.assertj.swing.edt.GuiTask;
+import org.assertj.swing.fixture.*;
+import org.assertj.swing.image.ScreenshotTaker;
 import org.junit.Test;
 
 import beast.app.util.Utils;
@@ -18,8 +18,8 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.Arrays;
 
-import static org.fest.swing.edt.GuiActionRunner.execute;
-import static org.fest.swing.finder.JFileChooserFinder.findFileChooser;
+import static org.assertj.swing.edt.GuiActionRunner.execute;
+import static org.assertj.swing.finder.JFileChooserFinder.findFileChooser;
 
 
 
@@ -180,7 +180,7 @@ public class BeautiRateTutorialTest extends BeautiBase {
 		beautiFrame.button("Guess").click();
 		JOptionPaneFixture dialog2 = new JOptionPaneFixture(robot());
 		dialog2.textBox("SplitChar").deleteText().enterText("s");
-		screenshotTaker.saveComponentAsPng(dialog2.component(), PREFIX + "GuessDates.png");
+		screenshotTaker.saveComponentAsPng(dialog2.target(), PREFIX + "GuessDates.png");
 		dialog2.comboBox("delimiterCombo").selectItem("after last");		
 		dialog2.okButton().click();
 		screenshotTaker.saveComponentAsPng(beauti.frame, PREFIX + "dates.png");
@@ -247,7 +247,7 @@ public class BeautiRateTutorialTest extends BeautiBase {
 
 		// 1. reaload XML file
 		warning("1. reload rsv.xml");
-		String dir = "" + org.fest.util.Files.temporaryFolder();
+		String dir = "" + org.assertj.core.util.Files.temporaryFolder();
 		String file = XML_FILE;
 		
 		if (!Utils.isMac()) {
@@ -310,11 +310,11 @@ public class BeautiRateTutorialTest extends BeautiBase {
 		
 		// 5. save XML file
 		warning("5. save XML file");
-		File fout = new File(org.fest.util.Files.temporaryFolder() + "/" + XML_FILE);
+		File fout = new File(org.assertj.core.util.Files.temporaryFolder() + "/" + XML_FILE);
 		if (fout.exists()) {
 			fout.delete();
 		}
-		saveFile(""+org.fest.util.Files.temporaryFolder(), XML_FILE);
+		saveFile(""+org.assertj.core.util.Files.temporaryFolder(), XML_FILE);
 
 		//4. Run MCMC and look at results in Tracer, TreeAnnotator->FigTree
 		makeSureXMLParses();

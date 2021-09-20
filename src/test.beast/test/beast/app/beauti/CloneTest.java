@@ -6,12 +6,12 @@ package test.beast.app.beauti;
 
 import java.io.File;
 
-import org.fest.swing.fixture.JButtonFixture;
-import org.fest.swing.fixture.JCheckBoxFixture;
-import org.fest.swing.fixture.JComboBoxFixture;
-import org.fest.swing.fixture.JListFixture;
-import org.fest.swing.fixture.JTabbedPaneFixture;
-import org.fest.swing.fixture.JTextComponentFixture;
+import org.assertj.swing.fixture.JButtonFixture;
+import org.assertj.swing.fixture.JCheckBoxFixture;
+import org.assertj.swing.fixture.JComboBoxFixture;
+import org.assertj.swing.fixture.JListFixture;
+import org.assertj.swing.fixture.JTabbedPaneFixture;
+import org.assertj.swing.fixture.JTextComponentFixture;
 import org.junit.Test;
 
 

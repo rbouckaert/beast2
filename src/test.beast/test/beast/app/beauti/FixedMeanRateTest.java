@@ -4,8 +4,8 @@ package test.beast.app.beauti;
 import java.io.File;
 import java.util.List;
 
-import org.fest.swing.data.TableCell;
-import org.fest.swing.fixture.JTabbedPaneFixture;
+import org.assertj.swing.data.TableCell;
+import org.assertj.swing.fixture.JTabbedPaneFixture;
 import org.junit.Test;
 
 import beast.base.inference.operator.DeltaExchangeOperator;

@@ -12,7 +12,7 @@ import java.util.List;
 public class DivergenceDatingTest {
     @Test
     public void DivergenceDatingTutorial() throws Exception {
-        DivergenceDatingRunner runner = new DivergenceDatingRunner(org.fest.util.Files.temporaryFolder());
+        DivergenceDatingRunner runner = new DivergenceDatingRunner(org.assertj.core.util.Files.temporaryFolder());
         runner.analyse(0);
     }
 

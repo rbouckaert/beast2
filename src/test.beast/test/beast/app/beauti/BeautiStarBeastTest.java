@@ -3,11 +3,11 @@ package test.beast.app.beauti;
 
 
 
-import org.fest.swing.fixture.JComboBoxFixture;
-import org.fest.swing.fixture.JMenuItemFixture;
-import org.fest.swing.fixture.JOptionPaneFixture;
-import org.fest.swing.fixture.JTabbedPaneFixture;
-import org.fest.swing.image.ScreenshotTaker;
+import org.assertj.swing.fixture.JComboBoxFixture;
+import org.assertj.swing.fixture.JMenuItemFixture;
+import org.assertj.swing.fixture.JOptionPaneFixture;
+import org.assertj.swing.fixture.JTabbedPaneFixture;
+import org.assertj.swing.image.ScreenshotTaker;
 import org.junit.Test;
 
 import java.io.File;

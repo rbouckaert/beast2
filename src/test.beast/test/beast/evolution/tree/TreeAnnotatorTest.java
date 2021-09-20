@@ -165,7 +165,7 @@ public class TreeAnnotatorTest {
     public void testNewickTargetTree() throws Exception {
     	// create target tree file in temp folder
     	TreeParser tree = new TreeParser("((A,B),(C,D))");
-    	String tmpFolder = org.fest.util.Files.temporaryFolder().toString();
+    	String tmpFolder = org.assertj.core.util.Files.temporaryFolder().toString();
     	File target = new File(tmpFolder + "/target.tree");
         PrintStream outfile = new PrintStream(target);
         tree.init(outfile);
