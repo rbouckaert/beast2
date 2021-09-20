@@ -1,9 +1,11 @@
 package beast.app.inputeditor;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.util.List;
 
 import beast.base.core.BEASTInterface;
+import beast.base.core.Description;
 
 
 /** Interface for importing alignments from file that are recognisable 
@@ -51,4 +53,18 @@ public interface AlignmentImporter {
 		
 		return false;
 	}
+	
+	/**
+     * @return description from @Description annotation
+     */
+	default String getDescription() {
+        final Annotation[] classAnnotations = this.getClass().getAnnotations();
+        for (final Annotation annotation : classAnnotations) {
+            if (annotation instanceof Description) {
+                final Description description = (Description) annotation;
+                return description.value();
+            }
+        }
+        return "Not documented!!!";
+    }
 }

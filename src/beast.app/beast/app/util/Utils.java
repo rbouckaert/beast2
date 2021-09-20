@@ -23,6 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.HashSet;
+import java.util.ServiceLoader;
 import java.util.Set;
 
 /**
@@ -429,6 +430,20 @@ public class Utils {
         }
 
     }
+    
+    
+	/**
+	 * returns set of class names providing service of particular type
+	 * @param type = type of service
+	 * @return
+	 */
+	public static Set<String> loadService(Class<?> type) {
+		Set<String> classes = new HashSet<>();
+		for (Object c : ServiceLoader.load(type)) {
+			classes.add(c.getClass().getName());
+		}
+		return classes;
+	}
 
 
 }

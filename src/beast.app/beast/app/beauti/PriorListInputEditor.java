@@ -24,6 +24,7 @@ import beast.app.inputeditor.InputEditor;
 import beast.app.inputeditor.ListInputEditor;
 import beast.app.inputeditor.SmallButton;
 import beast.app.inputeditor.TaxonSetDialog;
+import beast.app.util.Utils;
 import beast.app.inputeditor.InputEditor.ButtonStatus;
 import beast.app.inputeditor.InputEditor.ExpandOption;
 import beast.base.core.BEASTInterface;
@@ -233,14 +234,10 @@ public class PriorListInputEditor extends ListInputEditor {
     
     private void initProviders() {
     	priorProviders = new ArrayList<>();
-    	priorProviders.add(new MRCAPriorProvider());
+    	// priorProviders.add(new MRCAPriorProvider());
     	
         // build up list of data types
-    	List<String> providerClasses = new ArrayList<>();
-    	for (PriorProvider provider : ServiceLoader.load(PriorProvider.class)) {
-    		providerClasses.add(provider.getClass().getName());
-    	}
-        // = PackageManager.find(PriorProvider.class, new String[]{"beast.app"});
+    	Set<String> providerClasses = Utils.loadService(PriorProvider.class);
         for (String _class: providerClasses) {
         	try {
         		if (!_class.startsWith(this.getClass().getName())) {

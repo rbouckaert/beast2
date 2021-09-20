@@ -106,7 +106,7 @@
         <subtemplate id='BirthDeathModel' class='beast.base.evolution.speciation.BirthDeathGernhard08Model'
                      mainid='BirthDeath.t:$(n)'>
             <![CDATA[
-            <distribution id="BirthDeath.t:$(n)" spec="speciation.BirthDeathGernhard08Model" tree='@Tree.t:$(n)'>
+            <distribution id="BirthDeath.t:$(n)" spec="BirthDeathGernhard08Model" tree='@Tree.t:$(n)'>
                 <birthDiffRate spec='parameter.RealParameter' id="BDBirthRate.t:$(n)" value='1' lower='0' upper='10000' />
             	<relativeDeathRate spec='parameter.RealParameter' id="BDDeathRate.t:$(n)" value='0.5' lower='0' upper='1' />
             </distribution>

@@ -799,14 +799,16 @@ public class Beauti extends beast.app.inputeditor.Beauti implements BeautiDocLis
     private void addCustomHelpMenus(JMenu helpMenu) {
         String[] PACKAGE_DIRS = {"beast.app",};
         String helpClass = "beast.app.beauti.BeautiHelpAction";
-        List<String> helpActions = new ArrayList<>();
-//        for (String packageName : PACKAGE_DIRS) {
-//        	helpActions.addAll(PackageManager.find(helpClass, packageName));
+//        List<String> helpActions = new ArrayList<>();
+////        for (String packageName : PACKAGE_DIRS) {
+////        	helpActions.addAll(PackageManager.find(helpClass, packageName));
+////        }
+//        
+//        for (BeautiHelpAction helpAction : ServiceLoader.load(BeautiHelpAction.class)) {
+//        	helpActions.add(helpAction.getClass().getName());
 //        }
         
-        for (BeautiHelpAction helpAction : ServiceLoader.load(BeautiHelpAction.class)) {
-        	helpActions.add(helpAction.getClass().getName());
-        }
+        Set<String> helpActions = Utils.loadService(BeautiHelpAction.class);
         
         if (helpActions.size() > 1) {
             helpMenu.addSeparator();

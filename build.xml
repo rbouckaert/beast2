@@ -205,7 +205,7 @@
         </exec>
     </target>
     
-    
+    <!-- build unnamed module for processing json format -->
     <target name="json" depends="init">
         <echo>Building json library for BEAST 2</echo>
         <mkdir dir="${build}" />
@@ -236,6 +236,7 @@
         </jar>
     </target>
 
+    <!-- build unnamed module for customised version of apache commons math -->
     <target name="commons-math" depends="init">
         <echo>Building commons-math library for BEAST 2</echo>
         <mkdir dir="${build}" />
@@ -353,15 +354,62 @@
     <!-- JUnit test -->
     <target name="junit">
         <mkdir dir="${report}" />
-        <junit printsummary="yes" failureproperty="junitfailed">
-            <!--showoutput='yes'-->
-            <classpath>
-                <path id="classpath">
+        
+	    <junit>
+			<jvmarg line="--add-modules beast.pkgmgmt"/>
+			<jvmarg line="--add-modules beast.base"/>
+			<jvmarg line="--add-modules beast.app"/>
+			<jvmarg line="--add-modules test.beast"/>
+ 			<jvmarg line="--add-reads junit=ALL-UNNAMED"/>
+ 			<!--
+	       <classpath>
+			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
+        	</classpath>
+        	-->
+	        <modulepath>
+	            <path id="modulepath">
         			<fileset dir="${lib}" includes="beagle.jar"/>
 			        <fileset dir="${lib}" includes="jam.jar"/>
 			        <fileset dir="${lib}" includes="colt.jar"/>
 			        <fileset dir="${lib}" includes="fest.jar"/>
+			        <fileset dir="${lib}" includes="antlr-runtime-4.7.jar"/>
 			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
+			        <fileset dir="build/dist" includes="json.jar" />
+			        <fileset dir="build/dist" includes="commons-math.jar" />
+			        <fileset dir="build/dist" includes="beast.base.jar" />
+			        <fileset dir="build/dist" includes="beast.app.jar" />
+			        <fileset dir="build/dist" includes="beast.pkgmgmt.jar" />
+			        <fileset dir="build/dist" includes="test.beast.jar" />
+			    </path>	
+        	</modulepath>
+	        <formatter type="plain"/>
+            <batchtest fork="yes" todir="${report}">
+                <fileset dir="src/test.beast">
+		    	    <include name="test/beast/app/tools/LogCombinerTest.java"/>
+		    	    <!--
+                    <include name="test/**/*Test.java" />
+                    <exclude name="test/beast/beast2vs1/**/*Test.java"/>
+                    <exclude name="test/beast/app/beauti/**/*Test.java"/>
+                    -->
+                </fileset>
+            </batchtest>
+	    </junit>
+        
+        <!--
+        <junit printsummary="yes" failureproperty="junitfailed" fork="true">
+			<jvmarg line="- -add-modules beast.pkgmgmt:beast.base:beast.app"/>
+
+            <classpath>
+                <path id="classpath">
+			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
+                </path>
+            </classpath>
+            <modulepath>
+                <path id="modulepath">
+        			<fileset dir="${lib}" includes="beagle.jar"/>
+			        <fileset dir="${lib}" includes="jam.jar"/>
+			        <fileset dir="${lib}" includes="colt.jar"/>
+			        <fileset dir="${lib}" includes="fest.jar"/>
 			        <fileset dir="${lib}" includes="antlr-runtime-4.7.jar"/>
 			        <fileset dir="build/dist" includes="json.jar" />
 			        <fileset dir="build/dist" includes="commons-math.jar" />
@@ -371,14 +419,7 @@
 			        <fileset dir="build/dist" includes="test.beast.jar" />
 			    </path>			    
 			    <path location="build/test.beast"/>
-            </classpath>
-            <!--
-            <classpath>
-            	<path>
-			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
-            	</path>
-            </classpath>
--->
+            </modulepath>
             <formatter type="xml" />
 
             <batchtest fork="yes" todir="${report}">
@@ -389,6 +430,7 @@
                 </fileset>
             </batchtest>
         </junit>
+        -->
         <echo message="JUnit test finished." />
     </target>
 

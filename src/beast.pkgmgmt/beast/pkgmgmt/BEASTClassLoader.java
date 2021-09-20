@@ -8,6 +8,8 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashSet;
+import java.util.List;
 import java.util.ServiceLoader;
 import java.util.Set;
 
@@ -70,10 +72,10 @@ public class BEASTClassLoader extends URLClassLoader {
 	public static Class<?> forName(String className) throws ClassNotFoundException {
 		if (classLoader ==  null) {
 			Path [] paths = new Path[]{
-					Paths.get("build/dist/beast.base.jar"),
-					Paths.get("build/dist/beast.app.jar"),
-					Paths.get("build/dist/json.jar"),
-					Paths.get("build/dist/commons-math.jar"),
+//					Paths.get("build/dist/beast.base.jar"),
+//					Paths.get("build/dist/beast.app.jar"),
+//					Paths.get("build/dist/json.jar"),
+//					Paths.get("build/dist/commons-math.jar"),
 			};
 			ModuleFinder moduleFinder = ModuleFinder.of(paths);
 			
@@ -97,4 +99,8 @@ public class BEASTClassLoader extends URLClassLoader {
 			throw new ClassNotFoundException(e2.getMessage());
 		}
 	}
+	
+	
+
+	
 }

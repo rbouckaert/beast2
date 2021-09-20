@@ -29,6 +29,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import beast.app.util.Utils;
 import beast.base.core.BEASTInterface;
 import beast.base.core.BEASTObject;
 import beast.base.core.Description;
@@ -58,16 +59,12 @@ public class BeautiAlignmentProvider extends BEASTObject {
 	private void initImporters() {
 		importers = new ArrayList<>();
         // add standard importers
-		importers.add(new NexusImporter());
-		importers.add(new XMLImporter());
-       	importers.add(new FastaImporter());
+		// importers.add(new NexusImporter());
+		// importers.add(new XMLImporter());
+       	// importers.add(new FastaImporter());
 
         // build up list of data types
-        List<String> importerClasses = new ArrayList<>(); // PackageManager.find(AlignmentImporter.class, IMPLEMENTATION_DIR);
-        for (AlignmentImporter importer : ServiceLoader.load(AlignmentImporter.class)) {
-        	importerClasses.add(importer.getClass().getName());
-        }
-        
+        Set<String> importerClasses = Utils.loadService(AlignmentImporter.class);        
         for (String _class: importerClasses) {
         	try {
         		if (!_class.startsWith(this.getClass().getName())) {
@@ -150,7 +147,7 @@ public class BeautiAlignmentProvider extends BEASTObject {
 					// let user choose an importer
 					List<String> descriptions = new ArrayList<>();
 					for (AlignmentImporter i : availableImporters) {
-						descriptions.add(((BEASTInterface)i).getDescription());
+						descriptions.add(i.getDescription());
 					}
 					String option = (String)JOptionPane.showInputDialog(null, "Which importer is appropriate", "Option",
 		                    JOptionPane.WARNING_MESSAGE, null, descriptions.toArray(), descriptions.get(0));
