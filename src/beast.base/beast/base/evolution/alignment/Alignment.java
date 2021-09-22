@@ -51,7 +51,7 @@ public class Alignment extends Map<String> {
     /**
      * directory to pick up data types from *
      */
-    protected final static String[] IMPLEMENTATION_DIR = {"beast.evolution.datatype"};
+    protected final static String[] IMPLEMENTATION_DIR = {"beast.base.evolution.datatype"};
 
     /**
      * list of data type descriptions, obtained from DataType classes *
@@ -83,7 +83,25 @@ public class Alignment extends Map<String> {
                 // TODO: handle exception
             }
         }
+        
+        if (beast.pkgmgmt.Utils6.isJUnitTest()) {
+        	List<String> m_sDataTypes = PackageManager.find(beast.base.evolution.datatype.DataType.class, IMPLEMENTATION_DIR);
+            for (String d : m_sDataTypes) {
+                try {
+                    DataType dataType = (DataType) BEASTClassLoader.forName(d).newInstance();
+                    if (dataType.isStandard()) {
+                        String description = dataType.getTypeDescription();
+                        types.putIfAbsent(description, dataType);
+                        Log.warning("Discovered " + d);
+                    }
+                } catch (Exception e) {
+                    Log.warning("Failed to discover " + d + " " + e.getMessage());
+                    // TODO: handle exception
+                }
+            }
+        }
     }
+        
 
     /**
      * @param name the name of the data type

@@ -386,4 +386,18 @@ public class Utils6 {
     	}
     }
 
+    public static boolean isJUnitTest() {
+  	  for (StackTraceElement element : Thread.currentThread().getStackTrace()) {
+  	    if (element.getClassName().startsWith("org.junit.")) {
+  	    	// we are in a junit test
+  	    	return true;
+  	    }
+  	    if (element.getClassName().startsWith("org.assertj.")) {
+  	    	// we are in a assertj-swing unit test
+  	      	return true;
+  	    }           
+  	  }
+  	  return false;
+  }    
+
 }

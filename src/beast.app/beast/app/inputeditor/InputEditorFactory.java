@@ -55,13 +55,16 @@ public class InputEditorFactory {
             registerInputEditors(new String[]{editor.getClass().getName()});
         }
 
-//        String[] PACKAGE_DIRS = {"beast.app",};
-//        for (String packageName : PACKAGE_DIRS) {
-//            List<String> inputEditors = PackageManager.find("beast.app.inputeditor.InputEditor", packageName);
-//            registerInputEditors(inputEditors.toArray(new String[0]));
-//        }
+        if (beast.pkgmgmt.Utils6.isJUnitTest()) {
+	        String[] PACKAGE_DIRS = {"beast.app",};
+	        for (String packageName : PACKAGE_DIRS) {
+	            List<String> inputEditors = PackageManager.find("beast.app.inputeditor.InputEditor", packageName);
+	            registerInputEditors(inputEditors.toArray(new String[0]));
+	        }
+        }
     }
 
+    
     private void registerInputEditors(String[] inputEditors) {
     	//BeautiDoc doc = new BeautiDoc();
         for (String inputEditor : inputEditors) {

@@ -24,7 +24,9 @@
         <fileset dir="${lib}" includes="beagle.jar"/>
         <fileset dir="${lib}" includes="jam.jar"/>
         <fileset dir="${lib}" includes="colt.jar"/>
-        <fileset dir="${lib}" includes="fest.jar"/>
+        <fileset dir="${lib}" includes="assertj-swing-junit-3.17.1.jar"/>
+        <fileset dir="${lib}" includes="assertj-core-3.20.2.jar"/>
+        <fileset dir="${lib}" includes="assertj-swing-3.17.1.jar"/>
         <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
         <fileset dir="${lib}" includes="antlr-runtime-4.7.jar"/>
         <fileset dir="${lib}" includes="commons-math3-3.6.1.jar" />
@@ -121,89 +123,192 @@
         -->
         <echo message="Successfully compiled." />
     </target>
-    
+
     <target name="beast.pkgmgmt" depends="init">
-		<exec executable="javac" dir="${basedir}">
-            <arg value="-d"/>
-            <arg value="build"/>
-            <arg value="--module-source-path"/>
-            <arg value="src"/>
-            <arg value="--module"/>
-            <arg value="beast.pkgmgmt"/>
-        </exec>
+    	<javac 
+               srcdir="src/beast.pkgmgmt"
+               destdir="build"
+               classpathref="classpath"
+               fork="true"
+               memoryinitialsize="256m"
+               memorymaximumsize="1024m"
+               includeAntRuntime='false'>
+            <include name="beast/**/**" />
+        </javac>
                 
-        <exec executable="jar" dir="${basedir}">
-            <arg value="-c"/>
-            <arg value="--file=./build/dist/beast.pkgmgmt.jar"/>
-            <arg value="-C"/>
-            <arg value="build/beast.pkgmgmt"/>
-            <arg value="."/>
-        </exec>
+        <jar jarfile="build/dist/beast.pkgmgmt.jar">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}" />
+            </manifest>
+
+            	
+            <fileset dir="${build}">
+                <include name="beast/pkgmgmt/**/*.class" />
+                <include name="beast/pkgmgmt/**/*.properties" />
+                <include name="beast/pkgmgmt/**/*.png" />
+            </fileset>
+        </jar>
     </target>
 
 
-    <target name="beast.base" depends="beast.pkgmgmt">
-		<exec executable="javac" dir="${basedir}">
-            <arg value="-d"/>
-            <arg value="build"/>
-            <arg value="--module-path"/>
-            <arg value="build/dist/commons-math.jar:build/dist/json.jar:build/dist/beast.pkgmgmt.jar:lib/beagle.jar:lib/colt.jar:lib/antlr-runtime-4.7.jar"/>
-            <arg value="--module-source-path"/>
-            <arg value="src"/>
-            <arg value="--module"/>
-            <arg value="beast.base"/>
-        </exec>
+    <target name="beast.base" depends="init">
+    	<javac 
+               srcdir="src/beast.base"
+               destdir="build"
+               classpathref="classpath"
+               fork="true"
+               memoryinitialsize="256m"
+               memorymaximumsize="1024m"
+               includeAntRuntime='false'>
+            <include name="beast/**/**" />
+        </javac>
                 
-        <exec executable="jar" dir="${basedir}">
-            <arg value="-c"/>
-            <arg value="--file=./build/dist/beast.base.jar"/>
-            <arg value="-C"/>
-            <arg value="build/beast.base"/>
-            <arg value="."/>
-        </exec>
+        <jar jarfile="build/dist/beast.base.jar">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}" />
+            </manifest>
+
+            <!-- data types -->
+            <service type="beast.base.evolution.datatype.DataType">
+				<provider classname="beast.base.evolution.datatype.Aminoacid"/>
+				<provider classname="beast.base.evolution.datatype.Nucleotide"/>
+				<provider classname="beast.base.evolution.datatype.TwoStateCovarion"/>
+				<provider classname="beast.base.evolution.datatype.Binary"/>
+				<provider classname="beast.base.evolution.datatype.IntegerData"/>
+				<provider classname="beast.base.evolution.datatype.StandardData"/>
+				<provider classname="beast.base.evolution.datatype.UserDataType"/>
+            </service>
+                
+            <!-- Model logger service: for breaking dependency between beast.base.inference and beast.base.parser -->
+            <service type="beast.base.inference.util.ModelLogger"
+            	provider="beast.base.parser.XMLModelLogger"/>
+            	
+            <fileset dir="${build}">
+                <include name="beast/base/**/*.class" />
+                <include name="beast/base/**/*.properties" />
+                <include name="beast/base/**/*.png" />
+            </fileset>
+            <zipgroupfileset dir="build/dist" includes="json.jar" />
+            <zipgroupfileset dir="build/dist" includes="commons-math.jar" />
+            <zipgroupfileset dir="${lib}" includes="jam.jar" />
+            <zipgroupfileset dir="${lib}" includes="beagle.jar" />
+            <zipgroupfileset dir="${lib}" includes="colt.jar" />
+            <zipgroupfileset dir="${lib}" includes="antlr-runtime-4.7.jar"/>
+        </jar>
     </target>
 
-    <target name="beast.app" depends="beast.base">
-		<exec executable="javac" dir="${basedir}">
-            <arg value="-d"/>
-            <arg value="build"/>
-            <arg value="--module-path"/>
-            <arg value="build/dist/commons-math.jar:build/dist/json.jar:build/dist/beast.pkgmgmt.jar:build/dist/beast.base.jar:lib/beagle.jar:lib/colt.jar:lib/antlr-runtime-4.7.jar:lib/jam.jar"/>
-            <arg value="--module-source-path"/>
-            <arg value="src"/>
-            <arg value="--module"/>
-            <arg value="beast.app"/>
-        </exec>
+
+    <target name="beast.app" depends="init">
+    	<javac 
+               srcdir="src/beast.app"
+               destdir="build"
+               classpathref="classpath"
+               fork="true"
+               memoryinitialsize="256m"
+               memorymaximumsize="1024m"
+               includeAntRuntime='false'>
+            <include name="beast/**/**" />
+        </javac>
                 
-        <exec executable="jar" dir="${basedir}">
-            <arg value="-c"/>
-            <arg value="--file=./build/dist/beast.app.jar"/>
-            <arg value="-C"/>
-            <arg value="build/beast.app"/>
-            <arg value="."/>
-        </exec>
+        <jar jarfile="build/dist/beast.app.jar">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}" />
+            </manifest>
+
+			<service type="beast.app.inputeditor.InputEditor">
+				<provider classname="beast.app.inputeditor.AlignmentListInputEditor"/>
+				<provider classname="beast.app.inputeditor.BEASTObjectInputEditor"/>
+				<provider classname="beast.app.inputeditor.BooleanInputEditor"/>
+				<provider classname="beast.app.inputeditor.DoubleInputEditor"/>
+				<provider classname="beast.app.inputeditor.DoubleListInputEditor"/>
+				<provider classname="beast.app.inputeditor.EnumInputEditor"/>
+				<provider classname="beast.app.inputeditor.FileInputEditor"/>
+				<provider classname="beast.app.inputeditor.FileListInputEditor"/>
+				<provider classname="beast.app.inputeditor.IntegerInputEditor"/>
+				<provider classname="beast.app.inputeditor.IntegerListInputEditor"/>
+				<provider classname="beast.app.inputeditor.ListInputEditor"/>
+				<provider classname="beast.app.inputeditor.LogFileInputEditor"/>
+				<provider classname="beast.app.inputeditor.LogFileListInputEditor"/>
+				<provider classname="beast.app.inputeditor.LoggerListInputEditor"/>
+				<provider classname="beast.app.inputeditor.LongInputEditor"/>
+				<provider classname="beast.app.inputeditor.MRCAPriorInputEditor"/>
+				<provider classname="beast.app.inputeditor.OutFileInputEditor"/>
+				<provider classname="beast.app.inputeditor.OutFileListInputEditor"/>
+				<provider classname="beast.app.inputeditor.ParameterInputEditor"/>
+				<provider classname="beast.app.inputeditor.ParametricDistributionInputEditor"/>
+				<provider classname="beast.app.inputeditor.SiteModelInputEditor"/>
+				<provider classname="beast.app.inputeditor.StringInputEditor"/>
+				<provider classname="beast.app.inputeditor.TaxonSetInputEditor"/>
+				<provider classname="beast.app.inputeditor.TaxonSetListInputEditor"/>
+				<provider classname="beast.app.inputeditor.TipDatesInputEditor"/>
+				<provider classname="beast.app.inputeditor.TreeFileInputEditor"/>
+				<provider classname="beast.app.inputeditor.TreeFileListInputEditor"/>
+				<provider classname="beast.app.inputeditor.XMLFileInputEditor"/>
+				<provider classname="beast.app.inputeditor.XMLFileListInputEditor"/>
+				<provider classname="beast.app.beauti.ClockModelListInputEditor"/>
+				<provider classname="beast.app.beauti.ConstantPopulationInputEditor"/>
+				<provider classname="beast.app.beauti.FrequenciesInputEditor"/>
+				<provider classname="beast.app.beauti.GeneTreeForSpeciesTreeDistributionInputEditor"/>
+				<provider classname="beast.app.beauti.OperatorListInputEditor"/>
+				<provider classname="beast.app.beauti.PriorInputEditor"/>
+				<provider classname="beast.app.beauti.PriorListInputEditor"/>
+				<provider classname="beast.app.beauti.SpeciesTreePriorInputEditor"/>
+				<provider classname="beast.app.beauti.StateNodeInitialiserListInputEditor"/>
+				<provider classname="beast.app.beauti.StateNodeListInputEditor"/>
+				<provider classname="beast.app.beauti.TreeDistributionInputEditor"/>
+			</service>
+	
+			<!-- AlignmentImporter declares classes for parsing different alignment formats -->
+			<service type="beast.app.inputeditor.AlignmentImporter">
+				<provider classname="beast.app.inputeditor.NexusImporter"/>
+				<provider classname="beast.app.inputeditor.FastaImporter"/>
+				<provider classname="beast.app.inputeditor.XMLImporter"/>
+			</service>
+	
+			<!--
+			<service type="beast.app.beauti.BeautiHelpAction">		</service>
+			-->
+			
+			<!--			
+			PriorProvider is for providing extra priors in the prior panel of BEAUti
+			like MultiMonophyleticConstrains
+			-->
+			<service type="beast.app.beauti.PriorProvider">
+				<provider classname="beast.app.beauti.MRCAPriorProvider"/>
+			</service>
+            	
+            <fileset dir="${build}">
+                <include name="beast/app/**/*.class" />
+                <include name="beast/app/**/*.properties" />
+                <include name="beast/app/**/*.png" />
+            </fileset>
+        </jar>
     </target>
     
-    <target name="test.beast" depends="beast.app">
-		<exec executable="javac" dir="${basedir}">
-            <arg value="-d"/>
-            <arg value="build"/>
-            <arg value="--module-path"/>
-            <arg value="build/dist/commons-math.jar:build/dist/json.jar:build/dist/beast.pkgmgmt.jar:build/dist/beast.base.jar:build/dist/beast.app.jar:lib/beagle.jar:lib/colt.jar:lib/antlr-runtime-4.7.jar:lib/jam.jar:lib/fest.jar:lib/junit-4.8.2.jar"/>
-            <arg value="--module-source-path"/>
-            <arg value="src"/>
-            <arg value="--module"/>
-            <arg value="test.beast"/>
-        </exec>
+    <target name="test.beast" depends="init">
+    	<javac 
+               srcdir="src/test.beast"
+               destdir="build"
+               classpathref="classpath"
+               fork="true"
+               memoryinitialsize="256m"
+               memorymaximumsize="1024m"
+               includeAntRuntime='false'>
+            <include name="test/**/**" />
+        </javac>
                 
-        <exec executable="jar" dir="${basedir}">
-            <arg value="-c"/>
-            <arg value="--file=./build/dist/test.beast.jar"/>
-            <arg value="-C"/>
-            <arg value="build/test.beast"/>
-            <arg value="."/>
-        </exec>
-    </target>
+        <jar jarfile="build/dist/test.beast.jar">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}" />
+            </manifest>
+            <fileset dir="${build}">
+                <include name="test/beast/**/*.class" />
+                <include name="test/beast/**/*.properties" />
+                <include name="test/beast/**/*.png" />
+            </fileset>
+        </jar>
+    </target>    
+    
     
     <!-- build unnamed module for processing json format -->
     <target name="json" depends="init">
@@ -355,71 +460,25 @@
     <target name="junit">
         <mkdir dir="${report}" />
         
-	    <junit>
-			<jvmarg line="--add-modules beast.pkgmgmt"/>
-			<jvmarg line="--add-modules beast.base"/>
-			<jvmarg line="--add-modules beast.app"/>
-			<jvmarg line="--add-modules test.beast"/>
- 			<jvmarg line="--add-reads junit=ALL-UNNAMED"/>
- 			<!--
-	       <classpath>
-			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
-        	</classpath>
-        	-->
-	        <modulepath>
-	            <path id="modulepath">
-        			<fileset dir="${lib}" includes="beagle.jar"/>
-			        <fileset dir="${lib}" includes="jam.jar"/>
-			        <fileset dir="${lib}" includes="colt.jar"/>
-			        <fileset dir="${lib}" includes="fest.jar"/>
-			        <fileset dir="${lib}" includes="antlr-runtime-4.7.jar"/>
-			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
-			        <fileset dir="build/dist" includes="json.jar" />
-			        <fileset dir="build/dist" includes="commons-math.jar" />
-			        <fileset dir="build/dist" includes="beast.base.jar" />
-			        <fileset dir="build/dist" includes="beast.app.jar" />
-			        <fileset dir="build/dist" includes="beast.pkgmgmt.jar" />
-			        <fileset dir="build/dist" includes="test.beast.jar" />
-			    </path>	
-        	</modulepath>
-	        <formatter type="plain"/>
-            <batchtest fork="yes" todir="${report}">
-                <fileset dir="src/test.beast">
-		    	    <include name="test/beast/app/tools/LogCombinerTest.java"/>
-		    	    <!--
-                    <include name="test/**/*Test.java" />
-                    <exclude name="test/beast/beast2vs1/**/*Test.java"/>
-                    <exclude name="test/beast/app/beauti/**/*Test.java"/>
-                    -->
-                </fileset>
-            </batchtest>
-	    </junit>
-        
-        <!--
         <junit printsummary="yes" failureproperty="junitfailed" fork="true">
-			<jvmarg line="- -add-modules beast.pkgmgmt:beast.base:beast.app"/>
-
             <classpath>
-                <path id="classpath">
+                <path id="classpath2">
 			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
-                </path>
-            </classpath>
-            <modulepath>
-                <path id="modulepath">
         			<fileset dir="${lib}" includes="beagle.jar"/>
 			        <fileset dir="${lib}" includes="jam.jar"/>
 			        <fileset dir="${lib}" includes="colt.jar"/>
 			        <fileset dir="${lib}" includes="fest.jar"/>
 			        <fileset dir="${lib}" includes="antlr-runtime-4.7.jar"/>
-			        <fileset dir="build/dist" includes="json.jar" />
-			        <fileset dir="build/dist" includes="commons-math.jar" />
 			        <fileset dir="build/dist" includes="beast.base.jar" />
 			        <fileset dir="build/dist" includes="beast.app.jar" />
 			        <fileset dir="build/dist" includes="beast.pkgmgmt.jar" />
 			        <fileset dir="build/dist" includes="test.beast.jar" />
-			    </path>			    
+			    </path>		
+			    
+			    <!--	    
 			    <path location="build/test.beast"/>
-            </modulepath>
+			    -->
+            </classpath>
             <formatter type="xml" />
 
             <batchtest fork="yes" todir="${report}">
@@ -430,7 +489,6 @@
                 </fileset>
             </batchtest>
         </junit>
-        -->
         <echo message="JUnit test finished." />
     </target>
 
@@ -454,14 +512,30 @@
         <junit printsummary="yes" failureproperty="junitbfailed">
             <!--showoutput='yes'-->
             <classpath>
-                <path refid="classpath" />
+                <path id="assertj.classpath">
+			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
+        			<fileset dir="${lib}" includes="beagle.jar"/>
+			        <fileset dir="${lib}" includes="jam.jar"/>
+			        <fileset dir="${lib}" includes="colt.jar"/>
+			        <fileset dir="${lib}" includes="fest.jar"/>
+			        <fileset dir="${lib}" includes="antlr-runtime-4.7.jar"/>
+			        <fileset dir="build/dist" includes="beast.base.jar" />
+			        <fileset dir="build/dist" includes="beast.app.jar" />
+			        <fileset dir="build/dist" includes="beast.pkgmgmt.jar" />
+			        <fileset dir="build/dist" includes="test.beast.jar" />
+			        <fileset dir="${lib}" includes="assertj-swing-junit-3.17.1.jar"/>
+				    <fileset dir="${lib}" includes="assertj-core-3.20.2.jar"/>
+				    <fileset dir="${lib}" includes="assertj-swing-3.17.1.jar"/>
+                </path>
+                <!--
                 <path location="${build}" />
+                -->
             </classpath>
 
             <formatter type="xml" />
 
             <batchtest fork="yes" todir="${report}">
-                <fileset dir="${src}">
+                <fileset dir="${src}/test.beast">
                     <include name="test/beast/app/beauti/**/*Test.java"/>
                 </fileset>
             </batchtest>
