@@ -250,7 +250,7 @@ public class BeautiBase extends AssertJSwingJUnitTestCase {
 	
 	void printBeautiState(JTabbedPaneFixture f) throws InterruptedException {
         doc.scrubAll(true, false);
-		//f.selectTab("MCMC");
+		// f.selectTab("MCMC");
 		System.err.println(stateAsString());
 		System.err.println(operatorsAsString());
 		System.err.println(priorsAsString());

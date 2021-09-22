@@ -90,8 +90,8 @@ public class BeautiDivergenceDatingTest extends BeautiBase {
         JComboBoxFixture comboBox = new JComboBoxFixture(robot(), (JComboBox<?>) editor);
         cell.startEditing();
         comboBox.selectAllText();
-        comboBox.enterText("tree");
-        comboBox.pressAndReleaseKeys(KeyEvent.VK_ENTER);
+        comboBox.enterText("tree\n");
+        //comboBox.pressAndReleaseKeys(KeyEvent.VK_ENTER);
         cell.stopEditing();
         checkTableContents(f, "[noncoding, primate-mtDNA, 12, 205, nucleotide, noncoding, noncoding, tree, false]*" +
                 "[1stpos, primate-mtDNA, 12, 231, nucleotide, 1stpos, 1stpos, tree, false]*" +
@@ -118,8 +118,8 @@ public class BeautiDivergenceDatingTest extends BeautiBase {
         comboBox = new JComboBoxFixture(robot(), (JComboBox<?>) editor);
         cell.startEditing();
         comboBox.selectAllText();
-        comboBox.enterText("clock");
-        comboBox.pressAndReleaseKeys(KeyEvent.VK_ENTER);
+        comboBox.enterText("clock\n");
+        //comboBox.pressAndReleaseKeys(KeyEvent.VK_ENTER);
         cell.stopEditing();
         printBeautiState(f);
         checkTableContents(f, "[noncoding, primate-mtDNA, 12, 205, nucleotide, noncoding, clock, tree, false]*" +
@@ -358,8 +358,8 @@ public class BeautiDivergenceDatingTest extends BeautiBase {
             JComboBoxFixture comboBox = new JComboBoxFixture(robot(), (JComboBox<?>) editor);
             cell.startEditing();
             comboBox.selectAllText();
-            comboBox.enterText("tree");
-            comboBox.pressAndReleaseKeys(KeyEvent.VK_ENTER);
+            comboBox.enterText("tree\n");
+            //comboBox.pressAndReleaseKeys(KeyEvent.VK_ENTER);
             cell.stopEditing();
             checkTableContents(f, "[noncoding, primate-mtDNA, 12, 205, nucleotide, noncoding, noncoding, tree, false]*" +
                     "[1stpos, primate-mtDNA, 12, 231, nucleotide, 1stpos, 1stpos, tree, false]*" +
@@ -386,8 +386,8 @@ public class BeautiDivergenceDatingTest extends BeautiBase {
             comboBox = new JComboBoxFixture(robot(), (JComboBox<?>) editor);
             cell.startEditing();
             comboBox.selectAllText();
-            comboBox.enterText("clock");
-            comboBox.pressAndReleaseKeys(KeyEvent.VK_ENTER);
+            comboBox.enterText("clock\n");
+            //comboBox.pressAndReleaseKeys(KeyEvent.VK_ENTER);
             cell.stopEditing();
             printBeautiState(f);
             checkTableContents(f, "[noncoding, primate-mtDNA, 12, 205, nucleotide, noncoding, clock, tree, false]*" +

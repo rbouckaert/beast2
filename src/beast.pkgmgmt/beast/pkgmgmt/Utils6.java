@@ -396,6 +396,10 @@ public class Utils6 {
   	    	// we are in a assertj-swing unit test
   	      	return true;
   	    }           
+  	    if (element.getClassName().startsWith("org.fest.")) {
+  	    	// we are in a fest-swing unit test
+  	      	return true;
+  	    }           
   	  }
   	  return false;
   }    

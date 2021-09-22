@@ -96,8 +96,8 @@ public class BeautiSimpleTest extends BeautiBase {
 		JComboBoxFixture comboBox = new JComboBoxFixture(robot(), (JComboBox<?>) editor);
 		cell.startEditing();
 		comboBox.selectAllText();
-		comboBox.enterText("tree");
-		comboBox.pressAndReleaseKeys(KeyEvent.VK_ENTER);
+		comboBox.enterText("tree\n");
+		//comboBox.pressAndReleaseKeys(KeyEvent.VK_ENTER);
 		cell.stopEditing();
 		printBeautiState(f);
 		assertStateEquals("Tree.t:tree", "birthRate.t:tree", "kappa.s:anolis", "gammaShape.s:anolis", "freqParameter.s:anolis");
