@@ -44,7 +44,7 @@ public class BeautiTest extends TestCase {
     @Test
     // as testStandarBatchMode() but for the *Beast template
     public void testStarBeastBatchMode() {
-        BeautiDoc doc = new BeautiDoc();
+    	BeautiDoc doc = new BeautiDoc();
         try {
             doc.processTemplate("templates/StarBeast.xml");
         } catch (Exception e) {
@@ -64,7 +64,7 @@ public class BeautiTest extends TestCase {
 
 
     // test that a dataset can be merged with a simple template
-    String template = "<beast version='2.0'       namespace='beast.evolution.alignment:beast.core:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.evolution.likelihood'>\n" +
+    String template = "<beast version='2.0'       namespace='beast.base.evolution.alignment:beast.base.core:beast.base.evolution.tree.coalescent:beast.base.util:beast.base.evolution.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood'>\n" +
     		"<data id='data' dataType='nucleotide'>\n" +
     		"    <sequence taxon='human'>\n" +
     		"        AGAAATATGTCTGATAAAAGAGTTACTTTGATAGAGTAAATAATAGGAGCTTAAACCCCCTTATTTCTACTAGGACTATGAGAATCGAACCCATCCCTGAGAATCCAAAATTCTCCGTGCCACCTATCACACCCCATCCTAAGTAAGGTCAGCTAAATAAGCTATCGGGCCCATACCCCGAAAATGTTGGTTATACCCTTCCCGTACTAAGAAATTTAGGTTAAATACAGACCAAGAGCCTTCAAAGCCCTCAGTAAGTTG-CAATACTTAATTTCTGTAAGGACTGCAAAACCCCACTCTGCATCAACTGAACGCAAATCAGCCACTTTAATTAAGCTAAGCCCTTCTAGACCAATGGGACTTAAACCCACAAACACTTAGTTAACAGCTAAGCACCCTAATCAAC-TGGCTTCAATCTAAAGCCCCGGCAGG-TTTGAAGCTGCTTCTTCGAATTTGCAATTCAATATGAAAA-TCACCTCGGAGCTTGGTAAAAAGAGGCCTAACCCCTGTCTTTAGATTTACAGTCCAATGCTTCA-CTCAGCCATTTTACCACAAAAAAGGAAGGAATCGAACCCCCCAAAGCTGGTTTCAAGCCAACCCCATGGCCTCCATGACTTTTTCAAAAGGTATTAGAAAAACCATTTCATAACTTTGTCAAAGTTAAATTATAGGCT-AAATCCTATATATCTTA-CACTGTAAAGCTAACTTAGCATTAACCTTTTAAGTTAAAGATTAAGAGAACCAACACCTCTTTACAGTGA\n" +
@@ -88,13 +88,13 @@ public class BeautiTest extends TestCase {
     		"        <siteModel idref='siteModel'/>\n" +
     		"    </input>\n" +
     		"    <parameter id='hky.kappa' value='1.0' lower='0.0'/>\n" +
-    		"    <tree spec='beast.evolution.tree.RandomTree' id='tree' taxa='@data'>\n" +
+    		"    <tree spec='beast.base.evolution.tree.coalescent.RandomTree' id='tree' taxa='@data'>\n" +
     		"        <populationModel spec='ConstantPopulation'>\n" +
-    		"		<popSize spec='parameter.RealParameter' value='1'/>\n" +
+    		"		<popSize spec='beast.base.inference.parameter.RealParameter' value='1'/>\n" +
     		"	</populationModel>\n" +
     		"    </tree>\n" +
-    		"    <run spec='MCMC' id='mcmc' chainLength='10000000'>\n" +
-    		"	<distribution spec='CompoundDistribution' id='posterior'>\n" +
+    		"    <run spec='beast.base.inference.MCMC' id='mcmc' chainLength='10000000'>\n" +
+    		"	<distribution spec='beast.base.inference.CompoundDistribution' id='posterior'>\n" +
     		"        	<distribution id='likelihood' idref='treeLikelihood'/>\n" +
     		"	</distribution>\n" +
     		"        <operator id='kappaScaler' spec='ScaleOperator' scaleFactor='0.5' weight='1' parameter='@hky.kappa'/>\n" +
@@ -108,7 +108,7 @@ public class BeautiTest extends TestCase {
     		"	        <model idref='likelihood'/>\n" +
     		"            <log idref='likelihood'/>\n" +
     		"            <log idref='hky.kappa'/>\n" +
-    		"            <log spec='beast.evolution.tree.TreeHeightLogger' tree='@tree'/>\n" +
+    		"            <log spec='beast.base.evolution.tree.TreeHeightLogger' tree='@tree'/>\n" +
     		"        </logger>\n" +
     		"        <logger logEvery='10000' fileName='test.$(seed).trees'>\n" +
     		"            <log idref='tree'/>\n" +
@@ -116,15 +116,15 @@ public class BeautiTest extends TestCase {
     		"        <logger logEvery='10000'>\n" +
     		"	        <model idref='likelihood'/>\n" +
     		"            <log idref='likelihood'/>\n" +
-    		"    	    <ESS spec='ESS' name='log' arg='@likelihood'/>\n" +
+    		"    	    <ESS spec='beast.base.inference.util.ESS' name='log' arg='@likelihood'/>\n" +
     		"            <log idref='hky.kappa'/>\n" +
-    		"    	    <ESS spec='ESS' name='log' arg='@hky.kappa'/>\n" +
+    		"    	    <ESS spec='beast.base.inference.util.ESS' name='log' arg='@hky.kappa'/>\n" +
     		"        </logger>\n" +
     		"    </run>\n" +
     		"</beast>";
     @Test
     public void testCustomBatchMode() {
-        BeautiDoc doc = new BeautiDoc();
+    	BeautiDoc doc = new BeautiDoc();
         try {
         	PrintStream out = new PrintStream(templateFile);
         	out.print(template);

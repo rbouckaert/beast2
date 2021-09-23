@@ -1,4 +1,4 @@
-package beast.base;
+package beast.base.evolution;
 
 import java.io.PrintStream;
 import java.math.RoundingMode;

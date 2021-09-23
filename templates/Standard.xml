@@ -48,12 +48,12 @@
 	        beast.base.evolution.tree.Tree.taxa,
 	        beast.base.evolution.tree.Tree.taxonset,
 	        beast.base.evolution.tree.Tree.nodetype,
-	        beast.base.evolution.tree.RandomTree.trait,
-	        beast.base.evolution.tree.RandomTree.initial,
-	        beast.base.evolution.tree.RandomTree.taxa,
-	        beast.base.evolution.tree.RandomTree.taxonset,
-	        beast.base.evolution.tree.RandomTree.estimate,
-	        beast.base.evolution.tree.RandomTree.nodetype,
+	        beast.base.evolution.tree.coalescent.RandomTree.trait,
+	        beast.base.evolution.tree.coalescent.RandomTree.initial,
+	        beast.base.evolution.tree.coalescent.RandomTree.taxa,
+	        beast.base.evolution.tree.coalescent.RandomTree.taxonset,
+	        beast.base.evolution.tree.coalescent.RandomTree.estimate,
+	        beast.base.evolution.tree.coalescent.RandomTree.nodetype,
 	        beast.base.evolution.tree.TreeParser.initial,
 	        beast.base.evolution.tree.TreeParser.taxa,
 	        beast.base.evolution.tree.TreeParser.taxonset,
@@ -189,8 +189,8 @@
             <taxonset id='TaxonSet.$(n)' spec='beast.base.evolution.alignment.TaxonSet' alignment='@$(n)' />
             <plugin spec='beast.base.evolution.tree.Tree' id='Tree.t:$(n)' taxonset='@TaxonSet.$(n)'/>
 
-            <!--plugin spec='beast.base.evolution.tree.RandomTree' id='RandomTree.t:$(n)' estimate='false' trait='@datetrait.$(n)' initial='@Tree.t:$(n)'-->
-            <plugin spec='beast.base.evolution.tree.RandomTree' id='RandomTree.t:$(n)' estimate='false' initial='@Tree.t:$(n)'>
+            <!--plugin spec='beast.base.evolution.tree.coalescent.RandomTree' id='RandomTree.t:$(n)' estimate='false' trait='@datetrait.$(n)' initial='@Tree.t:$(n)'-->
+            <plugin spec='beast.base.evolution.tree.coalescent.RandomTree' id='RandomTree.t:$(n)' estimate='false' initial='@Tree.t:$(n)'>
                 <taxa idref='data'/>
                 <populationModel id='ConstantPopulation0.t:$(n)' spec='ConstantPopulation'>
             		<popSize id='randomPopSize.t:$(n)' spec='parameter.RealParameter' value='1'/>
@@ -205,7 +205,7 @@
             <plugin id='TreeHeight.t:$(n)' spec='beast.base.evolution.tree.TreeHeightLogger' tree='@Tree.t:$(n)'/>
 
             <logger id='treelog.t:$(n)' spec='beast.base.inference.Logger' logEvery="1000" fileName="$(tree).trees" mode='tree'>
-	            <log id='TreeWithMetaDataLogger.t:$(n)' spec='beast.base.evolution.tree.TreeWithMetaDataLogger' tree='@Tree.t:$(n)'>
+	            <log id='TreeWithMetaDataLogger.t:$(n)' spec='beast.base.evolution.TreeWithMetaDataLogger' tree='@Tree.t:$(n)'>
 	            </log>
             </logger>
 
@@ -299,9 +299,9 @@
 <!-- Tree initialisation -->
 <!-- Random tree -->
 
-        <subtemplate id='RandomTree' class='beast.base.evolution.tree.RandomTree' mainid='RandomTree.t:$(n)'>
+        <subtemplate id='RandomTree' class='beast.base.evolution.tree.coalescent.RandomTree' mainid='RandomTree.t:$(n)'>
 <![CDATA[
-            <tree spec='beast.base.evolution.tree.RandomTree' id='RandomTree.t:$(n)' estimate='false' initial="@Tree.t:$(n)">
+            <tree spec='beast.base.evolution.tree.coalescent.RandomTree' id='RandomTree.t:$(n)' estimate='false' initial="@Tree.t:$(n)">
                 <taxa idref='data'/>
                 <populationModel id='ConstantPopulation0.t:$(n)' spec='ConstantPopulation'>
             		<popSize id='randomPopSize.t:$(n)' spec='parameter.RealParameter' value='1'/>
@@ -351,11 +351,11 @@
         <state storeEvery='5000' id='state'>
         </state>
 
-        <distribution spec="util.CompoundDistribution" id="posterior">
-            <distribution spec="util.CompoundDistribution" id="prior">
+        <distribution spec="CompoundDistribution" id="posterior">
+            <distribution spec="CompoundDistribution" id="prior">
 				<mergepoint id='aux-priors'/>
             </distribution>
-            <distribution spec="util.CompoundDistribution" id="likelihood" useThreads="true">
+            <distribution spec="CompoundDistribution" id="likelihood" useThreads="true">
 				<mergepoint id='aux-likelihoods'/>
             </distribution>
         </distribution>

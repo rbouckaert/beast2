@@ -1,5 +1,5 @@
 <beast version='2.0'
-       namespace='beast.app.beauti:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.branchratemodel:beast.base.evolution.speciation:beast.base.evolution.tree.coalescent:beast.base.util:beast.base.math:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood:beast.evolution:beast.base.inference.distribution'
+       namespace='beast.app.beauti:beast.app.inputeditor:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.branchratemodel:beast.base.evolution.speciation:beast.base.evolution.tree.coalescent:beast.base.util:beast.base.math:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood:beast.evolution:beast.base.inference.distribution'
 	templateinfo='*BEAST species tree reconstruction from multiple-genes&lt;br>(calibrations supported, but tip-dates are not)'>
 
 
@@ -44,11 +44,11 @@
 	        beast.base.evolution.tree.Tree.trait,
 	        beast.base.evolution.tree.Tree.taxa,
 	        beast.base.evolution.tree.Tree.taxonset,
-	        beast.base.evolution.tree.RandomTree.trait,
-	        beast.base.evolution.tree.RandomTree.initial,
-	        beast.base.evolution.tree.RandomTree.taxa,
-	        beast.base.evolution.tree.RandomTree.taxonset,
-	        beast.base.evolution.tree.RandomTree.estimate,
+	        beast.base.evolution.tree.coalescent.RandomTree.trait,
+	        beast.base.evolution.tree.coalescent.RandomTree.initial,
+	        beast.base.evolution.tree.coalescent.RandomTree.taxa,
+	        beast.base.evolution.tree.coalescent.RandomTree.taxonset,
+	        beast.base.evolution.tree.coalescent.RandomTree.estimate,
 	        beast.base.evolution.tree.TreeParser.initial,
 	        beast.base.evolution.tree.TreeParser.taxa,
 	        beast.base.evolution.tree.TreeParser.taxonset,
@@ -190,7 +190,7 @@
             <taxonset id='TaxonSet.$(n)' spec='beast.base.evolution.alignment.TaxonSet' alignment='@$(n)' />
             <plugin spec='beast.base.evolution.tree.Tree' id='Tree.t:$(n)' taxonset='@TaxonSet.$(n)'/>
 
-            <!--plugin spec='beast.base.evolution.tree.RandomTree' id='RandomTree.t:$(n)' estimate='false' trait='@datetrait.$(n)' initial='@Tree.t:$(n)'-->
+            <!--plugin spec='beast.base.evolution.tree.coalescent.RandomTree' id='RandomTree.t:$(n)' estimate='false' trait='@datetrait.$(n)' initial='@Tree.t:$(n)'-->
 			<tree spec='RandomGeneTree' id='RandomGeneTree.t:$(n)' initial='@Tree.t:$(n)' speciesTree='@Tree.t:Species' taxa='@$(n)'>
 				<populationModel id='RGTPopulationModel.t:$(n)' spec='ConstantPopulation'>
 					<popSize id='RGTPopSize.t:$(n)' spec='parameter.RealParameter' value='1'/>
@@ -200,7 +200,7 @@
             <plugin id='TreeHeight.t:$(n)' spec='beast.base.evolution.tree.TreeHeightLogger' tree='@Tree.t:$(n)'/>
 
             <logger id='treelog.t:$(n)' spec='beast.base.inference.Logger' logEvery="5000" fileName="$(tree).trees" mode='tree'>
-	            <log id='TreeWithMetaDataLogger.t:$(n)' spec='beast.base.evolution.tree.TreeWithMetaDataLogger' tree='@Tree.t:$(n)'>
+	            <log id='TreeWithMetaDataLogger.t:$(n)' spec='beast.base.evolution.TreeWithMetaDataLogger' tree='@Tree.t:$(n)'>
 	            </log>
             </logger>
 
@@ -369,7 +369,7 @@
 			</distribution>
             <distribution spec="CompoundDistribution" id="prior">
 			    <!-- species tree priors -->
-		        <distribution id="YuleModel.t:Species" spec="speciation.YuleModel" tree='@Tree.t:Species'>
+		        <distribution id="YuleModel.t:Species" spec="beast.base.evolution.speciation.YuleModel" tree='@Tree.t:Species'>
 		            <birthDiffRate spec='parameter.RealParameter' id="birthRate.t:Species" value='1' lower='0' />
 		        </distribution>
 	            <distribution id='YuleBirthRatePrior.t:Species' spec='beast.base.inference.distribution.Prior' x='@birthRate.t:Species'>
@@ -425,7 +425,7 @@
 
 
 <!-- use with calibrated yule-->
-        <init spec='beast.base.evolution.tree.RandomTree' id='RandomTree.t:Species' estimate='false' initial='@Tree.t:Species' taxonset='@taxonsuperset'>
+        <init spec='beast.base.evolution.tree.coalescent.RandomTree' id='RandomTree.t:Species' estimate='false' initial='@Tree.t:Species' taxonset='@taxonsuperset'>
             <populationModel id='ConstantPopulation0.Species' spec='ConstantPopulation'>
         		<popSize id='randomPopSize.Species' spec='parameter.RealParameter' value='1'/>
             </populationModel>
