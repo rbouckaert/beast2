@@ -45,17 +45,17 @@ $(sequences)
         <parameter id="freqParameter.s:RSV2" spec="parameter.RealParameter" dimension="4" lower="0.0" name="stateNode" upper="1.0">0.25</parameter>
     </state>
 
-    <init id="RandomTree.t:RSV2" spec="beast.base.evolution.tree.RandomTree" estimate="false" initial="@Tree.t:RSV2" taxa="@RSV2">
+    <init id="RandomTree.t:RSV2" spec="beast.base.evolution.tree.coalescent.RandomTree" estimate="false" initial="@Tree.t:RSV2" taxa="@RSV2">
         <populationModel id="ConstantPopulation0.t:RSV2" spec="ConstantPopulation">
             <parameter id="randomPopSize.t:RSV2" spec="parameter.RealParameter" name="popSize">1.0</parameter>
         </populationModel>
     </init>
 
-    <distribution id="posterior" spec="util.CompoundDistribution">
-        <distribution id="prior" spec="util.CompoundDistribution">
+    <distribution id="posterior" spec="CompoundDistribution">
+        <distribution id="prior" spec="CompoundDistribution">
             <distribution id="CoalescentConstant.t:RSV2" spec="Coalescent">
                 <populationModel id="ConstantPopulation.t:RSV2" spec="ConstantPopulation" popSize="@popSize.t:RSV2"/>
-                <treeIntervals id="TreeIntervals.t:RSV2" spec="TreeIntervals" tree="@Tree.t:RSV2"/>
+                <treeIntervals id="TreeIntervals.t:RSV2" spec="beast.base.evolution.tree.TreeIntervals" tree="@Tree.t:RSV2"/>
             </distribution>
             <prior id="ClockPrior.c:RSV2" name="distribution" x="@clockRate.c:RSV2">
                 <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
@@ -78,7 +78,7 @@ $(sequences)
                 <OneOnX id="OneOnX.1" name="distr"/>
             </prior>
         </distribution>
-        <distribution id="likelihood" spec="util.CompoundDistribution" useThreads="true">
+        <distribution id="likelihood" spec="CompoundDistribution" useThreads="true">
             <distribution id="treeLikelihood.RSV2" spec="ThreadedTreeLikelihood" data="@RSV2" tree="@Tree.t:RSV2">
                 <siteModel id="SiteModel.s:RSV2" spec="SiteModel" gammaCategoryCount="4" shape="@gammaShape.s:RSV2">
                     <parameter id="mutationRate.s:RSV2" spec="parameter.RealParameter" estimate="false" name="mutationRate">1.0</parameter>
@@ -144,7 +144,7 @@ $(sequences)
     </logger>
 
     <logger id="treelog.t:RSV2" spec="Logger" fileName="$(filebase).trees" logEvery="10000" mode="tree">
-        <log id="TreeWithMetaDataLogger.t:RSV2" spec="beast.base.evolution.tree.TreeWithMetaDataLogger" tree="@Tree.t:RSV2"/>
+        <log id="TreeWithMetaDataLogger.t:RSV2" spec="beast.base.evolution.TreeWithMetaDataLogger" tree="@Tree.t:RSV2"/>
     </logger>
 
     <operatorschedule id="OperatorSchedule" spec="OperatorSchedule"/>

@@ -14,8 +14,8 @@
     
 
 
-    <distribution id="posterior" ignore="false" spec="util.CompoundDistribution" useThreads="false">
-        <distribution id="prior" ignore="false" spec="util.CompoundDistribution" useThreads="false">
+    <distribution id="posterior" ignore="false" spec="CompoundDistribution" useThreads="false">
+        <distribution id="prior" ignore="false" spec="CompoundDistribution" useThreads="false">
             <distribution birthDiffRate="@birthRate.t:alignment" conditionalOnRoot="false" id="YuleModel.t:alignment" spec="beast.base.evolution.speciation.YuleModel" tree="@Tree.t:alignment"/>
             <distribution id="YuleBirthRatePrior.t:alignment" spec="beast.base.inference.distribution.Prior" x="@birthRate.t:alignment">
                 <distr id="Uniform.0" lower="0.0" offset="0.0" spec="beast.base.inference.distribution.Uniform" upper="Infinity"/>
@@ -41,7 +41,7 @@
                 </distr>
             </distribution>
         </distribution>
-        <distribution id="likelihood" ignore="false" spec="util.CompoundDistribution" useThreads="false">
+        <distribution id="likelihood" ignore="false" spec="CompoundDistribution" useThreads="false">
             <distribution data="@alignment" id="treeLikelihood.alignment" scaling="_default" spec="TreeLikelihood" tree="@Tree.t:alignment" useAmbiguities="false">
                 <siteModel gammaCategoryCount="0" id="SiteModel.s:alignment" spec="SiteModel">
                     <parameter dimension="1" estimate="false" id="mutationRate.s:alignment" minordimension="1" name="mutationRate" value="1.0"/>
@@ -126,10 +126,10 @@
     </logger>
 
     <logger fileName="ape.yule.$(seed).trees" id="treelog.t:alignment" logEvery="1000" mode="tree" sanitiseHeaders="false" sort="none">
-        <log id="TreeWithMetaDataLogger.t:alignment" spec="beast.base.evolution.tree.TreeWithMetaDataLogger" tree="@Tree.t:alignment"/>
+        <log id="TreeWithMetaDataLogger.t:alignment" spec="beast.base.evolution.TreeWithMetaDataLogger" tree="@Tree.t:alignment"/>
     </logger>
 
-    <tree estimate="false" id="RandomTree.t:alignment" initial="@Tree.t:alignment" name="init" spec="beast.base.evolution.tree.RandomTree" taxa="@alignment">
+    <tree estimate="false" id="RandomTree.t:alignment" initial="@Tree.t:alignment" name="init" spec="beast.base.evolution.tree.coalescent.RandomTree" taxa="@alignment">
         <populationModel id="ConstantPopulation0.t:alignment" spec="ConstantPopulation">
             <parameter dimension="1" estimate="true" id="randomPopSize.t:alignment" minordimension="1" name="popSize" value="1"/>
         </populationModel>

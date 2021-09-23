@@ -140,7 +140,7 @@
     <tree spec='beast.base.evolution.tree.ClusterTree' id='upgmatree' clusterType='upgma' initial='@tree'>
         <taxa idref='alignment'/>
     </tree>
-    <tree spec='beast.base.evolution.tree.RandomTree' id='coalescentSimulator' initial='@tree' taxa='@alignment'>
+    <tree spec='beast.base.evolution.tree.coalescent.RandomTree' id='coalescentSimulator' initial='@tree' taxa='@alignment'>
         <populationModel spec='ConstantPopulation'>
             <popSize spec='parameter.RealParameter' value='1'/>
         </populationModel>

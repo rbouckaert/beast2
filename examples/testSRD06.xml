@@ -20,11 +20,11 @@
     <data data="@Primates" dataType="nucleotide" filter="3::3" id="thirdSites" name="taxa" spec="beast.base.evolution.alignment.FilteredAlignment"/>
 
 
-    <distribution id="posterior" spec="util.CompoundDistribution">
+    <distribution id="posterior" spec="CompoundDistribution">
 
-        <distribution id="prior" spec="util.CompoundDistribution">
+        <distribution id="prior" spec="CompoundDistribution">
             <distribution id="firstAndSecondSites.coalescent" populationModel="@firstAndSecondSites.ConstantPopulation" spec="Coalescent">
-                <treeIntervals id="treeIntervals" spec="TreeIntervals" tree="@tree"/>
+                <treeIntervals id="treeIntervals" spec="beast.base.evolution.tree.TreeIntervals" tree="@tree"/>
             </distribution>
             <distribution id="firstAndSecondSites.kappa.prior" spec="beast.base.inference.distribution.Prior" x="@firstAndSecondSites.hky.kappa">
                 <distr id="OneOnX0" offset="0.0" spec="beast.base.inference.distribution.OneOnX"/>
@@ -34,7 +34,7 @@
             </distribution>
         </distribution>
 
-        <distribution id="likelihood" spec="util.CompoundDistribution">
+        <distribution id="likelihood" spec="CompoundDistribution">
             <distribution data="@firstAndSecondSites" id="treeLikelihood" spec="TreeLikelihood" tree="@tree" useAmbiguities="false">
                 <siteModel gammaCategoryCount="0" id="firstAndSecondSites.siteModel" spec="SiteModel">
                     <parameter dimension="1" estimate="false" id="firstAndSecondSites.mutationRate" name="mutationRate" value="1.0"/>
@@ -64,7 +64,7 @@
 
     
 <run chainLength="10000000" id="mcmc" preBurnin="0" spec="MCMC" storeEvery="-1">
-    <init estimate="false" id="firstAndSecondSites.RandomTree" initial="@tree" spec="beast.base.evolution.tree.RandomTree">
+    <init estimate="false" id="firstAndSecondSites.RandomTree" initial="@tree" spec="beast.base.evolution.tree.coalescent.RandomTree">
         <data idref="firstAndSecondSites" name="taxa"/>
         <populationModel id="firstAndSecondSites.ConstantPopulation" spec="ConstantPopulation">
             <parameter dimension="1" estimate="false" id="firstAndSecondSites.popSize" name="popSize" value="1.0"/>

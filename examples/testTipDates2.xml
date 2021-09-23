@@ -17,10 +17,10 @@
         <sequence id="seq_Saimiri_sciureus" taxon="Saimiri_sciureus" totalcount="4" value="AAGCTTCACCGGCGCAATGATCCTAATAATCGCTCACGGGTTTACTTCGTCTATGCTATTCTGCCTAGCAAACTCAAATTACGAACGAATTCACAGCCGAACAATAACATTTACTCGAGGGCTCCAAACACTATTCCCGCTTATAGGCCTCTGATGACTCCTAGCAAATCTCGCTAACCTCGCCCTACCCACAGCTATTAATCTAGTAGGAGAATTACTCACAATCGTATCTTCCTTCTCTTGATCCAACTTTACTATTATATTCACAGGACTTAATATACTAATTACAGCACTCTACTCACTTCATATGTATGCCTCTACACAGCGAGGTCCACTTACATACAGCACCAGCAATATAAAACCAATATTTACACGAGAAAATACGCTAATATTTATACATATAACACCAATCCTCCTCCTTACCTTGAGCCCCAAGGTAATTATAGGACCCTCACCTTGTAATTATAGTTTAGCTAAAACATTAGATTGTGAATCTAATAATAGAAGAATA-TAACTTCTTAATTACCGAGAAAGTG-CGCAAGAACTGCTAATTCATGCTCCCAAGACTAACAACTTGGCTTCCTCAACTTTTAAAGGATAGTAGTTATCCATTGGTCTTAGGAGCCAAAAACATTGGTGCAACTCCAAATAAAAGTAATA---ATACACTTCTCCATCACTCTAATAACACTAATTAGCCTACTAGCGCCAATCCTAGCTACCCTCATTAACCCTAACAAAAGCACACTATACCCGTACTACGTAAAACTAGCCATCATCTACGCCCTCATTACCAGTACCTTATCTATAATATTCTTTATCCTTACAGGCCAAGAATCAATAATTTCAAACTGACACTGAATAACTATCCAAACCATCAAACTATCCCTAAGCTT"/>
    </data>
 
-    <distribution id="posterior" spec="util.CompoundDistribution">
-        <distribution id="prior" spec="util.CompoundDistribution">
+    <distribution id="posterior" spec="CompoundDistribution">
+        <distribution id="prior" spec="CompoundDistribution">
             <distribution id="coalescent" populationModel="@ConstantPopulation" spec="Coalescent">
-                <treeIntervals id="TreeIntervals" spec="TreeIntervals" tree="@tree"/>
+                <treeIntervals id="TreeIntervals" spec="beast.base.evolution.tree.TreeIntervals" tree="@tree"/>
             </distribution>
             <distribution id="tipDates" monophyletic="false" spec="beast.base.evolution.tree.MRCAPrior" tipsonly="true" tree="@tree">
                 <taxonset id="TaxonSet0" spec="beast.base.evolution.alignment.TaxonSet">
@@ -34,7 +34,7 @@
                 <distr id="OneOnX0" offset="0.0" spec="beast.base.inference.distribution.OneOnX"/>
             </distribution>
         </distribution>
-        <distribution id="likelihood" spec="util.CompoundDistribution">
+        <distribution id="likelihood" spec="CompoundDistribution">
             <distribution data="@Primates" id="treeLikelihood" spec="TreeLikelihood" tree="@tree" useAmbiguities="false">
                 <siteModel gammaCategoryCount="0" id="siteModel" spec="SiteModel">
                     <parameter dimension="1" estimate="false" id="mutationRate" name="mutationRate" value="1.0"/>
@@ -54,7 +54,7 @@
     
 <run chainLength="10000000" id="mcmc" preBurnin="0" spec="MCMC" storeEvery="-1">
 
-    <init estimate="false" id="RandomTree" initial="@tree" spec="beast.base.evolution.tree.RandomTree">
+    <init estimate="false" id="RandomTree" initial="@tree" spec="beast.base.evolution.tree.coalescent.RandomTree">
         <data idref="Primates" name="taxa"/>
         <populationModel id="ConstantPopulation" spec="ConstantPopulation">
             <parameter dimension="1" estimate="false" id="popSize" name="popSize" value="1.0"/>

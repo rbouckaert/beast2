@@ -366,8 +366,8 @@
     
 
 
-    <distribution id="posterior" spec="util.CompoundDistribution">
-        <distribution id="prior" spec="util.CompoundDistribution">
+    <distribution id="posterior" spec="CompoundDistribution">
+        <distribution id="prior" spec="CompoundDistribution">
             <distribution spec="beast.base.inference.distribution.Prior" x="@populationMean">
                 <distr offset="0.0" spec="beast.base.inference.distribution.OneOnX"/>
             </distribution>
@@ -380,14 +380,14 @@
             <distribution id="populationMeanPrior" spec="beast.base.inference.distribution.Prior" x="@popSizes">
                 <distr id="popPriorDist" mean="@populationMean" offset="0.0" spec="beast.base.inference.distribution.Exponential"/>
             </distribution>
-            <distribution id="coalescent" spec="util.CompoundDistribution">
+            <distribution id="coalescent" spec="CompoundDistribution">
                 <distribution id="treeModel000Coal" spec="Coalescent" treeIntervals="@treeModel000Intervals">
                     <populationModel id="scaledDemo4" spec="beast.base.evolution.tree.coalescent.ScaledPopulationFunction">
                         <population id="demographic" populationIndicators="@indicators" populationSizes="@popSizes" spec="beast.base.evolution.tree.coalescent.CompoundPopulationFunction" type="linear" useIntervalsMiddle="false">
-                            <itree id="treeModel000Intervals" spec="TreeIntervals" tree="@treeModel000"/>
-                            <itree id="treeModel001Intervals" spec="TreeIntervals" tree="@treeModel001"/>
-                            <itree id="treeModel002Intervals" spec="TreeIntervals" tree="@treeModel002"/>
-                            <itree id="treeModel003Intervals" spec="TreeIntervals" tree="@treeModel003"/>
+                            <itree id="treeModel000Intervals" spec="beast.base.evolution.tree.TreeIntervals" tree="@treeModel000"/>
+                            <itree id="treeModel001Intervals" spec="beast.base.evolution.tree.TreeIntervals" tree="@treeModel001"/>
+                            <itree id="treeModel002Intervals" spec="beast.base.evolution.tree.TreeIntervals" tree="@treeModel002"/>
+                            <itree id="treeModel003Intervals" spec="beast.base.evolution.tree.TreeIntervals" tree="@treeModel003"/>
                         </population>
                         <parameter dimension="1" estimate="true" lower="0.0" name="factor" upper="0.0" value="4"/>
                     </populationModel>
@@ -410,7 +410,7 @@
                 </distr>
             </distribution>
         </distribution>
-        <distribution id="likelihood" spec="util.CompoundDistribution">
+        <distribution id="likelihood" spec="CompoundDistribution">
             <distribution data="@alignment000" id="treeLikelihood000" spec="TreeLikelihood" tree="@treeModel000" useAmbiguities="false">
                 <siteModel gammaCategoryCount="0" id="siteModel000" spec="SiteModel">
                     <parameter dimension="1" estimate="true" id="siteModel000.mu" lower="0.0" name="mutationRate" value="0.000050"/>

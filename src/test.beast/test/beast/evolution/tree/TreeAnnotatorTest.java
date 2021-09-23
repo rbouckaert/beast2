@@ -8,7 +8,9 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import beast.app.inputeditor.BeautiDoc;
 import beast.app.treeannotator.CladeSystem;
@@ -161,11 +163,15 @@ public class TreeAnnotatorTest {
         Assert.assertEquals(1, maxScoreLogIndex);
     }
     
+    @Rule
+	public TemporaryFolder f = new TemporaryFolder();
+    
+    
     @Test
     public void testNewickTargetTree() throws Exception {
     	// create target tree file in temp folder
     	TreeParser tree = new TreeParser("((A,B),(C,D))");
-    	String tmpFolder = org.assertj.core.util.Files.temporaryFolder().toString();
+    	String tmpFolder = f.newFolder("test").getPath();
     	File target = new File(tmpFolder + "/target.tree");
         PrintStream outfile = new PrintStream(target);
         tree.init(outfile);

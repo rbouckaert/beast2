@@ -224,7 +224,7 @@
                                         spec="beast.base.evolution.tree.coalescent.CompoundPopulationFunction" type="linear"
                                         useIntervalsMiddle="false">
                                 <plate spec='Plate' var='n' range='.26,.29,.47'>
-                                    <itree id="TreeIntervals$(n)" spec="TreeIntervals" tree="@tree$(n)"/>
+                                    <itree id="TreeIntervals$(n)" spec="beast.base.evolution.tree.TreeIntervals" tree="@tree$(n)"/>
                                 </plate>
                             </population>
                             <parameter dimension="1" estimate="true" lower="0.0" name="factor" upper="0.0" value="3"/>

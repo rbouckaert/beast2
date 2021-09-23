@@ -81,7 +81,7 @@
 
         <distribution spec="CompoundDistribution" id="posterior">
             <distribution id="coalescent" spec="Coalescent">
-                <treeIntervals spec='TreeIntervals' id='TreeIntervals'>
+                <treeIntervals spec='beast.base.evolution.tree.TreeIntervals' id='TreeIntervals'>
                      <tree idref="tree"/>
                 </treeIntervals>
                 <populationModel spec="ConstantPopulation">
@@ -136,12 +136,12 @@
             <log idref="posterior"/>
         </logger>
         <logger logEvery="1000" fileName="test.(time).$(seed).trees" mode='tree'>
-			<log spec='beast.base.evolution.tree.TreeWithMetaDataLogger' tree='@tree' dp='6'>
+			<log spec='beast.base.evolution.TreeWithMetaDataLogger' tree='@tree' dp='6'>
 				<branchratemodel idref='branchRates'/>
 			</log>
         </logger>
         <logger logEvery="1000" fileName="test.(subst).$(seed).trees" mode='tree'>
-			<log spec='beast.base.evolution.tree.TreeWithMetaDataLogger' tree='@tree' substitutions='true' dp='6'>
+			<log spec='beast.base.evolution.TreeWithMetaDataLogger' tree='@tree' substitutions='true' dp='6'>
 				<branchratemodel idref='branchRates'/>
 			</log>
         </logger>

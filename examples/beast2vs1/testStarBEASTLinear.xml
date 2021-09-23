@@ -241,12 +241,12 @@
         </taxon>
     </taxonset>
 
-    <distribution id="posterior" spec="util.CompoundDistribution">
-        <distribution id="prior" spec="util.CompoundDistribution">
+    <distribution id="posterior" spec="CompoundDistribution">
+        <distribution id="prior" spec="CompoundDistribution">
 
-            <distribution id="speciesCoalescent" spec="util.CompoundDistribution">
+            <distribution id="speciesCoalescent" spec="CompoundDistribution">
                 <!-- gene tree priors -->
-                <distribution id="genetree.priors" spec="util.CompoundDistribution">
+                <distribution id="genetree.priors" spec="CompoundDistribution">
                     <distribution id='tree.prior.29' spec='GeneTreeForSpeciesTreeDistribution' tree='@tree29'
                                   speciesTree='@speciesTree'
                                   speciesTreePrior='@SpeciesTreePopSizePrior'>
@@ -290,7 +290,7 @@
             <distribution id="kappa.prior29" spec="beast.base.inference.distribution.Prior" x="@hky.kappa29" distr='@logNormal'/>
 
         </distribution>
-        <distribution id="likelihood" spec="util.CompoundDistribution">
+        <distribution id="likelihood" spec="CompoundDistribution">
             <distribution data="@26" id="treelikelihood.26" spec="TreeLikelihood" tree="@tree26" useAmbiguities="false">
                 <siteModel gammaCategoryCount="1" id="siteModel26" mutationRate="@mutationRate"
                            proportionInvariant="@proportionInvariant"

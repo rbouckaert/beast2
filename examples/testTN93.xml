@@ -61,21 +61,21 @@
         </state>
 
         <init estimate="false" id="RandomTree.t:primate" initial="@Tree.t:primate"
-              spec="beast.base.evolution.tree.RandomTree" taxa="@coding">
+              spec="beast.base.evolution.tree.coalescent.RandomTree" taxa="@coding">
             <populationModel id="ConstantPopulation0.t:primate" spec="ConstantPopulation">
                 <parameter id="randomPopSize.t:primate" name="popSize" value="1"/>
             </populationModel>
         </init>
 
-        <distribution id="posterior" spec="util.CompoundDistribution">
-            <distribution id="prior" spec="util.CompoundDistribution">
+        <distribution id="posterior" spec="CompoundDistribution">
+            <distribution id="prior" spec="CompoundDistribution">
                 <distribution birthDiffRate="@birthRate.t:primate" id="YuleModel.t:primate"
                               spec="beast.base.evolution.speciation.YuleModel" tree="@Tree.t:primate"/>
                 <prior id="YuleBirthRatePrior.t:primate" name="distribution" x="@birthRate.t:primate">
                     <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
                 </prior>
             </distribution>
-            <distribution id="likelihood" spec="util.CompoundDistribution">
+            <distribution id="likelihood" spec="CompoundDistribution">
                 <distribution data="@coding" id="treeLikelihood.coding" spec="TreeLikelihood" tree="@Tree.t:primate">
                     <siteModel id="SiteModel.s:primate" spec="SiteModel">
                         <parameter estimate="false" id="mutationRate.s:primate" name="mutationRate" value="1.0"/>
@@ -152,7 +152,7 @@
         </logger>
 
         <logger fileName="primate-mtDNA-tn93.trees" id="treelog.t:primate" logEvery="5000" mode="tree">
-            <log id="TreeWithMetaDataLogger.t:primate" spec="beast.base.evolution.tree.TreeWithMetaDataLogger"
+            <log id="TreeWithMetaDataLogger.t:primate" spec="beast.base.evolution.TreeWithMetaDataLogger"
                  tree="@Tree.t:primate"/>
         </logger>
 

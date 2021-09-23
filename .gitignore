@@ -10,6 +10,13 @@
 /src/beast.pkgmgmt/build
 /src/beast.base/build
 /src/beast.app/build
+/src/test.beast/build
+/src/test.beast/test
+**/.classpath
+**/.project
+
+*.trees
+*.log
 
 # OS X ignores
 .DS_Store

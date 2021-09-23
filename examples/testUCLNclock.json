@@ -34,15 +34,15 @@ beast: [
 		},
 	 init: [
 		{id: "RandomTree.t:dna",
-		 spec: "beast.base.evolution.tree.RandomTree", taxa: "@dna", initial: "@Tree.t:dna", estimate: false,
+		 spec: "beast.base.evolution.tree.coalescent.RandomTree", taxa: "@dna", initial: "@Tree.t:dna", estimate: false,
 			 populationModel: {id: "ConstantPopulation0.t:dna", spec: "ConstantPopulation", popSize: "1.0" }
 		}
 	  ],
 	 distribution: {id: "posterior",
-		 spec: "util.CompoundDistribution",
+		 spec: "CompoundDistribution",
 		 distribution: [
 			{id: "prior",
-			 spec: "util.CompoundDistribution",
+			 spec: "CompoundDistribution",
 			 distribution: [
 				 {id: "YuleModel.t:dna", spec: "beast.base.evolution.speciation.YuleModel", birthDiffRate: "@birthRate.t:dna", tree: "@Tree.t:dna" },
 				{id: "YuleBirthRatePrior.t:dna",
@@ -60,7 +60,7 @@ beast: [
 			  ]
 			},
 			{id: "likelihood",
-			 spec: "util.CompoundDistribution",
+			 spec: "CompoundDistribution",
 			 distribution: [
 				{id: "treeLikelihood.dna",
 				 spec: "TreeLikelihood", data: "@dna", tree: "@Tree.t:dna",
@@ -114,7 +114,7 @@ beast: [
 			 {idref: "birthRate.t:dna" },
 			 {idref: "kappa.s:dna" },
 			 {idref: "ucldStdev.c:dna" },
-			 {id: "rate.c:dna", spec: "beast.base.evolution.branchratemodel.RateStatistic", branchratemodel: "@RelaxedClock.c:dna", tree: "@Tree.t:dna" },
+			 {id: "rate.c:dna", spec: "beast.base.evolution.RateStatistic", branchratemodel: "@RelaxedClock.c:dna", tree: "@Tree.t:dna" },
 			 {idref: "freqParameter.s:dna" }
 		  ]
 		},
@@ -130,7 +130,7 @@ beast: [
 		{id: "treelog.t:dna",
 		 spec: "Logger", fileName: "$(tree).trees", logEvery: 1000, mode: "tree",
 		 log: [
-			 {id: "TreeWithMetaDataLogger.t:dna", spec: "beast.base.evolution.tree.TreeWithMetaDataLogger", tree: "@Tree.t:dna", branchratemodel: "@RelaxedClock.c:dna" }
+			 {id: "TreeWithMetaDataLogger.t:dna", spec: "beast.base.evolution.TreeWithMetaDataLogger", tree: "@Tree.t:dna", branchratemodel: "@RelaxedClock.c:dna" }
 		  ]
 		}
 	  ]

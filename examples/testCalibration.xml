@@ -29,7 +29,7 @@
 
 
     <run spec="MCMC" id="mcmc" chainLength="10000000"> <!--autoOptimize="true"-->
-        <init spec='beast.base.evolution.tree.RandomTree' id='randomTree' initial='@tree' taxa='@alignment'>
+        <init spec='beast.base.evolution.tree.coalescent.RandomTree' id='randomTree' initial='@tree' taxa='@alignment'>
             <populationModel spec='ConstantPopulation' popSize='@popSize'/>
             <constraint idref='mrcaPrior2'/>
             <constraint idref='mrcaPrior1'/>
@@ -83,7 +83,7 @@
 
 
                 <distribution id="coalescent" spec="Coalescent">
-                    <treeIntervals spec='TreeIntervals' id='TreeIntervals'>
+                    <treeIntervals spec='beast.base.evolution.tree.TreeIntervals' id='TreeIntervals'>
                         <tree idref="tree"/>
                     </treeIntervals>
                     <populationModel spec="ConstantPopulation" id='ConstantPopulation'>

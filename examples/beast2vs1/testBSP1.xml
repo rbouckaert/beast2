@@ -114,7 +114,7 @@
             <distribution spec="BayesianSkyline" id='skyline'>
                 <popSizes idref="skyline.popSize"/>
                 <groupSizes idref='skyline.groupSize'/>
-                <treeIntervals spec='TreeIntervals' id='TreeIntervals'>
+                <treeIntervals spec='beast.base.evolution.tree.TreeIntervals' id='TreeIntervals'>
                     <tree idref="tree"/>
                 </treeIntervals>
             </distribution>

@@ -103,43 +103,43 @@
 
 
 	<init estimate="false" id="RandomTree.t:gene1" initial="@Tree.t:gene1"
-		spec="beast.base.evolution.tree.RandomTree" taxa="@gene1">
+		spec="beast.base.evolution.tree.coalescent.RandomTree" taxa="@gene1">
 		<populationModel id="ConstantPopulation0.t:gene1" spec="ConstantPopulation">
 			<parameter id="randomPopSize.t:gene1" name="popSize">300000.0</parameter>
 		</populationModel>
 	</init>
 	<init estimate="false" id="RandomTree.t:gene2" initial="@Tree.t:gene2"
-		spec="beast.base.evolution.tree.RandomTree" taxa="@gene2">
+		spec="beast.base.evolution.tree.coalescent.RandomTree" taxa="@gene2">
 		<populationModel id="ConstantPopulation0.t:gene2" spec="ConstantPopulation">
 			<parameter idref="randomPopSize.t:gene1" name="popSize"/>
 		</populationModel>
 	</init>
 	<init estimate="false" id="RandomTree.t:gene3" initial="@Tree.t:gene3"
-		spec="beast.base.evolution.tree.RandomTree" taxa="@gene3">
+		spec="beast.base.evolution.tree.coalescent.RandomTree" taxa="@gene3">
 		<populationModel id="ConstantPopulation0.t:gene3" spec="ConstantPopulation">
 			<parameter idref="randomPopSize.t:gene1" name="popSize"/>
 		</populationModel>
 	</init>
 
 
-		<distribution id="posterior" spec="util.CompoundDistribution">
-			<distribution id="prior" spec="util.CompoundDistribution">
+		<distribution id="posterior" spec="CompoundDistribution">
+			<distribution id="prior" spec="CompoundDistribution">
 				<distribution id="CoalescentConstant.t:gene1" spec="Coalescent">
 					<populationModel id="ConstantPopulation.t:gene1"
 						popSize="@popSize.t:gene1" spec="ConstantPopulation"/>
-					<treeIntervals id="TreeIntervals.t:gene1" spec="TreeIntervals"
+					<treeIntervals id="TreeIntervals.t:gene1" spec="beast.base.evolution.tree.TreeIntervals"
 						tree="@Tree.t:gene1"/>
 				</distribution>
 				<distribution id="CoalescentConstant.t:gene2" spec="Coalescent">
 					<populationModel id="ConstantPopulation.t:gene2"
 						popSize="@popSize.t:gene1" spec="ConstantPopulation"/>
-					<treeIntervals id="TreeIntervals.t:gene2" spec="TreeIntervals"
+					<treeIntervals id="TreeIntervals.t:gene2" spec="beast.base.evolution.tree.TreeIntervals"
 						tree="@Tree.t:gene2"/>
 				</distribution>
 				<distribution id="CoalescentConstant.t:gene3" spec="Coalescent">
 					<populationModel id="ConstantPopulation.t:gene3"
 						popSize="@popSize.t:gene1" spec="ConstantPopulation"/>
-					<treeIntervals id="TreeIntervals.t:gene3" spec="TreeIntervals"
+					<treeIntervals id="TreeIntervals.t:gene3" spec="beast.base.evolution.tree.TreeIntervals"
 						tree="@Tree.t:gene3"/>
 				</distribution>
 
@@ -167,7 +167,7 @@
 			</distribution>
 
 
-			<distribution id="likelihood" spec="util.CompoundDistribution">
+			<distribution id="likelihood" spec="CompoundDistribution">
 				<distribution data="@gene1" id="treeLikelihood.gene1"
 						spec="TreeLikelihood" tree="@Tree.t:gene1">
 					<siteModel gammaCategoryCount="4" id="SiteModel.s:gene1"
@@ -316,15 +316,15 @@
 		</logger>
 
 <logger fileName="testMultipleAlignments_randomTaxaOrder_$(tree).trees" id="treelog.t:gene1" logEvery="100000" mode="tree">
-	<log id="TreeWithMetaDataLogger.t:gene1" spec="beast.base.evolution.tree.TreeWithMetaDataLogger"
+	<log id="TreeWithMetaDataLogger.t:gene1" spec="beast.base.evolution.TreeWithMetaDataLogger"
 		tree="@Tree.t:gene1"/>
 </logger>
 <logger fileName="testMultipleAlignments_randomTaxaOrder_$(tree).trees" id="treelog.t:gene2" logEvery="100000" mode="tree">
-	<log id="TreeWithMetaDataLogger.t:gene2" spec="beast.base.evolution.tree.TreeWithMetaDataLogger"
+	<log id="TreeWithMetaDataLogger.t:gene2" spec="beast.base.evolution.TreeWithMetaDataLogger"
 		tree="@Tree.t:gene2"/>
 </logger>
 <logger fileName="testMultipleAlignments_randomTaxaOrder_$(tree).trees" id="treelog.t:gene3" logEvery="100000" mode="tree">
-	<log id="TreeWithMetaDataLogger.t:gene3" spec="beast.base.evolution.tree.TreeWithMetaDataLogger"
+	<log id="TreeWithMetaDataLogger.t:gene3" spec="beast.base.evolution.TreeWithMetaDataLogger"
 		tree="@Tree.t:gene3"/>
 </logger>
 	</run>

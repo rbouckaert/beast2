@@ -26,13 +26,13 @@ beast: [
 	 spec: "MCMC", chainLength: "5000000", preBurnin: 50000,
 	 init: [
 		{id: "coalescentSimulator",
-		 spec: "beast.base.evolution.tree.RandomTree", taxa: "@alignment",
+		 spec: "beast.base.evolution.tree.coalescent.RandomTree", taxa: "@alignment",
 			 populationModel: {spec: "ConstantPopulation", popSize: "1.0" },
 			 initial: {id: "tree", spec: "beast.base.evolution.tree.Tree" }
 		}
 	  ],
 	 distribution: {id: "posterior",
-		 spec: "util.CompoundDistribution",
+		 spec: "CompoundDistribution",
 		 distribution: [
 			{spec: "beast.base.inference.distribution.Prior",
 				 x: {id: "hky.kappa", spec: "parameter.RealParameter", lower: 0.0, value: [ 1.0 ] },

@@ -4,6 +4,9 @@ import java.util.HashSet;
 import java.util.ServiceLoader;
 import java.util.Set;
 
+import beast.pkgmgmt.BEASTClassLoader;
+import beast.pkgmgmt.Utils6;
+
 
 
 /** log model at the start of a trace log **/
@@ -29,6 +32,14 @@ public class ModelLogger {
 	        }
         } catch (Throwable e) {
             // TODO: handle exception
+        }
+
+        if (Utils6.isJUnitTest() || modelLoggers.size() == 0) {
+        	try {
+				modelLoggers.add((ModelLogger)BEASTClassLoader.forName("beast.base.parser.XMLModelLogger").newInstance());
+			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
         }
     }
 		

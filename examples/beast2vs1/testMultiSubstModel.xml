@@ -21,13 +21,13 @@
 <data data="@Primates" dataType="nucleotide" filter="450-898" id="secondhalf" spec="FilteredAlignment" strip="false"/>
 
 
-    <distribution id="posterior" spec="util.CompoundDistribution" useThreads="false">
-        <distribution id="prior" spec="util.CompoundDistribution" useThreads="false">
+    <distribution id="posterior" spec="CompoundDistribution" useThreads="false">
+        <distribution id="prior" spec="CompoundDistribution" useThreads="false">
             <distribution id="CoalescentConstant.firsthalf" spec="Coalescent">
                 <populationModel id="ConstantPopulation.firsthalf" spec="ConstantPopulation">
                     <parameter dimension="1" estimate="true" id="popSize.firsthalf" name="popSize" value="1"/>
                 </populationModel>
-                <treeIntervals id="TreeIntervals.firsthalf" spec="TreeIntervals" tree="@Tree.firsthalf"/>
+                <treeIntervals id="TreeIntervals.firsthalf" spec="beast.base.evolution.tree.TreeIntervals" tree="@Tree.firsthalf"/>
             </distribution>
             <distribution id="KappaPrior.firsthalf" spec="beast.base.inference.distribution.Prior" x="@kappa.firsthalf">
                     <distr id="LogNormalDistributionModel.firsthalf" M="1.0" S="1.25" meanInRealSpace="false" spec="beast.base.inference.distribution.LogNormalDistributionModel"/>
@@ -39,7 +39,7 @@
                     <distr id="OneOnX" offset="0.0" spec="beast.base.inference.distribution.OneOnX"/>
                 </distribution>
         </distribution>
-        <distribution id="likelihood" spec="util.CompoundDistribution" useThreads="false">
+        <distribution id="likelihood" spec="CompoundDistribution" useThreads="false">
             <distribution data="@firsthalf" id="treeLikelihood.firsthalf" spec="TreeLikelihood" tree="@Tree.firsthalf" useAmbiguities="false">
                 <siteModel gammaCategoryCount="0" id="SiteModel.firsthalf" spec="SiteModel">
                     <parameter dimension="1" estimate="false" id="mutationRate.firsthalf" name="mutationRate" value="1.0"/>
@@ -134,7 +134,7 @@
         <distribution idref="prior" name="log"/>
     </logger>
 
-    <tree estimate="false" id="RandomTree.firsthalf" initial="@Tree.firsthalf" name="init" populationModel="@ConstantPopulation.firsthalf" spec="beast.base.evolution.tree.RandomTree" taxa="@firsthalf"/>
+    <tree estimate="false" id="RandomTree.firsthalf" initial="@Tree.firsthalf" name="init" populationModel="@ConstantPopulation.firsthalf" spec="beast.base.evolution.tree.coalescent.RandomTree" taxa="@firsthalf"/>
 
 </run>
 
