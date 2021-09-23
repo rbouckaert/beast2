@@ -45,6 +45,7 @@ import beast.base.parser.NexusParser;
 import beast.base.parser.XMLParser;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
+import beast.pkgmgmt.Utils6;
 
 
 @Description("Class for creating new alignments to be edited by AlignmentListInputEditor")
@@ -57,11 +58,7 @@ public class BeautiAlignmentProvider extends BEASTObject {
     final static String[] IMPLEMENTATION_DIR = {"beast.app"};
 
 	private void initImporters() {
-		importers = new ArrayList<>();
-        // add standard importers
-		// importers.add(new NexusImporter());
-		// importers.add(new XMLImporter());
-       	// importers.add(new FastaImporter());
+		importers = new ArrayList<>();		
 
         // build up list of data types
         Set<String> importerClasses = Utils.loadService(AlignmentImporter.class);        
@@ -77,6 +74,12 @@ public class BeautiAlignmentProvider extends BEASTObject {
 			}
         }
         
+		if (Utils6.isJUnitTest() || importers.size() == 0) {
+	        // add standard importers
+				 importers.add(new NexusImporter());
+				 importers.add(new XMLImporter());
+		       	 importers.add(new FastaImporter());
+		}
 	}
 
 	final public Input<BeautiSubTemplate> template = new Input<>("template", "template to be used after creating a new alignment. ", Validate.REQUIRED);

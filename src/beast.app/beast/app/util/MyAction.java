@@ -9,9 +9,7 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
-import beast.app.draw.ModelBuilder;
-import beast.pkgmgmt.BEASTClassLoader;
-
+import beast.app.inputeditor.BEASTObjectDialog;
 
 
 /**
@@ -62,7 +60,7 @@ public class MyAction extends AbstractAction {
         	putValue(Action.MNEMONIC_KEY, new Integer(name.charAt(0)));
         
 	        if (!Utils.isMac()) {
-		        java.net.URL tempURL = MyAction.class.getClassLoader().getResource(ModelBuilder.ICONPATH + icon + ".png");
+		        java.net.URL tempURL = MyAction.class.getClassLoader().getResource(BEASTObjectDialog.ICONPATH + icon + ".png");
 		        if (tempURL != null) {
 		            putValue(Action.SMALL_ICON, new ImageIcon(tempURL));
 		        } else {

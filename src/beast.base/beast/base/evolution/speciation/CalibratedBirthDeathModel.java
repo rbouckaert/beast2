@@ -18,9 +18,9 @@ import beast.base.evolution.tree.MRCAPrior;
 import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeInterface;
+import beast.base.inference.CompoundDistribution;
 import beast.base.inference.Distribution;
 import beast.base.inference.parameter.RealParameter;
-import beast.base.inference.util.CompoundDistribution;
 import beast.base.inference.util.RPNcalculator;
 
 /**

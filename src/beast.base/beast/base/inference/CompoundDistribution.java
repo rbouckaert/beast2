@@ -22,7 +22,7 @@
 * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
 * Boston, MA  02110-1301  USA
 */
-package beast.base.inference.util;
+package beast.base.inference;
 
 
 
@@ -40,8 +40,6 @@ import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.core.Log;
 import beast.base.core.ProgramStatus;
-import beast.base.inference.Distribution;
-import beast.base.inference.State;
 
 
 @Description("Takes a collection of distributions, typically a number of likelihoods " +
@@ -124,7 +122,7 @@ public class CompoundDistribution extends Distribution {
         return logP;
     }
 
-    class CoreRunnable implements Runnable {
+    class CoreRunnable implements java.lang.Runnable {
         Distribution distr;
 
         CoreRunnable(Distribution core) {

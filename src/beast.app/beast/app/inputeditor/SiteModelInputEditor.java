@@ -15,7 +15,6 @@ import beast.base.inference.*;
 import beast.base.inference.operator.DeltaExchangeOperator;
 import beast.base.inference.parameter.IntegerParameter;
 import beast.base.inference.parameter.RealParameter;
-import beast.base.inference.util.CompoundDistribution;
 
 import java.awt.*;
 import java.lang.reflect.InvocationTargetException;

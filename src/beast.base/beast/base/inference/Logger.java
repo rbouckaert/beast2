@@ -49,7 +49,6 @@ import beast.base.core.Input;
 import beast.base.core.Log;
 import beast.base.core.Loggable;
 import beast.base.core.Input.Validate;
-import beast.base.inference.util.ModelLogger;
 
 
 @Description("Logs results of a calculation processes on regular intervals.")

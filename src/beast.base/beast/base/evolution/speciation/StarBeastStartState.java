@@ -27,9 +27,9 @@ import beast.base.evolution.distance.JukesCantorDistance;
 import beast.base.evolution.tree.ClusterTree;
 import beast.base.evolution.tree.MRCAPrior;
 import beast.base.evolution.tree.Node;
-import beast.base.evolution.tree.RandomTree;
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.coalescent.ConstantPopulation;
+import beast.base.evolution.tree.coalescent.RandomTree;
 import beast.base.inference.*;
 import beast.base.inference.parameter.RealParameter;
 

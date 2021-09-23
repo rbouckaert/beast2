@@ -38,8 +38,8 @@ import beast.base.evolution.likelihood.GenericTreeLikelihood;
 import beast.base.evolution.sitemodel.SiteModel;
 import beast.base.evolution.sitemodel.SiteModelInterface;
 import beast.base.evolution.tree.TreeInterface;
+import beast.base.inference.CompoundDistribution;
 import beast.base.inference.MCMC;
-import beast.base.inference.util.CompoundDistribution;
 import beast.base.parser.PartitionContext;
 
 /**

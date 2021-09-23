@@ -2,12 +2,14 @@ package beast.base.evolution.sitemodel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import beast.base.core.BEASTInterface;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.core.Input.Validate;
+import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.datatype.DataType;
-import beast.base.evolution.likelihood.TreeLikelihood;
 import beast.base.evolution.substitutionmodel.SubstitutionModel;
 import beast.base.evolution.tree.Node;
 import beast.base.inference.CalculationNode;
@@ -103,11 +105,22 @@ public interface SiteModelInterface {
             if (m_dataType == null) {
             	// try to find out the data type from the data in a treelikelihood in an output
             	for (Object beastObject : getOutputs()) {
-            		if (beastObject instanceof TreeLikelihood) {
-            			TreeLikelihood likelihood = (TreeLikelihood) beastObject;
-            			m_dataType = likelihood.dataInput.get().getDataType();
-            			break;
+            		if (beastObject instanceof BEASTInterface) {
+            			BEASTInterface bi = (BEASTInterface) beastObject;
+            			Map<String, Input<?>> inputs = bi.getInputs();            			
+            			if (inputs.containsKey("data")) {
+            				Object val = inputs.get("data").get();
+            				if (val instanceof Alignment) {
+            					m_dataType = ((Alignment) val).getDataType();
+            					break;
+            				}
+            			}
             		}
+//            		if (beastObject instanceof TreeLikelihood) {
+//            			TreeLikelihood likelihood = (TreeLikelihood) beastObject;
+//            			m_dataType = likelihood.dataInput.get().getDataType();
+//            			break;
+//            		}
             	}
             }
             if (m_dataType != null) {

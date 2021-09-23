@@ -23,7 +23,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-package beast.base.evolution.branchratemodel;
+package beast.base;
 
 
 import java.io.PrintStream;
@@ -34,6 +34,7 @@ import beast.base.core.Function;
 import beast.base.core.Input;
 import beast.base.core.Loggable;
 import beast.base.core.Input.Validate;
+import beast.base.evolution.branchratemodel.BranchRateModel;
 import beast.base.evolution.likelihood.GenericTreeLikelihood;
 import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.Tree;

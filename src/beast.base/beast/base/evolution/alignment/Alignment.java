@@ -84,7 +84,7 @@ public class Alignment extends Map<String> {
             }
         }
         
-        if (beast.pkgmgmt.Utils6.isJUnitTest()) {
+        if (beast.pkgmgmt.Utils6.isJUnitTest() || types.size() == 0) {
         	List<String> m_sDataTypes = PackageManager.find(beast.base.evolution.datatype.DataType.class, IMPLEMENTATION_DIR);
             for (String d : m_sDataTypes) {
                 try {

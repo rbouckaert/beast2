@@ -1,4 +1,4 @@
-package beast.base.evolution.tree;
+package beast.base;
 
 import java.io.PrintStream;
 import java.math.RoundingMode;
@@ -13,6 +13,8 @@ import beast.base.core.Input;
 import beast.base.core.Loggable;
 import beast.base.core.Input.Validate;
 import beast.base.evolution.branchratemodel.BranchRateModel;
+import beast.base.evolution.tree.Node;
+import beast.base.evolution.tree.Tree;
 import beast.base.inference.StateNode;
 import beast.base.inference.parameter.Parameter;
 import beast.base.inference.parameter.RealParameter;

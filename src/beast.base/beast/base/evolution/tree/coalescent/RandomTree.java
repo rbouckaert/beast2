@@ -23,7 +23,7 @@
  * Boston, MA  02110-1301  USA
  */
 
-package beast.base.evolution.tree;
+package beast.base.evolution.tree.coalescent;
 
 
 
@@ -45,7 +45,10 @@ import beast.base.core.Log;
 import beast.base.core.Input.Validate;
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.alignment.TaxonSet;
-import beast.base.evolution.tree.coalescent.PopulationFunction;
+import beast.base.evolution.tree.MRCAPrior;
+import beast.base.evolution.tree.Node;
+import beast.base.evolution.tree.TraitSet;
+import beast.base.evolution.tree.Tree;
 import beast.base.inference.StateNode;
 import beast.base.inference.StateNodeInitialiser;
 import beast.base.inference.distribution.ParametricDistribution;
@@ -560,7 +563,7 @@ public class RandomTree extends Tree implements StateNodeInitialiser {
      * @param demographic
      * @return the root node of the given array of nodes after simulation of the
      *         coalescent under the given demographic model.
-     * @throws beast.base.evolution.tree.RandomTree.ConstraintViolatedException
+     * @throws beast.base.evolution.tree.coalescent.RandomTree.ConstraintViolatedException
      */
     public Node simulateCoalescentWithMax(final List<Node> nodes, final PopulationFunction demographic,
                                           final double maxHeight) throws ConstraintViolatedException {

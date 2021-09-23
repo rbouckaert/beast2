@@ -27,10 +27,10 @@ import org.junit.Test;
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.alignment.Sequence;
 import beast.base.evolution.alignment.TaxonSet;
-import beast.base.evolution.tree.RandomTree;
 import beast.base.evolution.tree.TraitSet;
+import beast.base.evolution.tree.TreeIntervals;
 import beast.base.evolution.tree.coalescent.ConstantPopulation;
-import beast.base.evolution.tree.coalescent.TreeIntervals;
+import beast.base.evolution.tree.coalescent.RandomTree;
 import beast.base.inference.parameter.RealParameter;
 import beast.base.util.Randomizer;
 

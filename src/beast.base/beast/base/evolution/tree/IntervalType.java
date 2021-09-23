@@ -1,4 +1,4 @@
-package beast.base.evolution.tree.coalescent;
+package beast.base.evolution.tree;
 
 /*
  * IntervalType.java

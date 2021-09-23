@@ -41,7 +41,6 @@ import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.core.Log;
 import beast.base.core.Input.Validate;
-import beast.base.inference.util.CompoundDistribution;
 import beast.base.util.Randomizer;
 
 @Description("MCMC chain. This is the main element that controls which posterior " +

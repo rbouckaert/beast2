@@ -4,8 +4,8 @@ package test.beast.evolution.tree.coalescent;
 import org.junit.Test;
 
 import beast.base.evolution.tree.Tree;
+import beast.base.evolution.tree.TreeIntervals;
 import beast.base.evolution.tree.coalescent.BayesianSkyline;
-import beast.base.evolution.tree.coalescent.TreeIntervals;
 import junit.framework.TestCase;
 
 

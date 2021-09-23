@@ -7,7 +7,6 @@ import java.util.Random;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.core.Input.Validate;
-import beast.base.evolution.tree.coalescent.TreeIntervals;
 import beast.base.inference.Distribution;
 import beast.base.inference.State;
 

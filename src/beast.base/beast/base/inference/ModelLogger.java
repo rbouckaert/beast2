@@ -1,4 +1,4 @@
-package beast.base.inference.util;
+package beast.base.inference;
 
 import java.util.HashSet;
 import java.util.ServiceLoader;

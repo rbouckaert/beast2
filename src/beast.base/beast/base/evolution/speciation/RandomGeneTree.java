@@ -6,9 +6,9 @@ import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.core.Input.Validate;
 import beast.base.evolution.tree.Node;
-import beast.base.evolution.tree.RandomTree;
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.coalescent.PopulationFunction;
+import beast.base.evolution.tree.coalescent.RandomTree;
 
 
 

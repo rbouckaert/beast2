@@ -1,7 +1,7 @@
 package beast.app.inputeditor;
 
+
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.net.URL;
 
 import javax.swing.BorderFactory;
@@ -9,8 +9,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-import beast.app.draw.ModelBuilder;
-import beast.pkgmgmt.BEASTClassLoader;
 
 /**
  * @author Alexei Drummond
@@ -36,7 +34,7 @@ public class SmallButton extends JButton {
 	private void setIcon(String label) {
         if (label.equals("e")) {
         	setText("");
-            URL url = SmallButton.class.getClassLoader().getResource(ModelBuilder.ICONPATH + "edit.png");
+            URL url = SmallButton.class.getClassLoader().getResource(BEASTObjectDialog.ICONPATH + "edit.png");
             if (url == null) {
             	return;
             }

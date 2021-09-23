@@ -23,11 +23,11 @@ import beast.base.evolution.alignment.TaxonSet;
 import beast.base.evolution.operator.TipDatesRandomWalker;
 import beast.base.evolution.tree.MRCAPrior;
 import beast.base.evolution.tree.Tree;
+import beast.base.inference.CompoundDistribution;
 import beast.base.inference.Distribution;
 import beast.base.inference.Operator;
 import beast.base.inference.State;
 import beast.base.inference.distribution.OneOnX;
-import beast.base.inference.util.CompoundDistribution;
 import beast.base.parser.PartitionContext;
 
 

@@ -1,7 +1,7 @@
 package beast.base.parser;
 
 import beast.base.core.BEASTInterface;
-import beast.base.inference.util.ModelLogger;
+import beast.base.inference.ModelLogger;
 
 
 /** Hack to get around dependency of beast.inferece.Logger to XMLProducer **/

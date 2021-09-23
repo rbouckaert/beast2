@@ -35,17 +35,19 @@ public class DependencyTest extends TestCase {
 	}
 	
 	@Test
-	public void testCircularityOfPackageDependencies() throws Exception {
+	public void testMutualDependencyOfPackageDependencies() throws Exception {
 		
 		// obtain package dependencies in dot file by executing
 		// jdeps -dotoutput /tmp/jdeps/ beast
 		
+		String jdepsDir = "/tmp/jdeps";
+		
 		System.err.println("Running jdeps...");
-		if (!new File("/tmp/jdeps").exists()) {
-			new File("/tmp/jdeps").mkdirs();
+		if (!new File(jdepsDir).exists()) {
+			new File(jdepsDir).mkdirs();
 		}
 		ProcessBuilder builder = new ProcessBuilder();
-		builder.command("jdeps", "-dotoutput", "/tmp/jdeps/", "beast");
+		builder.command("jdeps", "-dotoutput", jdepsDir+"/", "beast");
 		String dir = System.getProperty("user.dir");
 		if (dir.indexOf("/src/") > 0) {			
 			dir = dir.substring(0, dir.indexOf("/src/"));
@@ -60,7 +62,7 @@ public class DependencyTest extends TestCase {
 
 		// parse /tmp/jdeps/beast.dot for dependencies
 		System.err.println("Processing dependencies");
-		String dotFile = FileUtils.load(new File("/tmp/jdeps/beast.dot"));
+		String dotFile = FileUtils.load(new File(jdepsDir + "/beast.dot"));
 		Set<String> map = new HashSet<>();	
 		for (String str : dotFile.split("\n")) {
 			if (str.contains("->")) {
@@ -94,11 +96,13 @@ public class DependencyTest extends TestCase {
 			for (String cycle : cycles) {
 				System.err.println(cycle);
 			}
-		} else {
-			
+		} else {			
 			System.err.println("Bravo! No cycles found");
 		}
 		assertEquals(cycles.size(), 0);
+		
+		// TODO: test for cycles longer than 2?
+		
 		System.err.print("Done");
 		
 	}

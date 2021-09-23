@@ -9,6 +9,8 @@ import java.util.List;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.core.Loggable;
+import beast.base.evolution.tree.IntervalType;
+import beast.base.evolution.tree.TreeIntervals;
 import beast.base.inference.parameter.BooleanParameter;
 import beast.base.inference.parameter.RealParameter;
 

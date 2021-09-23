@@ -2,9 +2,9 @@ package test.beast.evolution.tree.coalescent;
 
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.tree.Tree;
+import beast.base.evolution.tree.TreeIntervals;
 import beast.base.evolution.tree.coalescent.Coalescent;
 import beast.base.evolution.tree.coalescent.ConstantPopulation;
-import beast.base.evolution.tree.coalescent.TreeIntervals;
 import test.beast.BEASTTestCase;
 
 /**

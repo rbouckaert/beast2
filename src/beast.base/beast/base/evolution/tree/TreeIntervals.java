@@ -1,4 +1,4 @@
-package beast.base.evolution.tree.coalescent;
+package beast.base.evolution.tree;
 
 
 
@@ -8,8 +8,6 @@ import java.util.List;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.core.Input.Validate;
-import beast.base.evolution.tree.Node;
-import beast.base.evolution.tree.Tree;
 import beast.base.inference.CalculationNode;
 import beast.base.util.HeapSort;
 

@@ -20,7 +20,7 @@ import beast.base.core.BEASTInterface;
 import beast.base.core.Input;
 import beast.base.core.Log;
 import beast.base.core.Input.Validate;
-import beast.base.inference.util.ModelLogger;
+import beast.base.inference.ModelLogger;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
 

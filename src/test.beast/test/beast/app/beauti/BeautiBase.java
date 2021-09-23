@@ -34,6 +34,7 @@ import beast.app.util.Utils;
 import beast.base.core.BEASTInterface;
 import beast.base.core.BEASTObject;
 import beast.base.core.Function;
+import beast.base.inference.CompoundDistribution;
 import beast.base.inference.Distribution;
 import beast.base.inference.Logger;
 import beast.base.inference.MCMC;
@@ -42,7 +43,6 @@ import beast.base.inference.State;
 import beast.base.inference.StateNode;
 import beast.base.inference.distribution.Prior;
 import beast.base.inference.parameter.Parameter;
-import beast.base.inference.util.CompoundDistribution;
 import beast.base.parser.XMLParser;
 
 
