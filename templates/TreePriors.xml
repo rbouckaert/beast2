@@ -162,7 +162,7 @@
                      mainid='CoalescentConstant.t:$(n)'>
             <![CDATA[
             <distribution id="CoalescentConstant.t:$(n)" spec="Coalescent">
-                <treeIntervals spec='TreeIntervals' id='TreeIntervals.t:$(n)' tree='@Tree.t:$(n)'/>
+                <treeIntervals spec='beast.base.evolution.tree.TreeIntervals' id='TreeIntervals.t:$(n)' tree='@Tree.t:$(n)'/>
                 <populationModel spec="ConstantPopulation" id='ConstantPopulation.t:$(n)'>
                      <parameter name="popSize" id="popSize.t:$(n)" value='0.3' estimate='true'/>
                  </populationModel>
@@ -202,7 +202,7 @@
                      mainid='CoalescentExponential.t:$(n)'>
             <![CDATA[
             <distribution id="CoalescentExponential.t:$(n)" spec="Coalescent">
-                <treeIntervals spec='TreeIntervals' id='TreeIntervals.t:$(n)' tree='@Tree.t:$(n)'/>
+                <treeIntervals spec='beast.base.evolution.tree.TreeIntervals' id='TreeIntervals.t:$(n)' tree='@Tree.t:$(n)'/>
                 <populationModel spec="ExponentialGrowth" id="ExponentialGrowth.t:$(n)">
                     <parameter name="popSize" id="ePopSize.t:$(n)" value='0.3' estimate='true'/>
                     <parameter name="growthRate" id="growthRate.t:$(n)" value='3e-4' estimate='true'/>
@@ -263,7 +263,7 @@
             <distribution spec="BayesianSkyline" id='BayesianSkyline.t:$(n)'>
                 <parameter name='popSizes' id='bPopSizes.t:$(n)' dimension="5" value="380.0" lower="0.0" estimate='true'/>
                 <groupSizes spec='parameter.IntegerParameter' id='bGroupSizes.t:$(n)' dimension='5' value='1' estimate='true'/>
-                <treeIntervals spec='TreeIntervals' id='BSPTreeIntervals.t:$(n)' tree='@Tree.t:$(n)'/>
+                <treeIntervals spec='beast.base.evolution.tree.TreeIntervals' id='BSPTreeIntervals.t:$(n)' tree='@Tree.t:$(n)'/>
             </distribution>
 
             <distribution id='MarkovChainedPopSizes.t:$(n)' spec="beast.base.inference.distribution.MarkovChainDistribution" 
@@ -316,7 +316,7 @@
 	        <stateNode id="popSizes.alltrees" spec="parameter.RealParameter" value="1"/>
 
             <distribution id="ExtendedBayesianSkyline.t:$(n)" spec="Coalescent">
-                 <treeIntervals id="treeIntervals.t:$(n)" spec="TreeIntervals" tree="@Tree.t:$(n)"/>
+                 <treeIntervals id="treeIntervals.t:$(n)" spec='beast.base.evolution.tree.TreeIntervals' tree="@Tree.t:$(n)"/>
                  <populationModel id="scaledDemo.t:$(n)" spec="beast.base.evolution.tree.coalescent.ScaledPopulationFunction" factor='1' population='@demographic.alltrees'/>
             </distribution>
 

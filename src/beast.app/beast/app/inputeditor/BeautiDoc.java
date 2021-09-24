@@ -62,6 +62,7 @@ import beast.base.evolution.substitutionmodel.SubstitutionModel;
 import beast.base.evolution.tree.MRCAPrior;
 import beast.base.evolution.tree.TraitSet;
 import beast.base.evolution.tree.Tree;
+import beast.base.evolution.tree.TreeInterface;
 import beast.base.inference.CompoundDistribution;
 import beast.base.inference.Distribution;
 import beast.base.inference.MCMC;
@@ -1329,16 +1330,18 @@ public class BeautiDoc extends BEASTObject implements RequiredInputProvider {
         }
 
         BEASTInterface likelihood = pluginmap.get("likelihood");
+        Set<TreeInterface> treesSeen = new HashSet<>();
         if (likelihood instanceof CompoundDistribution) {
             int i = 0;
             RealParameter firstClock = null;
             for (Distribution distr : ((CompoundDistribution) likelihood).pDistributions.get()) {
                 if (distr instanceof GenericTreeLikelihood) {
-                    GenericTreeLikelihood treeLikelihood = (GenericTreeLikelihood) distr;
+                    GenericTreeLikelihood treeLikelihood = (GenericTreeLikelihood) distr;                    
+                    TreeInterface currentTree = treeLikelihood.treeInput.get();
                     boolean needsEstimation = needsEstimationBySPTree;
                     if (i > 0) {
                         BranchRateModel.Base model = treeLikelihood.branchRateModelInput.get();
-                        needsEstimation = (model.meanRateInput.get() != firstClock) || firstClock.isEstimatedInput.get();
+                        needsEstimation = (model.meanRateInput.get() != firstClock && treesSeen.contains(currentTree)) || firstClock.isEstimatedInput.get();
                     } else {
                         // TODO: this might not be a valid type conversion from TreeInterface to Tree
                         Tree tree = (Tree) treeLikelihood.treeInput.get();
@@ -1364,6 +1367,7 @@ public class BeautiDoc extends BEASTObject implements RequiredInputProvider {
                             firstClock = clockRate;
                         }
                     }
+                    treesSeen.add(currentTree);
                     i++;
                 }
             }

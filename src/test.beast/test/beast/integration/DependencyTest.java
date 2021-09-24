@@ -69,7 +69,9 @@ public class DependencyTest extends TestCase {
 				String [] strs = str.split("->");
 				String from = strs[0].trim().replaceAll("\"","");
 				String to = strs[1].replaceAll("\"","");
-				to = to.substring(0, to.indexOf("(")).trim();
+				if (to.indexOf("(") > 0) {
+					to = to.substring(0, to.indexOf("(")).trim();
+				}
 				edges.add(from + "->" + to);
 			}
 		}
@@ -97,7 +99,7 @@ public class DependencyTest extends TestCase {
 				System.err.println(cycle);
 			}
 		} else {			
-			System.err.println("Bravo! No cycles found");
+			System.err.println("Bravo! No cycles of length 2 found");
 		}
 		assertEquals(cycles.size(), 0);
 		
@@ -169,7 +171,7 @@ public class DependencyTest extends TestCase {
 		}
 		
 		assertEquals(true, progress);
-		System.err.print("Done");
-		
+		System.err.println("Bravo! No cycles of length >2 found");
+		System.err.print("Done");		
 	}
 }
