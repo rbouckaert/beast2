@@ -52,7 +52,7 @@ public class DependencyTest extends TestCase {
 		if (dir.indexOf("/src/") > 0) {			
 			dir = dir.substring(0, dir.indexOf("/src/"));
 		}
-		builder.directory(new File(dir + "/build"));
+		builder.directory(new File(dir + "/build/"));
 		Process process = builder.start();
 		StreamGobbler streamGobbler = 
 		  new StreamGobbler(process.getInputStream(), System.out::println);
@@ -63,26 +63,26 @@ public class DependencyTest extends TestCase {
 		// parse /tmp/jdeps/beast.dot for dependencies
 		System.err.println("Processing dependencies");
 		String dotFile = FileUtils.load(new File(jdepsDir + "/beast.dot"));
-		Set<String> map = new HashSet<>();	
+		Set<String> edges = new HashSet<>();	
 		for (String str : dotFile.split("\n")) {
 			if (str.contains("->")) {
 				String [] strs = str.split("->");
 				String from = strs[0].trim().replaceAll("\"","");
 				String to = strs[1].replaceAll("\"","");
 				to = to.substring(0, to.indexOf("(")).trim();
-				map.add(from + "->" + to);
+				edges.add(from + "->" + to);
 			}
 		}
 
 		
 		Set<String> cycles = new HashSet<>();
 		
-		for (String dep : map) {
-			String [] str = dep.split("->");
+		for (String edge : edges) {
+			String [] str = edge.split("->");
 			String from = str[0];
 			String to = str[1];			
 			String d = to + "->" + from;
-			if (map.contains(d)) {
+			if (edges.contains(d)) {
 				if (from.compareTo(to)> 0) {
 					cycles.add(from + " <-> " + to);
 				} else {
@@ -101,8 +101,74 @@ public class DependencyTest extends TestCase {
 		}
 		assertEquals(cycles.size(), 0);
 		
-		// TODO: test for cycles longer than 2?
+		// test for cycles longer than 2
+		Map<String, Set<String>> neighbours = new HashMap<>();
+		for (String edge : edges) {
+			String [] str = edge.split("->");
+			String from = str[0];
+			String to = str[1];			
+			if (from.startsWith("beast")) {
+				if (!neighbours.containsKey(from)) {
+					neighbours.put(from, new HashSet<>());
+				}
+				if (to.startsWith("beast")) {
+					neighbours.get(from).add(to);
+				}
+			}
+		}
 		
+		// create partial order
+		List<String> order = new ArrayList<>();
+		Set<String> done = new HashSet<>();
+		boolean progress = true;
+		while (progress && neighbours.size() > 0) {
+			progress = false;
+			for (String n : neighbours.keySet()) {
+				Set<String> neighbors = neighbours.get(n);
+				boolean canOrder = true;
+				for (String n2 : neighbors) {
+					if (!done.contains(n2)) {
+						canOrder = false;
+						break;
+					}
+				}
+				if (canOrder) {
+					order.add(n);
+					done.add(n);
+					neighbours.remove(n);
+					progress = true;
+					break;
+				}
+			}
+		}
+		
+		
+		// report if the ordering cannot be completed
+		if (!progress) {
+			System.err.println("Cyclic dependency larger than 2 detected");
+			for (String str : order) {
+				System.err.println(str);
+			}
+			System.err.println("Fine so far, but cannot add the following:");
+			for (String n : neighbours.keySet()) {
+				System.err.print(n);
+				System.err.print(" depends on ");
+				for (String n2 : neighbours.get(n)) {
+					if (!done.contains(n2)) {
+						System.err.print(n2 + ", ");
+					}									
+				}
+				System.err.print(" Done: ");
+				for (String n2 : neighbours.get(n)) {
+					if (done.contains(n2)) {
+						System.err.print(n2 + ", ");
+					}									
+				}
+				System.err.println();
+			}						
+		}
+		
+		assertEquals(true, progress);
 		System.err.print("Done");
 		
 	}

@@ -27,7 +27,6 @@ package beast.base.evolution.distance;
 
 import beast.base.core.Description;
 import beast.base.evolution.alignment.Alignment;
-import beast.base.evolution.substitutionmodel.Frequencies;
 
 
 /**
@@ -46,14 +45,7 @@ public class F84Distance extends Distance.Base {
     public void setPatterns(Alignment patterns) {
         super.setPatterns(patterns);
 
-        Frequencies frequencies = new Frequencies();
-        try {
-            frequencies.initByName("data", patterns, "estimate", true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        double[] freqs = frequencies.getFreqs();
+        double[] freqs = patterns.calcFrequencies();
         stateCount = dataType.getStateCount();
         if (stateCount != 4) {
             throw new IllegalArgumentException("F84DistanceMatrix must have nucleotide patterns");

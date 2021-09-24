@@ -118,72 +118,7 @@ public class Frequencies extends CalculationNode {
      */
     protected void estimateFrequencies() {
         Alignment alignment = dataInput.get();
-        DataType dataType = alignment.getDataType();
-        int stateCount = alignment.getMaxStateCount();
-
-        freqs = new double[stateCount];
-        Arrays.fill(freqs, 1.0 / stateCount);
-
-        int attempts = 0;
-        double difference;
-        do {
-            double[] tmpFreq = new double[stateCount];
-
-            double total = 0.0;
-            for (int i = 0; i < alignment.getPatternCount(); i++) {
-                int[] pattern = alignment.getPattern(i);
-                double weight = alignment.getPatternWeight(i);
-
-                for (int value : pattern) {
-                    int[] codes = dataType.getStatesForCode(value);
-
-                    double sum = 0.0;
-                    for (int codeIndex : codes) {
-                        sum += freqs[codeIndex];
-                    }
-
-                    for (int codeIndex : codes) {
-                        double tmp = (freqs[codeIndex] * weight) / sum;
-                        tmpFreq[codeIndex] += tmp;
-                        total += tmp;
-                    }
-                }
-            }
-
-            difference = 0.0;
-            for (int i = 0; i < stateCount; i++) {
-                difference += Math.abs((tmpFreq[i] / total) - freqs[i]);
-                freqs[i] = tmpFreq[i] / total;
-            }
-            attempts++;
-        } while (difference > 1E-8 && attempts < 1000);
-
-//    	Alignment alignment = m_data.get();
-//        m_fFreqs = new double[alignment.getMaxStateCount()];
-//        for (int i = 0; i < alignment.getPatternCount(); i++) {
-//            int[] pattern = alignment.getPattern(i);
-//            double weight = alignment.getPatternWeight(i);
-//            DataType dataType = alignment.getDataType();
-//            for (int value : pattern) {
-//            	if (value < 4) {
-//            	int [] codes = dataType.getStatesForCode(value);
-//            	for (int codeIndex : codes) {
-//                    m_fFreqs[codeIndex] += weight / codes.length;
-//            	}
-//            	}
-////                if (value < m_fFreqs.length) { // ignore unknowns
-////                    m_fFreqs[value] += weight;
-////                }
-//            }
-//        }
-//        // normalize
-//        double sum = 0;
-//        for (double f : m_fFreqs) {
-//            sum += f;
-//        }
-//        for (int i = 0; i < m_fFreqs.length; i++) {
-//            m_fFreqs[i] /= sum;
-//        }
+        freqs = alignment.calcFrequencies();
         Log.info.println("Starting frequencies: " + Arrays.toString(freqs));
     } // calcFrequencies
 

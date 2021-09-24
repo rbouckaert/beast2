@@ -79,8 +79,8 @@ import javax.swing.filechooser.FileFilter;
 
 import beast.app.inputeditor.BEASTObjectDialog;
 import beast.app.inputeditor.BEASTObjectPanel;
+import beast.app.inputeditor.MyAction;
 import beast.app.util.ExtensionFileFilter;
-import beast.app.util.MyAction;
 import beast.app.util.Utils;
 import beast.base.core.BEASTInterface;
 import beast.base.evolution.alignment.Sequence;

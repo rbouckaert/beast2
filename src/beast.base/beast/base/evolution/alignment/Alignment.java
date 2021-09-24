@@ -827,4 +827,53 @@ public class Alignment extends Map<String> {
 		}
 		return seq;
 	}
+
+
+	/*
+	 * return empirical frequencies on this alignment
+	 */
+	  public double [] calcFrequencies() {
+	        Alignment alignment = this;
+	        DataType dataType = alignment.getDataType();
+	        int stateCount = alignment.getMaxStateCount();
+
+	        double [] freqs = new double[stateCount];
+	        Arrays.fill(freqs, 1.0 / stateCount);
+
+	        int attempts = 0;
+	        double difference;
+	        do {
+	            double[] tmpFreq = new double[stateCount];
+
+	            double total = 0.0;
+	            for (int i = 0; i < alignment.getPatternCount(); i++) {
+	                int[] pattern = alignment.getPattern(i);
+	                double weight = alignment.getPatternWeight(i);
+
+	                for (int value : pattern) {
+	                    int[] codes = dataType.getStatesForCode(value);
+
+	                    double sum = 0.0;
+	                    for (int codeIndex : codes) {
+	                        sum += freqs[codeIndex];
+	                    }
+
+	                    for (int codeIndex : codes) {
+	                        double tmp = (freqs[codeIndex] * weight) / sum;
+	                        tmpFreq[codeIndex] += tmp;
+	                        total += tmp;
+	                    }
+	                }
+	            }
+
+	            difference = 0.0;
+	            for (int i = 0; i < stateCount; i++) {
+	                difference += Math.abs((tmpFreq[i] / total) - freqs[i]);
+	                freqs[i] = tmpFreq[i] / total;
+	            }
+	            attempts++;
+	        } while (difference > 1E-8 && attempts < 1000);
+	        return freqs;
+	  } // calcFrequencies
+	
 } // class Data

@@ -34,7 +34,7 @@ beast: [
 		},
 	 init: [
 		{id: "RandomTree.t:dna",
-		 spec: "beast.base.evolution.tree.coalescent.RandomTree", taxa: "@dna", initial: "@Tree.t:dna", estimate: false,
+		 spec: "RandomTree", taxa: "@dna", initial: "@Tree.t:dna", estimate: false,
 			 populationModel: {id: "ConstantPopulation0.t:dna", spec: "ConstantPopulation", popSize: "1.0" }
 		}
 	  ],
