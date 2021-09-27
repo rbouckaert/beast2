@@ -259,11 +259,27 @@
     	<javac 
                srcdir="src/test.beast"
                destdir="build"
-               classpathref="classpath"
                fork="true"
                memoryinitialsize="256m"
                memorymaximumsize="1024m"
                includeAntRuntime='false'>
+               
+               <classpath>
+                <path id="assertj-without-test-beast.classpath">
+			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
+        			<fileset dir="${lib}" includes="beagle.jar"/>
+			        <fileset dir="${lib}" includes="jam.jar"/>
+			        <fileset dir="${lib}" includes="colt.jar"/>
+			        <fileset dir="${lib}" includes="fest.jar"/>
+			        <fileset dir="${lib}" includes="antlr-runtime-4.7.jar"/>
+			        <fileset dir="build/dist" includes="beast.base.jar" />
+			        <fileset dir="build/dist" includes="beast.app.jar" />
+			        <fileset dir="build/dist" includes="beast.pkgmgmt.jar" />
+			        <fileset dir="${lib}" includes="assertj-swing-junit-3.17.1.jar"/>
+				    <fileset dir="${lib}" includes="assertj-core-3.20.2.jar"/>
+				    <fileset dir="${lib}" includes="assertj-swing-3.17.1.jar"/>
+                </path>
+               </classpath>
             <include name="test/**/**" />
         </javac>
                 
