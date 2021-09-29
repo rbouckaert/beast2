@@ -2,7 +2,7 @@
   <headerType>gui</headerType>
   <icon>../common/icons/beast.ico</icon>
   <classPath>
-  	<mainClass>beast.app.beastapp.BeastLauncher</mainClass>
+  	<mainClass>beast.app.util.BeastLauncher</mainClass>
   	<cp>./lib/launcher.jar</cp>
   </classPath>
   <cmdLine>-window -working -options</cmdLine>

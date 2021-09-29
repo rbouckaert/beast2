@@ -17,7 +17,7 @@
     <property name="dist" location="../beast2.7/build/dist" />
     <property name="test" location="../beast2.7/test" />
 
-    <property name="main_class_BEASTLauncher" value="beast.app.beastapp.BeastLauncher" />
+    <property name="main_class_BEASTLauncher" value="beast.app.util.BeastLauncher" />
     <property name="report" value="build/junitreport" />
 
     <path id="classpath">
@@ -41,7 +41,17 @@
     <!-- start -->
     <target name="init">
         <echo message="${ant.project.name}: ${ant.file}" />
+        <available file="./version.xml" property="versionAvailable"/>
+        <fail unless="versionAvailable">
+              ** Required file version.xml does not exist. **
+        </fail>
+
+        <!-- Read package name and version from xml file -->
+        <xmlproperty file="./version.xml" prefix="fromVersionFile" />
+        <property name="version" value="${fromVersionFile.package(version)}" />
+        <echo message="Version: ${version}" />
     </target>
+    
 
     <target name="clean">
         <delete dir="${build}" />
@@ -388,13 +398,12 @@
                 <include name="beast/**/*.class" />
                 <include name="beast/**/*.properties" />
                 <include name="beast/**/*.png" />
-                <include name="beagle/**/*.class" />
-                <include name="org/**/*.class" />
             </fileset>
             <zipgroupfileset dir="${lib}" includes="jam.jar" />
             <zipgroupfileset dir="${lib}" includes="beagle.jar" />
             <zipgroupfileset dir="${lib}" includes="colt.jar" />
-            <zipgroupfileset dir="${lib}" includes="commons-math3-3.6.1.jar" />
+            <zipgroupfileset dir="build/dist" includes="json.jar" />
+            <zipgroupfileset dir="build/dist" includes="commons-math.jar" />
             <zipgroupfileset dir="${lib}" includes="antlr-runtime-4.7.jar"/>
         </jar>
         
@@ -405,16 +414,8 @@
             </manifest>
             <fileset dir="${build}">
                 <include name="beast/**/*Launcher*.class" />
-                <exclude name="beast/app/tools/AppLauncher.class"/>
-                <exclude name="beast/app/tools/AppLauncher$*.class"/>
-                <include name="beast/**/Utils6*.class" />
-                <include name="beast/**/BEASTVersion.class" />
-                <include name="beast/**/Version.class" />
-		    	<include name="beast/app/util/Arguments*.class" />
-                <include name="beast/util/Package*.class" />
-				<include name="beast/util/BEASTClassLoader.class" />
-                <include name="beast/app/draw/icons/beauti.png"/>
-                <include name="beast/core/util/Log*.class" />
+                <include name="beast/pkgmgmt/*.class" />
+                <include name="beast/pkgmgmt/icons/beauti.png"/>
            </fileset>
         </jar>
         
@@ -448,8 +449,8 @@
                 <include name="examples/nexus/*.*" />
             </fileset>
          </jar>
-
-</target>
+	</target>
+	
 
     <!-- run beast.jar -->
     <target name="run_BEAST">
@@ -545,8 +546,13 @@
 
 
     <!-- Release -->
-    <property name="version" value="2.6.6" />
-    <property name="version_number" value="2.6.6" />
+    
+    <!--
+    <property name="version" value="2.6.6" />    
+    -->
+    
+    
+    
     <property name="release_dir" value="release" />
     <property name="copyright" value="Beast 2 development team 2011-2021" />
 
@@ -630,9 +636,9 @@
         <launch4j configFile="${Windows_dir}/BEAUti_launch4j.xml"
                   jar="${dist}/launcher.jar"
                   outfile="${Windows_package_dir}/${BEAUti_name}.exe"
-                  fileVersion="${version_number}.0"
+                  fileVersion="${version}.0"
                   txtFileVersion="${version}"
-                  productVersion="${version_number}.0"
+                  productVersion="${version}.0"
                   txtProductVersion="${version}" >
                   <!-- to bunle a JRE, copy the desired JRE to folder ../jre 
                        (so java.exe is in ../jre/bin/) and uncomment following fragment
@@ -655,9 +661,9 @@
         <launch4j configFile="${Windows_dir}/BEAST_launch4j.xml"
                   jar="${dist}/launcher.jar"
                   outfile="${Windows_package_dir}/${BEAST_name}.exe"
-                  fileVersion="${version_number}.0"
+                  fileVersion="${version}.0"
                   txtFileVersion="${version}"
-                  productVersion="${version_number}.0"
+                  productVersion="${version}.0"
                   txtProductVersion="${version}" />
 
 <jsign file="${Windows_package_dir}/${BEAST_name}.exe"
@@ -671,9 +677,9 @@
         <!--<launch4j configFile="${Windows_dir}/TreeStat_launch4j.xml"
                               jar="${dist}/beast.jar"
                               outfile="${Windows_package_dir}/${TreeStat_name}.exe"
-                              fileVersion="${version_number}.0"
+                              fileVersion="${version}.0"
                               txtFileVersion="${version}"
-                              productVersion="${version_number}.0"
+                              productVersion="${version}.0"
                               txtProductVersion="${version}"/>-->
 
         <!-- LogAnalyser v?.?.?.exe
@@ -688,9 +694,9 @@
         <launch4j configFile="${Windows_dir}/LogCombiner_launch4j.xml"
                   jar="${dist}/launcher.jar"
                   outfile="${Windows_package_dir}/${LogCombiner_name}.exe"
-                  fileVersion="${version_number}.0"
+                  fileVersion="${version}.0"
                   txtFileVersion="${version}"
-                  productVersion="${version_number}.0"
+                  productVersion="${version}.0"
                   txtProductVersion="${version}"/>
 
 <jsign file="${Windows_package_dir}/${LogCombiner_name}.exe"
@@ -704,9 +710,9 @@
         <launch4j configFile="${Windows_dir}/TreeAnnotator_launch4j.xml"
                   jar="${dist}/launcher.jar"
                   outfile="${Windows_package_dir}/TreeAnnotator.exe"
-                  fileVersion="${version_number}.0"
+                  fileVersion="${version}.0"
                   txtFileVersion="${version}"
-                  productVersion="${version_number}.0"
+                  productVersion="${version}.0"
                   txtProductVersion="${version}"/>
 
 <jsign file="${Windows_package_dir}/TreeAnnotator.exe"
@@ -737,9 +743,9 @@
         <launch4j configFile="${Windows_dir}/AppLauncher_launch4j.xml"
                   jar="${dist}/launcher.jar"
                   outfile="${Windows_package_dir}/AppLauncher.exe"
-                  fileVersion="${version_number}.0"
+                  fileVersion="${version}.0"
                   txtFileVersion="${version}"
-                  productVersion="${version_number}.0"
+                  productVersion="${version}.0"
                   txtProductVersion="${version}"/>
 
 <jsign file="${Windows_package_dir}/AppLauncher.exe"
@@ -824,9 +830,9 @@
         <launch4j configFile="${Windows_dir}/BEAUti_launch4j_jre.xml"
                   jar="${dist}/launcher.jar"
                   outfile="${Windows_package_dir}/${BEAUti_name}.exe"
-                  fileVersion="${version_number}.0"
+                  fileVersion="${version}.0"
                   txtFileVersion="${version}"
-                  productVersion="${version_number}.0"
+                  productVersion="${version}.0"
                   txtProductVersion="${version}" >
                   <!-- to bunle a JRE, copy the desired JRE to folder ../jre 
                        (so java.exe is in ../jre/bin/) and uncomment following fragment
@@ -849,9 +855,9 @@
         <launch4j configFile="${Windows_dir}/BEAST_launch4j_jre.xml"
                   jar="${dist}/launcher.jar"
                   outfile="${Windows_package_dir}/${BEAST_name}.exe"
-                  fileVersion="${version_number}.0"
+                  fileVersion="${version}.0"
                   txtFileVersion="${version}"
-                  productVersion="${version_number}.0"
+                  productVersion="${version}.0"
                   txtProductVersion="${version}" />
 
 	<jsign file="${Windows_package_dir}/${BEAST_name}.exe"
@@ -865,9 +871,9 @@
         <!--<launch4j configFile="${Windows_dir}/TreeStat_launch4j.xml"
                               jar="${dist}/beast.jar"
                               outfile="${Windows_package_dir}/${TreeStat_name}.exe"
-                              fileVersion="${version_number}.0"
+                              fileVersion="${version}.0"
                               txtFileVersion="${version}"
-                              productVersion="${version_number}.0"
+                              productVersion="${version}.0"
                               txtProductVersion="${version}"/>-->
 
         <!-- LogAnalyser v?.?.?.exe
@@ -882,9 +888,9 @@
         <launch4j configFile="${Windows_dir}/LogCombiner_launch4j_jre.xml"
                   jar="${dist}/launcher.jar"
                   outfile="${Windows_package_dir}/${LogCombiner_name}.exe"
-                  fileVersion="${version_number}.0"
+                  fileVersion="${version}.0"
                   txtFileVersion="${version}"
-                  productVersion="${version_number}.0"
+                  productVersion="${version}.0"
                   txtProductVersion="${version}"/>
 
 	<jsign file="${Windows_package_dir}/${LogCombiner_name}.exe"
@@ -898,9 +904,9 @@
         <launch4j configFile="${Windows_dir}/TreeAnnotator_launch4j_jre.xml"
                   jar="${dist}/launcher.jar"
                   outfile="${Windows_package_dir}/TreeAnnotator.exe"
-                  fileVersion="${version_number}.0"
+                  fileVersion="${version}.0"
                   txtFileVersion="${version}"
-                  productVersion="${version_number}.0"
+                  productVersion="${version}.0"
                   txtProductVersion="${version}"/>
 
 	<jsign file="${Windows_package_dir}/TreeAnnotator.exe"
@@ -930,9 +936,9 @@
         <launch4j configFile="${Windows_dir}/AppLauncher_launch4j_jre.xml"
                   jar="${dist}/launcher.jar"
                   outfile="${Windows_package_dir}/AppLauncher.exe"
-                  fileVersion="${version_number}.0"
+                  fileVersion="${version}.0"
                   txtFileVersion="${version}"
-                  productVersion="${version_number}.0"
+                  productVersion="${version}.0"
                   txtProductVersion="${version}"/>
 
 	<jsign file="${Windows_package_dir}/AppLauncher.exe"
@@ -961,7 +967,7 @@
 
 
     <target name="linux"
-            depends="build_jar_all_BEAST_NoJUnitTest"
+            depends="compile-all,dist_all_BEAST"
             description="release Linux/Unix version of BEAST, BEAUTI, TreeAnnotator, LogCombiner">
         <delete dir="${Linux_package_dir}" />
         <!-- Create the release directory -->
