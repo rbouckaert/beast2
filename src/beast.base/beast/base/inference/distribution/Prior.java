@@ -1,4 +1,4 @@
-package beast.base.inference.distribution;
+	package beast.base.inference.distribution;
 
 
 import java.util.ArrayList;
@@ -95,21 +95,37 @@ public class Prior extends Distribution {
 
             if (newx.length == x.getDimension()) {            	
 	            if (x instanceof RealParameter) {
+	            	RealParameter p = (RealParameter) x;
 	                for (int i = 0; i < newx.length; i++) {
+	                	while (p.getLower() > newx[i] || p.getUpper() < newx[i]) {
+	                		newx = dist.sample(1)[0];
+	                	}
 	                    ((RealParameter) x).setValue(i, newx[i]);
 	                }
 	            } else if (x instanceof IntegerParameter) {
+	                IntegerParameter p = (IntegerParameter) x;
 	                for (int i = 0; i < newx.length; i++) {
-	                    ((IntegerParameter) x).setValue(i, (int)Math.round(newx[i]));
+	                	while (p.getLower() > newx[i] || p.getUpper() < newx[i]) {
+	                		newx = dist.sample(1)[0];
+	                	}
+	                    p.setValue(i, (int)Math.round(newx[i]));
 	                }
 	            }
             } else if (newx.length == 1) {
             	// assume it is a multi dimensional distribution with iid components
             	for (int k = 0; k < x.getDimension(); k++) {
 		            if (x instanceof RealParameter) {
-		                ((RealParameter) x).setValue(k, newx[0]);
+		            	RealParameter p = (RealParameter) x;
+		            	while (p.getLower() > newx[0] || p.getUpper() < newx[0]) {
+		            		newx = dist.sample(1)[0];
+		            	}
+		                p.setValue(k, newx[0]);
 		            } else if (x instanceof IntegerParameter) {
-		                ((IntegerParameter) x).setValue(k, (int)Math.round(newx[0]));
+		                IntegerParameter p = (IntegerParameter) x;
+		            	while (p.getLower() > newx[0] || p.getUpper() < newx[0]) {
+		            		newx = dist.sample(1)[0];
+		            	}
+		                p.setValue(k, (int)Math.round(newx[0]));
 		            }
 		            if (k < x.getDimension()-1) {
 		            	newx = dist.sample(1)[0];
