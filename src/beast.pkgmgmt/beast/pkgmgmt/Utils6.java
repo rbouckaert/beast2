@@ -175,7 +175,20 @@ public class Utils6 {
 	    }
 	}
 	
+	
+	
 	public static boolean testCudaStatusOnMac() {
+	    String beastJar = getPackageUserDir();
+	    beastJar += "/" + "BEAST" + "/" + "lib" + "/" + "beast.jar";
+		return testCudaStatusOnMac(beastJar, "beast.app.util.Utils");
+	}
+	
+	/**
+	 * 
+	 * @param jarFile contains 
+	 * @return
+	 */
+	public static boolean testCudaStatusOnMac(String jarFile, String testCudaClass) {
 		String cudaStatusOnMac = "<html>It appears you have CUDA installed, but your computer hardware does not support it.<br>"
 				+ "You need to remove CUDA before BEAST/BEAUti can start.<br>"
 				+ "To remove CUDA, delete the following folders (if they exist) by typing in a terminal:<br>"
@@ -221,16 +234,15 @@ public class Utils6 {
 					    	  java += "/bin/java";
 					      }
 	            	 }
-				      String beastJar = getPackageUserDir();
-				      beastJar += "/" + "BEAST" + "/" + "lib" + "/" + "beast.jar";
-				      if (!new File(beastJar).exists()) { 
-				    	  System.err.println("Could not find beast.jar, giving up testCudaStatusOnMac");
+				      if (!new File(jarFile).exists()) { 
+				    	  System.err.println("Could not find " + jarFile + ", giving up testCudaStatusOnMac");
 					      //TODO: first time BEAST is started, BEAST will not be installed as package yet, so beastJar does not exist
 				    	  return true;
 				      }
 				      //beastJar = "\"" + beastJar + "\"";
 				      //beastJar = "/Users/remco/workspace/beast2/build/dist/beast.jar";
-				      Process p = Runtime.getRuntime().exec(new String[]{java , "-Dbeast.user.package.dir=/NONE", "-cp" , beastJar , "beast.app.util.Utils"});
+				      Process p = Runtime.getRuntime().exec(new String[]{java , "-Dbeast.user.package.dir=/NONE", "-cp" , 
+				    		  jarFile , testCudaClass});
 				      BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			          int c;
 			          while ((c = input.read()) != -1) {

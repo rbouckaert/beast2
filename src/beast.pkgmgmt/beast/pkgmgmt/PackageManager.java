@@ -1055,9 +1055,12 @@ public class PackageManager {
 //    		return;
 //    	}
 
+        System.err.print("Loading package ");
         for (String jarDirName : getBeastDirectories()) {
         	loadPackage(jarDirName);
         }
+        System.err.println();
+        
         externalJarsLoaded = true;
     	Utils6.logToSplashScreen("PackageManager::findDataTypes");
         findDataTypes();
@@ -1066,7 +1069,7 @@ public class PackageManager {
     
 	private static void findDataTypes() {
 		try {
-			Method findDataTypes = BEASTClassLoader.forName("beast.evolution.alignment.Alignment").getMethod("findDataTypes");
+			Method findDataTypes = BEASTClassLoader.forName("beast.base.evolution.alignment.Alignment").getMethod("findDataTypes");
 			findDataTypes.invoke(null);
 		} catch (Exception e) {
 			// too bad, cannot load data types
@@ -1138,7 +1141,7 @@ public class PackageManager {
                     Document doc = factory.newDocumentBuilder().parse(versionFile);
                     Element packageElement = doc.getDocumentElement();
                     packageNameAndVersion = packageElement.getAttribute("name") + " v" + packageElement.getAttribute("version");
-                    System.err.println("Loading package " + packageNameAndVersion);
+                    System.err.print(packageNameAndVersion);
                     Utils6.logToSplashScreen("Loading package " + packageNameAndVersion);
                 } catch (Exception e) {
                     // too bad, won't print out any info
@@ -2165,12 +2168,10 @@ public class PackageManager {
     	if (System.getProperty("BEAST_PACKAGE_PATH") != null) {
     		return System.getProperty("BEAST_PACKAGE_PATH");
     	}
-    	if (System.getenv("BEAST_PACKAGE_PATH") != null) {
-    		return System.getenv("BEAST_PACKAGE_PATH");
-    	}
-    	if (System.getenv("BEAST_ADDON_PATH") != null) {
-    		return System.getenv("BEAST_ADDON_PATH");
-    	}    	
-    	return System.getenv("BEAST_ADDON_PATH");
+    	return System.getenv("BEAST_PACKAGE_PATH");
+//    	if (System.getenv("BEAST_ADDON_PATH") != null) {
+//    		return System.getenv("BEAST_ADDON_PATH");
+//    	}    	
+//    	return System.getenv("BEAST_ADDON_PATH");
     }
  }
