@@ -177,100 +177,6 @@ public class Utils6 {
 	
 	
 	
-	public static boolean testCudaStatusOnMac() {
-	    String beastJar = getPackageUserDir();
-	    beastJar += "/" + "BEAST" + "/" + "lib" + "/" + "beast.jar";
-		return testCudaStatusOnMac(beastJar, "beast.app.util.Utils");
-	}
-	
-	/**
-	 * 
-	 * @param jarFile contains 
-	 * @return
-	 */
-	public static boolean testCudaStatusOnMac(String jarFile, String testCudaClass) {
-		String cudaStatusOnMac = "<html>It appears you have CUDA installed, but your computer hardware does not support it.<br>"
-				+ "You need to remove CUDA before BEAST/BEAUti can start.<br>"
-				+ "To remove CUDA, delete the following folders (if they exist) by typing in a terminal:<br>"
-				+ "rm -r /Library/Frameworks/CUDA.framework<br>"
-				+ "rm -r /Developer/NVIDIA<br>"
-				+ "rm -r /usr/local/cuda<br>"
-				+ "You may need 'sudo rm' instead of 'rm'</html>";
-        boolean forceJava = Boolean.valueOf(System.getProperty("java.only"));
-        if (forceJava) {
-        	// don't need to check if Beagle (and thus CUDA) is never loaded
-        	return true;
-        }
-        if (isMac()) {
-			// check any of these directories exist
-			// /Library/Frameworks/CUDA.framework
-			// /Developer/NVIDIA
-			// /usr/local/cuda
-			// there is evidence of CUDA being installed on this computer
-			// try to create a BeagleTreeLikelihood using a separate process
-			try {
-			if (new File("/Library/Frameworks/CUDA.framework").exists() ||
-					new File("/Developer/NVIDIA").exists() ||
-					new File("/usr/local/cuda").exists() || true) {
-				
-					String java = null;
-					// first check we can find java of the packaged JRE
-	            	Utils6 clu = new Utils6();
-	            	String launcherJar = clu.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();            	
-	            	String jreDir = URLDecoder.decode(new File(launcherJar).getParent(), "UTF-8") + "/../jre1.8.0_161/";	            	            	
-	            	if (new File(jreDir).exists()) {
-		                java = jreDir + "bin/java";
-	            	}
-	            	if (java == null) {
-					      java = System.getenv("java.home");
-					      if (java == null) {
-					          if (System.getenv("JAVA_HOME") != null) {
-					              java = System.getenv("JAVA_HOME") + File.separatorChar
-					                      + "bin" + File.separatorChar + "java";
-					          } else {
-					          	  java = "java";
-					          }					    	  
-					      } else {
-					    	  java += "/bin/java";
-					      }
-	            	 }
-				      if (!new File(jarFile).exists()) { 
-				    	  System.err.println("Could not find " + jarFile + ", giving up testCudaStatusOnMac");
-					      //TODO: first time BEAST is started, BEAST will not be installed as package yet, so beastJar does not exist
-				    	  return true;
-				      }
-				      //beastJar = "\"" + beastJar + "\"";
-				      //beastJar = "/Users/remco/workspace/beast2/build/dist/beast.jar";
-				      Process p = Runtime.getRuntime().exec(new String[]{java , "-Dbeast.user.package.dir=/NONE", "-cp" , 
-				    		  jarFile , testCudaClass});
-				      BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			          int c;
-			          while ((c = input.read()) != -1) {
-			        	  System.err.print((char)c);
-			          }
-			          input.close();			
-			          p.waitFor();
-				      if (p.exitValue() != 0) {
-				    	  try {
-				    		  JOptionPane.showMessageDialog(null, cudaStatusOnMac);
-				    	  } catch (Exception e) {
-//				    	  if (GraphicsEnvironment.isHeadless()) {
-				    		  cudaStatusOnMac = cudaStatusOnMac.replaceAll("<br>", "\n");
-				    		  cudaStatusOnMac = cudaStatusOnMac.replaceAll("<.?html>","\n");
-				    		  System.err.println("WARNING: " + cudaStatusOnMac);
-//				    	  } else {
-				    	  }
-				    	  return false;
-				      }
-				    }
-				}
-		    catch (Exception err) {
-			      err.printStackTrace();
-			}
-			
-		}
-		return true;
-	}
 
 
     public static boolean isMac() {
@@ -290,35 +196,43 @@ public class Utils6 {
      * @return directory where to install packages for users *
      */
     public static String getPackageUserDir() {
-        
-        if (System.getProperty("beast.user.package.dir") != null)
-            return System.getProperty("beast.user.package.dir");
+    	return getPackageUserDir("BEAST");
+    }
+    
+    public static String getPackageUserDir(String application) {
+    	String prefix = application.toLowerCase();
+        if (System.getProperty(prefix + ".user.package.dir") != null)
+            return System.getProperty(prefix + ".user.package.dir");
         
         if (isWindows()) {
-            return System.getProperty("user.home") + "\\BEAST\\" + BEASTVersion.INSTANCE.getMajorVersion();
+            return System.getProperty("user.home") + "\\" + application + "\\" + BEASTVersion.INSTANCE.getMajorVersion();
         }
         if (isMac()) {
-            return System.getProperty("user.home") + "/Library/Application Support/BEAST/" + BEASTVersion.INSTANCE.getMajorVersion();
+            return System.getProperty("user.home") + "/Library/Application Support/" + application + "/" + BEASTVersion.INSTANCE.getMajorVersion();
         }
         // Linux and unices
-        return System.getProperty("user.home") + "/.beast/" + BEASTVersion.INSTANCE.getMajorVersion();
+        return System.getProperty("user.home") + "/." + prefix + "/" + BEASTVersion.INSTANCE.getMajorVersion();
     }
 
     /**
      * @return directory where system wide packages reside *
      */
     public static String getPackageSystemDir() {
-        
-        if (System.getProperty("beast.system.package.dir") != null)
-            return System.getProperty("beast.system.package.dir");
+    	return getPackageSystemDir("BEAST");
+    }
+    
+    public static String getPackageSystemDir(String application) {
+    	String prefix = application.toLowerCase();        
+        if (System.getProperty(prefix + ".system.package.dir") != null)
+            return System.getProperty(prefix + ".system.package.dir");
         
         if (isWindows()) {
-            return "\\Program Files\\BEAST\\" + BEASTVersion.INSTANCE.getMajorVersion();
+            return "\\Program Files\\" + application + "\\" + BEASTVersion.INSTANCE.getMajorVersion();
         }
         if (isMac()) {
-            return "/Library/Application Support/BEAST/" + BEASTVersion.INSTANCE.getMajorVersion();
+            return "/Library/Application Support/" + application +"/" + BEASTVersion.INSTANCE.getMajorVersion();
         }
-        return "/usr/local/share/beast/" + BEASTVersion.INSTANCE.getMajorVersion();
+        return "/usr/local/share/" + prefix + "/" + BEASTVersion.INSTANCE.getMajorVersion();
     }
     
 

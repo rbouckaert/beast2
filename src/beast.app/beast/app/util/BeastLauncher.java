@@ -36,7 +36,7 @@ public class BeastLauncher {
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException, ClassNotFoundException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		if (javaVersionCheck("BEAST")) {
-			Utils6.testCudaStatusOnMac();
+			Utils.testCudaStatusOnMac();
 			boolean useStrictVersions = false;
 			for (String arg : args) {
 				if (arg.equals("-strictversions")) {

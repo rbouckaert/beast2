@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 import beast.app.util.BeastLauncher;
+import beast.app.util.Utils;
 import beast.pkgmgmt.Utils6;
 
 /** 
@@ -19,7 +20,7 @@ public class BeautiLauncher extends BeastLauncher {
 		// Utils6.startSplashScreen();
 		if (javaVersionCheck("BEAUti")) {
 			// loadBEASTJars();
-			Utils6.testCudaStatusOnMac();
+			Utils.testCudaStatusOnMac();
 			String classpath = getPath(false, null);
 			run(classpath, "beast.app.beauti.Beauti", args);
 		}

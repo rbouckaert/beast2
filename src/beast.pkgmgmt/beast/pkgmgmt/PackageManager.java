@@ -60,15 +60,14 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 /**
- * This class is used to manage beast 2 add-ons, and can
- * - install a new add on
- * - un-install an add on
- * - list directories that may contain add ons
- * - load jars from installed add ons
- * - discover classes in add ons that implement a certain interface or a derived from a certain class
+ * This class is used to manage beast 2 packages, and can
+ * - install a new package
+ * - un-install an package
+ * - list directories that may contain packages
+ * - load jars from installed packages
+ * - discover classes in packages that implement a certain interface or a derived from a certain class
  */
 // TODO: on windows allow installation on drive D: and pick up add-ons in drive C:
-//@Description("Manage all BEAUti packages and list their dependencies")
 public class PackageManager {
 	
 
@@ -80,11 +79,14 @@ public class PackageManager {
     public final static String[] IMPLEMENTATION_DIR = {"beast", "snap"};
     public final static String TO_DELETE_LIST_FILE = "toDeleteList";
     public final static String TO_INSTALL_LIST_FILE = "toInstallList";
+    
     public final static String BEAST_PACKAGE_NAME = "BEAST";
 
-    public final static String PACKAGES_XML = "https://raw.githubusercontent.com/CompEvol/CBAN/master/packages2.6.xml";
-//    public final static String PACKAGES_XML = "file:///Users/remco/workspace/beast2/packages.xml";
+    public final static String PACKAGES_XML = "https://raw.githubusercontent.com/CompEvol/CBAN/master/packages" + 
+    		BEASTVersion.INSTANCE.getMajorVersion() +".xml";
+
     public final static String ARCHIVE_DIR = "archive";
+    
     // flag to indicate archive directory and version numbers in directories are required
     private static boolean useArchive = false;
     
@@ -96,8 +98,8 @@ public class PackageManager {
     public static final String NOT_INSTALLED = "not installed";
     
     public static final String NO_CONNECTION_MESSAGE = "Could not get an internet connection. "
-    		+ "The BEAST Package Manager needs internet access in order to list available packages and download them for installation. "
-    		+ "Possibly, some software (like security software, or a firewall) blocks the BEAST Package Manager.  "
+    		+ "The " + BEAST_PACKAGE_NAME + " Package Manager needs internet access in order to list available packages and download them for installation. "
+    		+ "Possibly, some software (like security software, or a firewall) blocks the " + BEAST_PACKAGE_NAME + " Package Manager.  "
     		+ "If so, you need to reconfigure such software to allow access.";
 
 
@@ -711,35 +713,14 @@ public class PackageManager {
      * @return directory where to install packages for users *
      */
     public static String getPackageUserDir() {
-        
-        if (System.getProperty("beast.user.package.dir") != null)
-            return System.getProperty("beast.user.package.dir");
-        
-        if (Utils6.isWindows()) {
-            return System.getProperty("user.home") + "\\BEAST\\" + beastVersion.getMajorVersion();
-        }
-        if (Utils6.isMac()) {
-            return System.getProperty("user.home") + "/Library/Application Support/BEAST/" + beastVersion.getMajorVersion();
-        }
-        // Linux and unices
-        return System.getProperty("user.home") + "/.beast/" + beastVersion.getMajorVersion();
+        return Utils6.getPackageUserDir(BEAST_PACKAGE_NAME);
     }
 
     /**
      * @return directory where system wide packages reside *
      */
     public static String getPackageSystemDir() {
-        
-        if (System.getProperty("beast.system.package.dir") != null)
-            return System.getProperty("beast.system.package.dir");
-        
-        if (Utils6.isWindows()) {
-            return "\\Program Files\\BEAST\\" + beastVersion.getMajorVersion();
-        }
-        if (Utils6.isMac()) {
-            return "/Library/Application Support/BEAST/" + beastVersion.getMajorVersion();
-        }
-        return "/usr/local/share/beast/" + beastVersion.getMajorVersion();
+        return Utils6.getPackageSystemDir(BEAST_PACKAGE_NAME);
     }
 
     /**
@@ -750,15 +731,20 @@ public class PackageManager {
      * @return string representation of BEAST install directory or null if this directory cannot be identified.
      */
     public static String getBEASTInstallDir() {
-
+    	return getInstallDir(BEAST_PACKAGE_NAME, "beast.app.beastapp.BeastMain");
+    	
+    }
+    
+    public static String getInstallDir(String application, String mainClass) {
+    	String prefix = application.toLowerCase();
         // Allow users to explicitly set install directory - handy for programmers
-        if (System.getProperty("beast.install.dir") != null)
-            return System.getProperty("beast.install.dir");
+        if (System.getProperty(prefix + ".install.dir") != null)
+            return System.getProperty(prefix + ".install.dir");
 
         
         URL u;
 		try {
-			u = BEASTClassLoader.forName("beast.app.beastapp.BeastMain").getProtectionDomain().getCodeSource().getLocation();
+			u = BEASTClassLoader.forName(mainClass).getProtectionDomain().getCodeSource().getLocation();
 		} catch (ClassNotFoundException e) {
 			// e.printStackTrace();
 			return null;
@@ -1062,20 +1048,20 @@ public class PackageManager {
         System.err.println();
         
         externalJarsLoaded = true;
-    	Utils6.logToSplashScreen("PackageManager::findDataTypes");
-        findDataTypes();
+//    	Utils6.logToSplashScreen("PackageManager::findDataTypes");
+//        findDataTypes();
     	Utils6.logToSplashScreen("PackageManager::Done");
     } // loadExternalJars
     
-	private static void findDataTypes() {
-		try {
-			Method findDataTypes = BEASTClassLoader.forName("beast.base.evolution.alignment.Alignment").getMethod("findDataTypes");
-			findDataTypes.invoke(null);
-		} catch (Exception e) {
-			// too bad, cannot load data types
-			System.err.print(e.getMessage());
-		}
-	}
+//	private static void findDataTypes() {
+//		try {
+//			Method findDataTypes = BEASTClassLoader.forName("beast.base.evolution.alignment.Alignment").getMethod("findDataTypes");
+//			findDataTypes.invoke(null);
+//		} catch (Exception e) {
+//			// too bad, cannot load data types
+//			System.err.print(e.getMessage());
+//		}
+//	}
 
 	public static void loadExternalJars(String packagesString) throws IOException {
         processDeleteList();
@@ -1127,7 +1113,7 @@ public class PackageManager {
         	}
         }
         externalJarsLoaded = true;
-        findDataTypes();
+//        findDataTypes();
     } // loadExternalJars
 
     private static void loadPackage(String jarDirName) {
