@@ -1,10 +1,11 @@
 package beast.base.evolution.operator;
 
+
 import beast.base.core.Description;
 import beast.base.core.Input;
+import beast.base.inference.parameter.RealParameter;
 import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.Tree;
-import beast.base.inference.parameter.RealParameter;
 
 @Description("Scales tree skewing parts to take tip dates in account")
 public class TreeStretchOperator extends EpochFlexOperator {
@@ -29,10 +30,10 @@ public class TreeStretchOperator extends EpochFlexOperator {
 		Node [] nodes = tree.getNodesAsArray();
 		
 		if (oldLengths == null) {
-			oldLengths = new double[nodes.length-1];
+			oldLengths = new double[nodes.length];
 		}
 
-		for (int i = 0; i < nodes.length-1; i++) {
+		for (int i = 0; i < nodes.length; i++) {
 			oldLengths[i] = nodes[i].getLength();
 		}
 
@@ -71,15 +72,18 @@ public class TreeStretchOperator extends EpochFlexOperator {
 			for (Node child : node.getChildren()) {
 				scale(child, scale);
 			}
-			Node left = node.getLeft();
-			double h1 = left.getHeight() + oldLengths[left.getNr()] * scale;
-			Node right = node.getRight();
-			double h2 = right.getHeight() + oldLengths[right.getNr()] * scale;
-			//h2 = Math.max(h1, h2);
-			h2 = (h1+ h2)/2.0;
-			logHR += Math.log(h2/node.getHeight());
-			// logHR += Math.log(scale);
-			node.setHeight(h2);
+			if (!node.isFake()) {
+				// only change "real" internal nodes, not ancestral ones
+				Node left = node.getLeft();
+				double h1 = left.getHeight() + oldLengths[left.getNr()] * scale;
+				Node right = node.getRight();
+				double h2 = right.getHeight() + oldLengths[right.getNr()] * scale;
+				//h2 = Math.max(h1, h2);
+				h2 = (h1+ h2)/2.0;
+				logHR += Math.log(h2/node.getHeight());
+				// logHR += Math.log(scale);
+				node.setHeight(h2);
+			}
 		}
 	}
 	
