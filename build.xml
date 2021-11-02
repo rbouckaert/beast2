@@ -151,6 +151,9 @@
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>
 
+			<service type="beast.pkgmgmt.NameSpaceInfo">
+				<provider classname="beast.pkgmgmt.NameSpaceInfo"/>
+			</service>
             	
             <fileset dir="${build}">
                 <include name="beast/pkgmgmt/**/*.class" />
@@ -177,6 +180,11 @@
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>
+
+			<!-- name space -->
+			<service type="beast.pkgmgmt.NameSpaceInfo">
+				<provider classname="beast.base.NameSpaceInfo"/>
+			</service>
 
             <!-- data types -->
             <service type="beast.base.evolution.datatype.DataType">
@@ -224,7 +232,9 @@
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>
-
+			<service type="beast.pkgmgmt.NameSpaceInfo">
+				<provider classname="beast.app.NameSpaceInfo"/>
+			</service>
 			<service type="beast.app.inputeditor.InputEditor">
 				<provider classname="beast.app.inputeditor.AlignmentListInputEditor"/>
 				<provider classname="beast.app.inputeditor.BEASTObjectInputEditor"/>
@@ -382,6 +392,227 @@
             </fileset>
         </jar>
     </target>
+    
+    
+    
+    <target name="m_compile-all" depends="init,m_json,m_commons-math,m_beast.pkgmgmt,m_beast.base,m_beast.app,m_test.beast">
+	</target>
+		
+		
+	<target name="m_beast.pkgmgmt" depends="init,m_json,m_commons-math">
+		<exec executable="javac" dir="${basedir}">
+            <arg value="-d"/>
+            <arg value="build"/>
+            <arg value="--module-source-path"/>
+            <arg value="src"/>
+            <arg value="--module"/>
+            <arg value="beast.pkgmgmt"/>
+        </exec>
+        
+		<mkdir dir="${basedir}/build/beast.pkgmgmt/beast/pkgmgmt/icons"/>
+        <copy todir="${basedir}/build/beast.pkgmgmt/beast/pkgmgmt/icons">
+            <fileset dir="${basedir}/src/beast.pkgmgmt/beast/pkgmgmt/icons/">
+                <include name="*.*" />
+            </fileset>
+        </copy>
+        
+        <exec executable="jar" dir="${basedir}">
+            <arg value="-c"/>
+            <arg value="--file=./build/dist/beast.pkgmgmt.jar"/>
+            <arg value="-C"/>
+            <arg value="build/beast.pkgmgmt"/>
+            <arg value="."/>
+        </exec>
+    </target>
+    
+    <target name="m_beast.base" depends="m_beast.pkgmgmt">
+		<exec executable="javac" dir="${basedir}">
+            <arg value="-d"/>
+            <arg value="build"/>
+            <arg value="--module-path"/>
+            <arg value="build/dist/commons-math.jar:build/dist/json.jar:build/dist/beast.pkgmgmt.jar:lib/beagle.jar:lib/colt.jar:lib/antlr-runtime-4.7.jar"/>
+            <arg value="--module-source-path"/>
+            <arg value="src"/>
+            <arg value="--module"/>
+            <arg value="beast.base"/>
+        </exec>
+                                
+        <exec executable="jar" dir="${basedir}">
+            <arg value="-c"/>
+            <arg value="--file=./build/dist/beast.base.jar"/>
+            <arg value="-C"/>
+            <arg value="build/beast.base"/>
+            <arg value="."/>
+        </exec>
+    </target>
+
+    <target name="m_beast.app" depends="m_beast.base">
+		<exec executable="javac" dir="${basedir}">
+            <arg value="-d"/>
+            <arg value="build"/>
+            <arg value="--module-path"/>
+            <arg value="build/dist/commons-math.jar:build/dist/json.jar:build/dist/beast.pkgmgmt.jar:build/dist/beast.base.jar:lib/beagle.jar:lib/colt.jar:lib/antlr-runtime-4.7.jar:lib/jam.jar"/>
+            <arg value="--module-source-path"/>
+            <arg value="src"/>
+            <arg value="--module"/>
+            <arg value="beast.app"/>
+        </exec>
+
+		<mkdir dir="${basedir}/build/beast.app/beast/app/inputeditor/icons"/>
+        <copy todir="${basedir}/build/beast.app/beast/app/inputeditor/icons">
+            <fileset dir="${basedir}/src/beast.app/beast/app/inputeditor/icons/">
+                <include name="*.*" />
+            </fileset>
+        </copy>
+                
+        <exec executable="jar" dir="${basedir}">
+            <arg value="-c"/>
+            <arg value="--file=./build/dist/beast.app.jar"/>
+            <arg value="-C"/>
+            <arg value="build/beast.app"/>
+            <arg value="."/>
+        </exec>
+    </target>
+    
+    <target name="m_test.beast"><!-- depends="m_beast.app">-->
+		<exec executable="javac" dir="${basedir}">
+			<arg line="--patch-module beast.base=${basedir}/build/dist/beast.base.jar" />
+            <arg value="-d"/>
+            <arg value="build"/>
+            <arg value="--module-path"/>
+            <arg value="build/dist/commons-math.jar:build/dist/json.jar:build/dist/beast.pkgmgmt.jar:build/dist/beast.base.jar:build/dist/beast.app.jar:lib/beagle.jar:lib/colt.jar:lib/antlr-runtime-4.7.jar:lib/jam.jar:lib/assertj-core-3.20.2.jar:lib/assertj-swing-3.17.1.jar:lib/assertj-swing-junit-3.17.1.jar:lib/junit-4.8.2.jar"/>
+            <arg value="--module-source-path"/>
+            <arg value="src/test.beast"/>
+            <arg value="test/beast/core/InputTest.java"/>
+            <!--
+            <arg value="- -module"/>
+            <arg value="test.beast"/>            
+            -->
+        </exec>
+<!--                
+                
+		<exec executable="javac" failonerror="true"  dir="${basedir}">
+			<arg line="- -patch-module beast.base=${basedir}/build/dist/beast.base.jar" />
+            <arg line="-d build/test.beast" />
+            <arg line="-p build/dist/commons-math.jar:build/dist/json.jar:build/dist/beast.pkgmgmt.jar:build/dist/beast.base.jar:build/dist/beast.app.jar:lib/beagle.jar:lib/colt.jar:lib/antlr-runtime-4.7.jar:lib/jam.jar:lib/assertj-core-3.20.2.jar:lib/assertj-swing-3.17.1.jar:lib/assertj-swing-junit-3.17.1.jar:lib/junit-4.8.2.jar" />
+            <arg line="src/test.beast" />
+        </exec>
+ -->                       
+        <exec executable="jar" dir="${basedir}">
+            <arg value="-c"/>
+            <arg value="--file=./build/dist/test.beast.jar"/>
+            <arg value="-C"/>
+            <arg value="build/test.beast"/>
+            <arg value="."/>
+        </exec>
+    </target>
+    
+    <!-- build unnamed module for processing json format -->
+    <target name="m_json" depends="init">
+        <echo>Building json library for BEAST 2</echo>
+        <mkdir dir="${build}" />
+
+        <!-- Compile the java code from ${src} into ${build} /bin -->
+        <javac 
+               srcdir="${src}"
+               destdir="${build}"
+               classpathref="classpath"
+               fork="true"
+               memoryinitialsize="256m"
+               memorymaximumsize="1024m"
+               includeAntRuntime='false'>
+            <!-- apache commons math -->
+            <include name="org/json/*.java" />
+        </javac>
+
+        <echo message="Ant running on Java version ${ant.java.version}"/>
+        <!-- Create the distribution directory -->
+        <mkdir dir="${dist}" />
+        <jar jarfile="${dist}/json.jar">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}" />
+            </manifest>
+            <fileset dir="${build}">
+                <include name="org/json/*.class" />
+            </fileset>
+        </jar>
+    </target>
+
+    <!-- build unnamed module for customised version of apache commons math -->
+    <target name="m_commons-math" depends="init">
+        <echo>Building commons-math library for BEAST 2</echo>
+        <mkdir dir="${build}" />
+
+        <!-- Compile the java code from ${src} into ${build} /bin -->
+        <javac 
+               srcdir="${src}"
+               destdir="${build}"
+               classpathref="classpath"
+               fork="true"
+               memoryinitialsize="256m"
+               memorymaximumsize="1024m"
+               includeAntRuntime='false'>
+            <!-- apache commons math -->
+            <include name="org/apache/**/**" />
+        </javac>
+
+        <echo message="Ant running on Java version ${ant.java.version}"/>
+        <!-- Create the distribution directory -->
+        <mkdir dir="${dist}" />
+        <jar jarfile="${dist}/commons-math.jar">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}" />
+            </manifest>
+            <zipgroupfileset dir="${lib}" includes="commons-math3-3.6.1.jar" />
+            <fileset dir="${build}">
+                <include name="org/apache/**/*.class" />
+            </fileset>
+        </jar>
+    </target>
+    
+    <target name="m_junit">
+        <mkdir dir="${report}" />
+        
+        <junit printsummary="yes" failureproperty="junitfailed" fork="true">
+            <jvmarg line="--patch-module beast.base=build/dist/test.beast.jar"/>
+            <jvmarg line="--add-modules beast.base"/>
+            <jvmarg line="--add-reads beast.base=ALL-UNNAMED"/>
+            <jvmarg line="--add-exports beast.base/test.beast=ALL-UNNAMED"/>
+            <modulepath>
+                <path id="classpath2">
+			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
+        			<fileset dir="${lib}" includes="beagle.jar"/>
+			        <fileset dir="${lib}" includes="jam.jar"/>
+			        <fileset dir="${lib}" includes="colt.jar"/>
+			        <fileset dir="${lib}" includes="assertj-core-3.20.2.jar"/>
+			        <fileset dir="${lib}" includes="assertj-swing-3.17.1.jar"/>
+			        <fileset dir="${lib}" includes="assertj-swing-junit-3.17.1.jar"/>
+			        <fileset dir="${lib}" includes="antlr-runtime-4.7.jar"/>
+			        <fileset dir="build/dist" includes="beast.base.jar" />
+			        <fileset dir="build/dist" includes="beast.app.jar" />
+			        <fileset dir="build/dist" includes="beast.pkgmgmt.jar" />
+			        <fileset dir="build/dist" includes="test.beast.jar" />
+			    </path>		
+			    
+			    <!--	    
+			    <path location="build/test.beast"/>
+			    -->
+            </modulepath>
+            <formatter type="xml" />
+
+            <batchtest fork="yes" todir="${report}">
+                <fileset dir="src/test.beast">
+                    <include name="test/**/*Test.java" />
+                    <exclude name="test/beast/beast2vs1/**/*Test.java"/>
+                    <exclude name="test/beast/app/beauti/**/*Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+        <echo message="JUnit test finished." />
+    </target>
+
+    
+
     
     
     <!-- make the beast.jar -->

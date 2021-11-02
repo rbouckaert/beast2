@@ -22,9 +22,9 @@ module beast.base {
 
 	
 	// Model logger service -- for breaking dependency between beast.base.inference and beast.base.parser
-	uses beast.base.inference.util.ModelLogger;
+	uses beast.base.inference.ModelLogger;
 	
-	provides beast.base.inference.util.ModelLogger with beast.base.parser.XMLModelLogger;
+	provides beast.base.inference.ModelLogger with beast.base.parser.XMLModelLogger;
 
 	
 	// external libraries from lib folder

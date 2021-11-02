@@ -96,5 +96,5 @@ module beast.app {
 	provides beast.app.beauti.PriorProvider with 
 		beast.app.beauti.MRCAPriorProvider;
 	
-	opens beast.app.draw.icons;
+	opens beast.app.inputeditor.icons;
 }
