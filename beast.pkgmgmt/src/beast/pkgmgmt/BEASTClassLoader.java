@@ -112,18 +112,30 @@ public class BEASTClassLoader extends URLClassLoader {
 	    /** dynamically load jars **/
 	    @Override
 	    public void addURL(URL url) {
-	    	xx
 	    	super.addURL(url);
 	    }
 
 	    public void addURL(URL url, String packageName) {
-	    	
-	    	
+	    	if (!package2classLoaderMap.containsKey(packageName)) {
+		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0], null));
+	    	}
+	    	MultiParentURLClassLoader loader = package2classLoaderMap.get(packageName);
+	    	loader.addURL(url);
 	    }
 	    
 	    /** dynamically load jars **/
 	    public void addJar(String jarFile) {
-	    	xx
+	        File file = new File(jarFile);
+	        if (file.exists()) {
+	        	System.err.println("found file " + jarFile);
+	            try {
+	                URL url = file.toURI().toURL();
+	                super.addURL(url);
+	                System.err.println("Loaded " + url);
+	            } catch (MalformedURLException e) {
+	                e.printStackTrace();
+	            }
+	        }
 	    }
 	    
 	    public void addJar(String jarFile, String packageName) {
@@ -142,6 +154,14 @@ public class BEASTClassLoader extends URLClassLoader {
 	     * **/
 		public static Class<?> forName(String className) throws ClassNotFoundException {
 			// System.err.println("Loading: " + className);
+			for (MultiParentURLClassLoader loader : package2classLoaderMap.values()) {
+				try { 
+					return Class.forName(className, false, BEASTClassLoader.classLoader);
+				} catch (NoClassDefFoundError e2) {
+				}
+				
+			}
+			
 			try { 
 				return Class.forName(className, false, BEASTClassLoader.classLoader);
 			} catch (NoClassDefFoundError e2) {
