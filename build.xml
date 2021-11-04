@@ -307,7 +307,7 @@
     
     <target name="test.beast" depends="init">
     	<javac 
-               srcdir="test.beast/src"
+               srcdir="beast.app/test"
                destdir="build"
                classpathref="classpath"
                fork="true"

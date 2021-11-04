@@ -2,6 +2,7 @@ package beast.pkgmgmt;
 
 
 
+import java.util.*;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -95,7 +96,7 @@ public class BEASTClassLoader extends URLClassLoader {
 //	}
 	
 	
-	
+		static Map<String, MultiParentURLClassLoader> package2classLoaderMap = new HashMap<>();
 	
 	// singleton class loader
 		static final public BEASTClassLoader classLoader = new BEASTClassLoader(new URL[0], BEASTClassLoader.class.getClassLoader());
@@ -111,24 +112,29 @@ public class BEASTClassLoader extends URLClassLoader {
 	    /** dynamically load jars **/
 	    @Override
 	    public void addURL(URL url) {
+	    	xx
 	    	super.addURL(url);
 	    }
 
+	    public void addURL(URL url, String packageName) {
+	    	
+	    	
+	    }
+	    
 	    /** dynamically load jars **/
 	    public void addJar(String jarFile) {
-	    	System.err.println("Attempting to load " + jarFile);
-	        File file = new File(jarFile);
-	        if (file.exists()) {
-	        	System.err.println("found file " + jarFile);
-	                try {
-	                    URL url = file.toURI().toURL();
-	                    classLoader.addURL(url);
-	                    System.err.println("Loaded " + url);
-	                } catch (MalformedURLException e) {
-	                        e.printStackTrace();
-	                }
-	        }
+	    	xx
 	    }
+	    
+	    public void addJar(String jarFile, String packageName) {
+	    	System.err.println("Attempting to load " + jarFile);
+	    	if (!package2classLoaderMap.containsKey(packageName)) {
+		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0], null));
+	    	}
+	    		
+	    	MultiParentURLClassLoader loader = package2classLoaderMap.get(packageName);
+	    	loader.addURL(jarFile);
+	    } 	
 	   
 	    /**
 	     *  The BEAST package alternative for Class.forName().
