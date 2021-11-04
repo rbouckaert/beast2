@@ -3,6 +3,7 @@ package beast.base.evolution.operator;
 
 import java.text.DecimalFormat;
 
+import beast.base.core.Citation;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.inference.Operator;
@@ -15,6 +16,7 @@ import beast.base.evolution.tree.TreeIntervals;
 import beast.base.util.Randomizer;
 
 @Description("Scale operator that scales random epoch in a tree")
+@Citation(value="Bouckaert RR. An efficient coalescent epoch model for Bayesian phylogenetic inference. bioRxiv. 2021",DOI="10.1101/2021.06.28.450225")
 public class EpochFlexOperator extends Operator {
     final public Input<Tree> treeInput = new Input<>("tree", "beast.tree on which this operation is performed", Validate.REQUIRED);
     final public Input<KernelDistribution> kernelDistributionInput = new Input<>("kernelDistribution", "provides sample distribution for proposals", 
