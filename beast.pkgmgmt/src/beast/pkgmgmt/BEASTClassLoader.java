@@ -98,7 +98,7 @@ public class BEASTClassLoader extends URLClassLoader {
 	
 		static Map<String, MultiParentURLClassLoader> package2classLoaderMap = new HashMap<>();
 	
-	// singleton class loader
+		// singleton class loader
 		static final public BEASTClassLoader classLoader = new BEASTClassLoader(new URL[0], BEASTClassLoader.class.getClassLoader());
 
 		/**
@@ -156,16 +156,16 @@ public class BEASTClassLoader extends URLClassLoader {
 			// System.err.println("Loading: " + className);
 			for (MultiParentURLClassLoader loader : package2classLoaderMap.values()) {
 				try { 
-					return Class.forName(className, false, BEASTClassLoader.classLoader);
-				} catch (NoClassDefFoundError e2) {
+					return Class.forName(className, false, loader);
+				} catch (NoClassDefFoundError e) {
+					// ignore -- assume another loader contains the class
 				}
-				
 			}
 			
 			try { 
 				return Class.forName(className, false, BEASTClassLoader.classLoader);
-			} catch (NoClassDefFoundError e2) {
-				throw new ClassNotFoundException(e2.getMessage());
+			} catch (NoClassDefFoundError e) {
+				throw new ClassNotFoundException(e.getMessage());
 			}
 		}	
 

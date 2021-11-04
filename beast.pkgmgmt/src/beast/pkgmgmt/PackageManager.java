@@ -1181,7 +1181,7 @@ public class PackageManager {
 //                        @SuppressWarnings("deprecation")
                         URL url = new File(jarDir.getAbsolutePath() + "/" + fileName).toURI().toURL();
 //                        if (loadedClass == null) {
-                            addURL(url);
+                        addURL(url, packageNameAndVersion);
 //                        } else {
 //                            System.err.println("Skip loading " + url + ": contains class " + loadedClass + " that is already loaded");
 //                        }
@@ -1339,6 +1339,15 @@ public class PackageManager {
      * @param u URL
      * @throws IOException if something goes wrong when adding a url
      */
+    public static void addURL(URL u, String packageName) throws IOException {
+    	BEASTClassLoader.classLoader.addURL(u, packageName);    	
+        String classpath = System.getProperty("java.class.path");
+        String jar = u + "";
+        classpath += System.getProperty("path.separator") + jar.substring(5);
+        System.setProperty("java.class.path", classpath);
+        all_classes = null;
+    }
+    
     public static void addURL(URL u) throws IOException {
     	BEASTClassLoader.classLoader.addURL(u);
 //        // ClassloaderUtil clu = new ClassloaderUtil();

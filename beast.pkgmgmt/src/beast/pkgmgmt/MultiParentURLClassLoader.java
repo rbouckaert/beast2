@@ -12,8 +12,10 @@ import java.util.Set;
 
 
 /**
- * class loader that first tries its parent class loaders before attempting to
+ * Class loader that first tries its parent class loaders before attempting to
  * load the class from the implemented URLClassLoader.
+ * This allows packages to have their own versions of libraries, provided the
+ * packages they rely on not already contain the same library.
  */
 public class MultiParentURLClassLoader extends URLClassLoader {
 
