@@ -96,7 +96,7 @@
 
     <target name="beast.pkgmgmt" depends="init">
     	<javac 
-               srcdir="src/beast.pkgmgmt"
+               srcdir="beast.pkgmgmt/src"
                destdir="build"
                classpathref="classpath"
                fork="true"
@@ -123,7 +123,7 @@
 
     <target name="beast.base" depends="init">
     	<javac 
-               srcdir="src/beast.base"
+               srcdir="beast.base/src"
                destdir="build"
                classpathref="classpath"
                fork="true"
@@ -170,7 +170,7 @@
 
     <target name="beast.app" depends="init">
     	<javac 
-               srcdir="src/beast.app"
+               srcdir="beast.app/src"
                destdir="build"
                classpathref="classpath"
                fork="true"
@@ -257,7 +257,7 @@
     
     <target name="test.beast" depends="init">
     	<javac 
-               srcdir="src/test.beast"
+               srcdir="test.beast/src"
                destdir="build"
                fork="true"
                memoryinitialsize="256m"
@@ -303,7 +303,7 @@
 
         <!-- Compile the java code from ${src} into ${build} /bin -->
         <javac 
-               srcdir="${src}"
+               srcdir="json/src"
                destdir="${build}"
                classpathref="classpath"
                fork="true"
@@ -334,7 +334,7 @@
 
         <!-- Compile the java code from ${src} into ${build} /bin -->
         <javac 
-               srcdir="${src}"
+               srcdir="commons-math/src"
                destdir="${build}"
                classpathref="classpath"
                fork="true"
@@ -386,7 +386,7 @@
             <formatter type="xml" />
 
             <batchtest fork="yes" todir="${report}">
-                <fileset dir="src/test.beast">
+                <fileset dir="test.beast/src">
                     <include name="test/**/*Test.java" />
                     <exclude name="test/beast/beast2vs1/**/*Test.java"/>
                     <exclude name="test/beast/app/beauti/**/*Test.java"/>
@@ -439,7 +439,7 @@
             <formatter type="xml" />
 
             <batchtest fork="yes" todir="${report}">
-                <fileset dir="${src}/test.beast">
+                <fileset dir="test.beast/src">
                     <include name="test/beast/app/beauti/**/*Test.java"/>
                 </fileset>
             </batchtest>
