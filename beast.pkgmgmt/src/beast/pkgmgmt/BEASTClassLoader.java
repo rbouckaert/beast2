@@ -2,7 +2,9 @@ package beast.pkgmgmt;
 
 
 
+
 import java.util.*;
+
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -168,6 +170,30 @@ public class BEASTClassLoader extends URLClassLoader {
 				throw new ClassNotFoundException(e.getMessage());
 			}
 		}	
+		
+		
+		
+		/**
+		 * Return set of services provided by all packages
+		 * @param service: class identifying the service
+		 * @return set of services found
+		 */
+		public static Set<?> loadService(Class<?> service) {
+			Set<Object> classes = new HashSet<>();
+			for (MultiParentURLClassLoader loader : package2classLoaderMap.values()) {
+				Iterable<?> services = java.util.ServiceLoader.load(service, loader);
+		        for (Object d : services) {
+		        	classes.add(d);
+		        }
+			}
 
-	
+			Iterable<?> services = java.util.ServiceLoader.load(service, BEASTClassLoader.classLoader);
+	        for (Object d : services) {
+	        	classes.add(d);
+	        }
+	       
+	        // TODO: warn about inappropriately configured services in jar file
+			return classes;
+		}
+
 }

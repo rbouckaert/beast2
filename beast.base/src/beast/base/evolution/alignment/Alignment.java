@@ -65,7 +65,7 @@ public class Alignment extends Map<String> {
     static public void findDataTypes() {
     	
     	//Iterable<DataType> dataTypes = (Iterable<DataType>) BEASTClassLoader.load(DataType.class);
-    	Iterable<DataType> dataTypes = ServiceLoader.load(DataType.class);
+    	Set<DataType> dataTypes = (Set<DataType>) BEASTClassLoader.loadService(DataType.class);
     	
         Log.warning("findDataTypes called");
         // build up list of data types

@@ -440,7 +440,7 @@ public class Utils {
 	 */
 	public static Set<String> loadService(Class<?> type) {
 		Set<String> classes = new HashSet<>();
-		for (Object c : ServiceLoader.load(type)) {
+		for (Object c : BEASTClassLoader.loadService(type)) {
 			classes.add(c.getClass().getName());
 		}
 		return classes;
