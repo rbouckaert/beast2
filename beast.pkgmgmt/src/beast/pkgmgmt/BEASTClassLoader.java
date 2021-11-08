@@ -192,7 +192,6 @@ public class BEASTClassLoader extends URLClassLoader {
 	        	classes.add(d);
 	        }
 	       
-	        // TODO: warn about inappropriately configured services in jar file
 			return classes;
 		}
 

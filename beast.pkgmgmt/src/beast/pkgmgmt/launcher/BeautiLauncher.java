@@ -5,8 +5,6 @@ package beast.pkgmgmt.launcher;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import beast.pkgmgmt.Utils6;
-
 /** 
  * Loads beast.jar and launches BEAUti through the Beauti class
  * 
@@ -19,7 +17,7 @@ public class BeautiLauncher extends BeastLauncher {
 		// Utils6.startSplashScreen();
 		if (javaVersionCheck("BEAUti")) {
 			// loadBEASTJars();
-			Utils6.testCudaStatusOnMac();
+			BeastLauncher.testCudaStatusOnMac();
 			String classpath = getPath(false, null);
 			run(classpath, "beast.app.beauti.Beauti", args);
 		}

@@ -514,7 +514,7 @@
     
     
     <property name="release_dir" value="release" />
-    <property name="copyright" value="Beast 2 development team 2011-2021" />
+    <property name="copyright" value="Beast 2 development team 2011-2022" />
 
     <property name="BEAST_name" value="BEAST" />
     <property name="beast_name" value="beast" />
@@ -938,24 +938,26 @@
         </copy>
         <chmod dir="${Linux_package_dir}/bin" perm="755" includes="**/**" />
 
-        <!--<copy todir="${Linux_package_dir}/doc">
-            <fileset dir="${common_dir}/doc" />
-        </copy>-->
         <copy todir="${Linux_package_dir}/examples/">
-            <fileset dir="examples/">
+            <fileset dir="${beast2}/beast.app/examples/">
                 <include name="*.xml" />
                 <include name="nexus/**" />
                 <exclude name="benchmark/**" />
             </fileset>
         </copy>
 
+        <copy file="${beast2}/beast.base/version.xml" tofile="${Linux_package_dir}/beast.base.version.xml" />
+        <copy file="${beast2}/beast.app/version.xml" tofile="${Linux_package_dir}/beast.app.version.xml" />
+
         <copy file="${common_dir}/icons/beast.png" todir="${Linux_package_dir}/images" />
         <copy file="${common_dir}/icons/beauti.png" todir="${Linux_package_dir}/images" />
         <!-- <copy file="${common_dir}/icons/utility.png" todir="${Linux_package_dir}/images" />
         -->
         <copy file="${dist}/launcher.jar" todir="${Linux_package_dir}/lib" />
-        <copy file="${dist}/beast.jar" todir="${Linux_package_dir}/lib" />
-        <copy file="${dist}/beast.src.jar" todir="${Linux_package_dir}/lib" />
+        <copy file="${dist}/beast.base.jar" todir="${Linux_package_dir}/lib" />
+        <copy file="${dist}/beast.base.src.jar" todir="${Linux_package_dir}/lib" />
+        <copy file="${dist}/beast.app.jar" todir="${Linux_package_dir}/lib" />
+        <copy file="${dist}/beast.app.src.jar" todir="${Linux_package_dir}/lib" />
         <!-- <copy file="${dist}/beast-beagle.jar" todir="${Linux_package_dir}/lib"/>
         <copy todir="${Linux_package_dir}/lib">
             <fileset dir="${Linux_dir}/lib" />
@@ -970,7 +972,7 @@
         <copy file="${tools_dir}/DensiTree.png" todir="${Linux_package_dir}/images" />
 
         <copy todir="${Linux_package_dir}/templates/">
-            <fileset dir="templates/" />
+            <fileset dir="${beast2}/beast.app/templates/" />
         </copy>
         <copy file="${common_dir}/VERSION HISTORY.txt" todir="${Linux_package_dir}" />
         <copy file="${common_dir}/README.txt" todir="${Linux_package_dir}" />

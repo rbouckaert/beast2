@@ -34,7 +34,7 @@ public class BeastLauncher {
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException, ClassNotFoundException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		if (javaVersionCheck("BEAST")) {
-			Utils6.testCudaStatusOnMac();
+			testCudaStatusOnMac();
 			boolean useStrictVersions = false;
 			for (String arg : args) {
 				if (arg.equals("-strictversions")) {
@@ -50,7 +50,7 @@ public class BeastLauncher {
 	/**
 	 * Install BEAST package, if a none is installed, or a newer version can be found 
 	 **/
-	static private void installBEASTPackage(String packageName) throws IOException, NoSuchMethodException, SecurityException,
+	static private void installBEASTPackage(String packageName, boolean copyExamplesAndTemplates) throws IOException, NoSuchMethodException, SecurityException,
 			ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		BeastLauncher clu = new BeastLauncher();
 
@@ -72,7 +72,7 @@ public class BeastLauncher {
 					|| checkForBEAST(new File(jarDir0.getAbsolutePath() + pathDelimiter + "lib"), packageName);
 
 			if (foundJavaJarFile) {
-				createBeastPackage(jarDir0, packageName);
+				createBeastPackage(jarDir0, packageName, copyExamplesAndTemplates);
 			}
 
 			jarDir0 = jarDir0.getParentFile();
@@ -91,11 +91,13 @@ public class BeastLauncher {
 
 	}
 
-	private static void createBeastPackage(File jarDir0, String packageName) {
+	private static void createBeastPackage(File jarDir0, String packageName, boolean copyExamplesAndTemplates) {
 		try {
+			System.err.println("jarDir0="+jarDir0.toString().toLowerCase());
 			if (jarDir0.toString().toLowerCase().endsWith("lib")) {
 				jarDir0 = jarDir0.getParentFile();
 			}
+			System.err.println("jarDir0="+jarDir0.toString().toLowerCase());
 
 			// create package user dir, if it not already exists
 			String userDir = getPackageUserDir();
@@ -106,19 +108,23 @@ public class BeastLauncher {
 					return;
 				}
 			}
-			File exampleDir = new File(
-					userDir + pathDelimiter + packageName + pathDelimiter + "examples" + pathDelimiter + "nexus");
-			if (!exampleDir.exists()) {
-				if (!exampleDir.mkdirs()) {
-					// cannot create dir, let alone create a beast package
-					return;
+			File exampleDir = null, templateDir = null;
+			if (copyExamplesAndTemplates) {
+				exampleDir = new File(
+						userDir + pathDelimiter + packageName + pathDelimiter + "examples" + pathDelimiter + "nexus");
+				if (!exampleDir.exists()) {
+					if (!exampleDir.mkdirs()) {
+						// cannot create dir, let alone create a beast package
+						return;
+					}
 				}
-			}
-			File templateDir = new File(userDir + pathDelimiter + packageName + pathDelimiter + "templates");
-			if (!templateDir.exists()) {
-				if (!templateDir.mkdirs()) {
-					// cannot create dir, let alone create a beast package
-					return;
+				
+				templateDir = new File(userDir + pathDelimiter + packageName + pathDelimiter + "templates");
+				if (!templateDir.exists()) {
+					if (!templateDir.mkdirs()) {
+						// cannot create dir, let alone create a beast package
+						return;
+					}
 				}
 			}
 
@@ -126,25 +132,27 @@ public class BeastLauncher {
 			File target = new File(dir + pathDelimiter + packageName + ".jar");
 			copyFileUsingStream(beastJar, target);
 
-			File versionFile = new File(jarDir0 + pathDelimiter + "version.xml");
+			File versionFile = new File(jarDir0 + pathDelimiter + packageName + ".version.xml");
 			if (!versionFile.exists()) {
 				String version = "<package name='" + packageName + "' version='" + BEASTVersion.INSTANCE.getVersion() + "'>\n" + "</package>";
 				FileWriter outfile = new FileWriter(userDir + pathDelimiter + packageName + pathDelimiter + "version.xml");
 				outfile.write(version);
 				outfile.close();
 			} else {				
-				File versionTarget = new File(dir + pathDelimiter + "version.xml");
+				File versionTarget = new File(userDir + pathDelimiter + packageName + pathDelimiter + "version.xml");
 				copyFileUsingStream(versionFile, versionTarget);				
 			}
 
-			File beastSrcJar = new File(jarDir0 + pathDelimiter + "lib" + pathDelimiter + packageName + "src.jar");
-			File srcTarget = new File(dir + pathDelimiter + packageName + ".src.jar");
+			File beastSrcJar = new File(jarDir0 + pathDelimiter + "lib" + pathDelimiter + packageName + ".src.jar");
+			File srcTarget = new File(userDir + pathDelimiter + packageName + pathDelimiter + packageName + ".src.jar");
 			copyFileUsingStream(beastSrcJar, srcTarget);
 
-			copyFilesInDir(new File(jarDir0 + pathDelimiter + "examples"),
-					new File(userDir + pathDelimiter + "BEAST" + pathDelimiter + "examples"));
-			copyFilesInDir(new File(jarDir0 + pathDelimiter + "examples" + pathDelimiter + "nexus"), exampleDir);
-			copyFilesInDir(new File(jarDir0 + pathDelimiter + "templates"), templateDir);
+			if (copyExamplesAndTemplates) {
+				copyFilesInDir(new File(jarDir0 + pathDelimiter + "examples"),
+						new File(userDir + pathDelimiter + packageName + pathDelimiter + "examples"));
+				copyFilesInDir(new File(jarDir0 + pathDelimiter + "examples" + pathDelimiter + "nexus"), exampleDir);
+				copyFilesInDir(new File(jarDir0 + pathDelimiter + "templates"), templateDir);
+			}
 
 		} catch (Exception e) {
 			// do net let exceptions hold up launch of BEAST & friends
@@ -163,7 +171,6 @@ public class BeastLauncher {
 
 	// copy files using Java 6 code
 	private static void copyFileUsingStream(File source, File dest) throws IOException {
-
 		InputStream is = null;
 		OutputStream os = null;
 		try {
@@ -186,7 +193,7 @@ public class BeastLauncher {
 		if (jarDir.exists()) {
 			// System.err.println(jarDir.getAbsolutePath() + "exists");
 			URL url = new URL("file://" + (isWindows() ? "/" : "") + jarDir.getAbsolutePath() + "/" + packageName +".jar");
-			if (new File(jarDir.getAbsoluteFile() + File.separator + "beast.jar").exists()) {
+			if (new File(jarDir.getAbsoluteFile() + File.separator + packageName + ".jar").exists()) {
 				File versionFile = new File(jarDir.getParent() + pathDelimiter + "version.xml");
 				if (versionFile.exists()) {
 					BufferedReader fin = new BufferedReader(new FileReader(versionFile));
@@ -313,8 +320,8 @@ public class BeastLauncher {
 	 * @return Class path string for main BEAST process, enclosed in literal quotes.
 	 */
 	public static String getPath(boolean useStrictVersions, String beastFile) throws NoSuchMethodException, SecurityException, ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
-		installBEASTPackage("BEAST.base");
-		installBEASTPackage("BEAST.app");
+		installBEASTPackage("BEAST.base", false);
+		installBEASTPackage("BEAST.app", true);
 		PackageManager.initialise();
 
 
@@ -548,6 +555,102 @@ public class BeastLauncher {
 			property = property.replace("\\", "/");
 		}
 		return property;
+	}
+
+	
+	public static boolean testCudaStatusOnMac() {
+	    String beastJar = Utils6.getPackageUserDir();
+	    beastJar += "/" + "BEAST.base" + "/" + "lib" + "/" + "BEAST.base.jar";
+		return testCudaStatusOnMac(beastJar, "beast.base.CudaDetector");
+	}
+	
+	/**
+	 * 
+	 * @param jarFile contains 
+	 * @return
+	 */
+	public static boolean testCudaStatusOnMac(String jarFile, String testCudaClass) {
+		String cudaStatusOnMac = "<html>It appears you have CUDA installed, but your computer hardware does not support it.<br>"
+				+ "You need to remove CUDA before BEAST/BEAUti can start.<br>"
+				+ "To remove CUDA, delete the following folders (if they exist) by typing in a terminal:<br>"
+				+ "rm -r /Library/Frameworks/CUDA.framework<br>"
+				+ "rm -r /Developer/NVIDIA<br>"
+				+ "rm -r /usr/local/cuda<br>"
+				+ "You may need 'sudo rm' instead of 'rm'</html>";
+        boolean forceJava = Boolean.valueOf(System.getProperty("java.only"));
+        if (forceJava) {
+        	// don't need to check if Beagle (and thus CUDA) is never loaded
+        	return true;
+        }
+        if (isMac()) {
+			// check any of these directories exist
+			// /Library/Frameworks/CUDA.framework
+			// /Developer/NVIDIA
+			// /usr/local/cuda
+			// there is evidence of CUDA being installed on this computer
+			// try to create a BeagleTreeLikelihood using a separate process
+			try {
+			if (new File("/Library/Frameworks/CUDA.framework").exists() ||
+					new File("/Developer/NVIDIA").exists() ||
+					new File("/usr/local/cuda").exists() || true) {
+				
+					String java = null;
+					// first check we can find java of the packaged JRE
+	            	Utils6 clu = new Utils6();
+	            	String launcherJar = clu.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();            	
+	            	String jreDir = URLDecoder.decode(new File(launcherJar).getParent(), "UTF-8") + "/../jre1.8.0_161/";	            	            	
+	            	if (new File(jreDir).exists()) {
+		                java = jreDir + "bin/java";
+	            	}
+	            	if (java == null) {
+					      java = System.getenv("java.home");
+					      if (java == null) {
+					          if (System.getenv("JAVA_HOME") != null) {
+					              java = System.getenv("JAVA_HOME") + File.separatorChar
+					                      + "bin" + File.separatorChar + "java";
+					          } else {
+					          	  java = "java";
+					          }					    	  
+					      } else {
+					    	  java += "/bin/java";
+					      }
+	            	 }
+				      if (!new File(jarFile).exists()) { 
+				    	  System.err.println("Could not find " + jarFile + ", giving up testCudaStatusOnMac");
+					      //TODO: first time BEAST is started, BEAST will not be installed as package yet, so beastJar does not exist
+				    	  return true;
+				      }
+				      //beastJar = "\"" + beastJar + "\"";
+				      //beastJar = "/Users/remco/workspace/beast2/build/dist/beast.jar";
+				      Process p = Runtime.getRuntime().exec(new String[]{java , "-Dbeast.user.package.dir=/NONE", "-cp" , 
+				    		  jarFile , testCudaClass});
+				      BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			          int c;
+			          while ((c = input.read()) != -1) {
+			        	  System.err.print((char)c);
+			          }
+			          input.close();			
+			          p.waitFor();
+				      if (p.exitValue() != 0) {
+				    	  try {
+				    		  JOptionPane.showMessageDialog(null, cudaStatusOnMac);
+				    	  } catch (Exception e) {
+//				    	  if (GraphicsEnvironment.isHeadless()) {
+				    		  cudaStatusOnMac = cudaStatusOnMac.replaceAll("<br>", "\n");
+				    		  cudaStatusOnMac = cudaStatusOnMac.replaceAll("<.?html>","\n");
+				    		  System.err.println("WARNING: " + cudaStatusOnMac);
+//				    	  } else {
+				    	  }
+				    	  return false;
+				      }
+				    }
+				}
+		    catch (Exception err) {
+			      err.printStackTrace();
+			}
+			
+		}
+		return true;
 	}
 
 	public static void run(String classPath, String main, String[] args) {
