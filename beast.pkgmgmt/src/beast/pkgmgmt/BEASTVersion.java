@@ -119,7 +119,7 @@ public class BEASTVersion extends Version {
      * 2.x.1 -> 2.0001
      * @return
      */
-    public double parseVersion(String versionString) {
+    public static double parseVersion(String versionString) {
         // is of the form 1.2.3
         String [] strs = versionString.split("\\.");
         double version = 0;
