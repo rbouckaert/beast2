@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import beast.base.evolution.substitutionmodel.JukesCantor;
 import beast.base.parser.XMLParser;
-import beast.pkgmgmt.BEASTVersion;
 import beast.pkgmgmt.PackageManager;
+import beast.pkgmgmt.launcher.BEASTVersion;
 import junit.framework.TestCase;
 
 public class XMLParserTest extends TestCase {

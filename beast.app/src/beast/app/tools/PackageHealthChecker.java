@@ -34,9 +34,9 @@ import beast.base.inference.ModelLogger;
 import beast.base.inference.Runnable;
 import beast.base.util.FileUtils;
 import beast.pkgmgmt.BEASTClassLoader;
-import beast.pkgmgmt.BEASTVersion;
 import beast.pkgmgmt.PackageManager;
 import beast.pkgmgmt.Version;
+import beast.pkgmgmt.launcher.BEASTVersion;
 import cern.colt.Arrays;
 
 @Description("Does sanity checks on a BEAST package\n" 

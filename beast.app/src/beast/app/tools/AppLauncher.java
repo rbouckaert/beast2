@@ -38,10 +38,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import beast.app.util.BeastLauncher;
 import beast.app.util.Utils;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
+import beast.pkgmgmt.launcher.BeastLauncher;
 
 
 /**

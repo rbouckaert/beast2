@@ -43,7 +43,7 @@ import beast.base.util.DiscreteStatistics;
 import beast.base.util.FileUtils;
 import beast.base.util.HeapSort;
 import beast.pkgmgmt.Arguments;
-import beast.pkgmgmt.BEASTVersion;
+import beast.pkgmgmt.launcher.BEASTVersion;
 import jam.console.ConsoleApplication;
 
 /**

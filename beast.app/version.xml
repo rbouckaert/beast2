@@ -1,0 +1,28 @@
+<package name='BEAST.app' version='2.7.0'>
+	<depends on='BEAST.base' atleast='2.7.0' atmost="2.7.9"/>
+    <packageapp description="Create BEAST documentation"
+              class="beast.app.tools.DocMaker"
+              args=""
+              icon=""
+            />
+    <packageapp description="Analyse logs of EBSP analysis for demographic reconstruction"
+              class="beast.app.tools.EBSPAnalyser"
+              args=""
+              icon=""
+            />
+    <packageapp description="Analyse trace logs and produce statistics on traces"
+              class="beast.app.tools.LogAnalyser"
+              args=""
+              icon=""
+            />
+    <packageapp description="Visualise and analyse BEAST models"
+              class="beast.app.tools.ModelBuilder"
+              args=""
+              icon=""
+            />
+    <packageapp description="Represents an analysis of a list of trees obtained either directly from a logger or from a trace file. The set of tree topologies is calculated by given credible set probability threshold (default 95%)."
+              class="beast.app.tools.TreeTraceAnalysis"
+              args=""
+              icon=""
+            />
+</package>

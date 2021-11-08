@@ -1,6 +1,6 @@
 package beast.base.core;
 
-import beast.pkgmgmt.BEASTVersion;
+import beast.pkgmgmt.launcher.BEASTVersion;
 
 /**
  * This is a duplicate of BEASTVersion, however the BEASTVersion class should be used by BEASTLauncher 

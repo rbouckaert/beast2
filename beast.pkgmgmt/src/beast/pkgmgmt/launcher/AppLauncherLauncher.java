@@ -1,9 +1,7 @@
-package beast.app.tools;
+package beast.pkgmgmt.launcher;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-
-import beast.app.util.BeastLauncher;
 
 public class AppLauncherLauncher extends BeastLauncher {
 	/**

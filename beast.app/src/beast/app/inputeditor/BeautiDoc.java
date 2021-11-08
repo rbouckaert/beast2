@@ -41,7 +41,6 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import beast.app.util.BeastLauncher;
 import beast.app.util.PartitionContextUtil;
 import beast.app.util.Utils;
 import beast.base.core.BEASTInterface;
@@ -80,6 +79,7 @@ import beast.base.parser.XMLParserException;
 import beast.base.parser.XMLProducer;
 import beast.base.parser.XMLParser.RequiredInputProvider;
 import beast.pkgmgmt.Utils6;
+import beast.pkgmgmt.launcher.BeastLauncher;
 
 
 @Description("Beauti document in doc-view pattern, not useful in models")

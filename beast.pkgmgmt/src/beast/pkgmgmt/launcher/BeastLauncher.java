@@ -1,11 +1,9 @@
-package beast.app.util;
+package beast.pkgmgmt.launcher;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import beast.base.core.Log;
 import beast.pkgmgmt.BEASTClassLoader;
-import beast.pkgmgmt.BEASTVersion;
 import beast.pkgmgmt.Package;
 import beast.pkgmgmt.PackageManager;
 import beast.pkgmgmt.PackageVersion;
@@ -36,7 +34,7 @@ public class BeastLauncher {
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException, ClassNotFoundException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
 		if (javaVersionCheck("BEAST")) {
-			Utils.testCudaStatusOnMac();
+			Utils6.testCudaStatusOnMac();
 			boolean useStrictVersions = false;
 			for (String arg : args) {
 				if (arg.equals("-strictversions")) {
@@ -52,16 +50,16 @@ public class BeastLauncher {
 	/**
 	 * Install BEAST package, if a none is installed, or a newer version can be found 
 	 **/
-	static private void installBEASTPackage() throws IOException, NoSuchMethodException, SecurityException,
+	static private void installBEASTPackage(String packageName) throws IOException, NoSuchMethodException, SecurityException,
 			ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		BeastLauncher clu = new BeastLauncher();
 
 		// first try beast from the package_user_dir/lib/beast.jar
 		String beastUserDir = getPackageUserDir();
 		pathDelimiter = isWindows() ? "\\\\" : "/";
-		beastUserDir += pathDelimiter + "BEAST" + pathDelimiter;
+		beastUserDir += pathDelimiter + "BEAST.base" + pathDelimiter;
 		String beastJar = beastUserDir + "lib";
-		boolean foundJavaJarFile = checkForBEAST(new File(beastJar));
+		boolean foundJavaJarFile = checkForBEAST(new File(beastJar), packageName);
 
 		String launcherJar = clu.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
 		// deal with special characters and spaces in path
@@ -69,12 +67,12 @@ public class BeastLauncher {
 		//System.err.println("jardir = " + launcherJar);
 		File jarDir0 = new File(launcherJar).getParentFile();
 		while ((!foundJavaJarFile) && (jarDir0 != null)) {
-			foundJavaJarFile = checkForBEAST(jarDir0);
+			foundJavaJarFile = checkForBEAST(jarDir0, packageName);
 			foundJavaJarFile = foundJavaJarFile
-					|| checkForBEAST(new File(jarDir0.getAbsolutePath() + pathDelimiter + "lib"));
+					|| checkForBEAST(new File(jarDir0.getAbsolutePath() + pathDelimiter + "lib"), packageName);
 
 			if (foundJavaJarFile) {
-				createBeastPackage(jarDir0);
+				createBeastPackage(jarDir0, packageName);
 			}
 
 			jarDir0 = jarDir0.getParentFile();
@@ -93,7 +91,7 @@ public class BeastLauncher {
 
 	}
 
-	private static void createBeastPackage(File jarDir0) {
+	private static void createBeastPackage(File jarDir0, String packageName) {
 		try {
 			if (jarDir0.toString().toLowerCase().endsWith("lib")) {
 				jarDir0 = jarDir0.getParentFile();
@@ -101,7 +99,7 @@ public class BeastLauncher {
 
 			// create package user dir, if it not already exists
 			String userDir = getPackageUserDir();
-			File dir = new File(userDir + pathDelimiter + "BEAST" + pathDelimiter + "lib");
+			File dir = new File(userDir + pathDelimiter + packageName + pathDelimiter + "lib");
 			if (!dir.exists()) {
 				if (!dir.mkdirs()) {
 					// cannot create dir, let alone create a beast package
@@ -109,14 +107,14 @@ public class BeastLauncher {
 				}
 			}
 			File exampleDir = new File(
-					userDir + pathDelimiter + "BEAST" + pathDelimiter + "examples" + pathDelimiter + "nexus");
+					userDir + pathDelimiter + packageName + pathDelimiter + "examples" + pathDelimiter + "nexus");
 			if (!exampleDir.exists()) {
 				if (!exampleDir.mkdirs()) {
 					// cannot create dir, let alone create a beast package
 					return;
 				}
 			}
-			File templateDir = new File(userDir + pathDelimiter + "BEAST" + pathDelimiter + "templates");
+			File templateDir = new File(userDir + pathDelimiter + packageName + pathDelimiter + "templates");
 			if (!templateDir.exists()) {
 				if (!templateDir.mkdirs()) {
 					// cannot create dir, let alone create a beast package
@@ -124,17 +122,23 @@ public class BeastLauncher {
 				}
 			}
 
-			File beastJar = new File(jarDir0 + pathDelimiter + "lib" + pathDelimiter + "beast.jar");
-			File target = new File(dir + pathDelimiter + "beast.jar");
+			File beastJar = new File(jarDir0 + pathDelimiter + "lib" + pathDelimiter + packageName + ".jar");
+			File target = new File(dir + pathDelimiter + packageName + ".jar");
 			copyFileUsingStream(beastJar, target);
 
-			String version = "<package name='BEAST' version='" + BEASTVersion.INSTANCE.getVersion() + "'>\n" + "</package>";
-			FileWriter outfile = new FileWriter(userDir + pathDelimiter + "BEAST" + pathDelimiter + "version.xml");
-			outfile.write(version);
-			outfile.close();
+			File versionFile = new File(jarDir0 + pathDelimiter + "version.xml");
+			if (!versionFile.exists()) {
+				String version = "<package name='" + packageName + "' version='" + BEASTVersion.INSTANCE.getVersion() + "'>\n" + "</package>";
+				FileWriter outfile = new FileWriter(userDir + pathDelimiter + packageName + pathDelimiter + "version.xml");
+				outfile.write(version);
+				outfile.close();
+			} else {				
+				File versionTarget = new File(dir + pathDelimiter + "version.xml");
+				copyFileUsingStream(versionFile, versionTarget);				
+			}
 
-			File beastSrcJar = new File(jarDir0 + pathDelimiter + "lib" + pathDelimiter + "beast.src.jar");
-			File srcTarget = new File(dir + pathDelimiter + "beast.src.jar");
+			File beastSrcJar = new File(jarDir0 + pathDelimiter + "lib" + pathDelimiter + packageName + "src.jar");
+			File srcTarget = new File(dir + pathDelimiter + packageName + ".src.jar");
 			copyFileUsingStream(beastSrcJar, srcTarget);
 
 			copyFilesInDir(new File(jarDir0 + pathDelimiter + "examples"),
@@ -143,10 +147,9 @@ public class BeastLauncher {
 			copyFilesInDir(new File(jarDir0 + pathDelimiter + "templates"), templateDir);
 
 		} catch (Exception e) {
-			// do net let exceptions hold up launch of beast & friends
+			// do net let exceptions hold up launch of BEAST & friends
 			e.printStackTrace();
 		}
-
 	}
 
 	private static void copyFilesInDir(File srcDir, File targetDir) throws IOException {
@@ -177,12 +180,12 @@ public class BeastLauncher {
 		}
 	}
 
-	private static boolean checkForBEAST(File jarDir) throws IOException {
+	private static boolean checkForBEAST(File jarDir, String packageName) throws IOException {
 		//System.err.println("Checking out " + jarDir.getAbsolutePath());
 		boolean foundOne = false;
 		if (jarDir.exists()) {
 			// System.err.println(jarDir.getAbsolutePath() + "exists");
-			URL url = new URL("file://" + (isWindows() ? "/" : "") + jarDir.getAbsolutePath() + "/beast.jar");
+			URL url = new URL("file://" + (isWindows() ? "/" : "") + jarDir.getAbsolutePath() + "/" + packageName +".jar");
 			if (new File(jarDir.getAbsoluteFile() + File.separator + "beast.jar").exists()) {
 				File versionFile = new File(jarDir.getParent() + pathDelimiter + "version.xml");
 				if (versionFile.exists()) {
@@ -310,7 +313,8 @@ public class BeastLauncher {
 	 * @return Class path string for main BEAST process, enclosed in literal quotes.
 	 */
 	public static String getPath(boolean useStrictVersions, String beastFile) throws NoSuchMethodException, SecurityException, ClassNotFoundException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, IOException {
-		installBEASTPackage();
+		installBEASTPackage("BEAST.base");
+		installBEASTPackage("BEAST.app");
 		PackageManager.initialise();
 
 
@@ -416,11 +420,11 @@ public class BeastLauncher {
 	    	if (unavailablePackages.length() > 1) {
 	    		unavailablePackages = unavailablePackages.substring(0, unavailablePackages.length() - 2);
 	    		if (unavailablePackages.contains(",")) {
-	    			Log.warning("The following packages are required, but not available: " + unavailablePackages);
+	    			System.err.println("The following packages are required, but not available: " + unavailablePackages);
 	    		} else {
-	    			Log.warning("The following package is required, but is not available: " + unavailablePackages);
+	    			System.err.println("The following package is required, but is not available: " + unavailablePackages);
 	    		}
-	    		Log.warning("See http://beast2.org/managing-packages/ for details on how to install packages.");
+	    		System.err.println("See http://beast2.org/managing-packages/ for details on how to install packages.");
 	    		throw new IllegalArgumentException("The following package(s) are required, but not available: " + unavailablePackages);
 	    	}
 	    }
@@ -441,7 +445,7 @@ public class BeastLauncher {
 						Document doc = factory.newDocumentBuilder().parse(versionFile);
 						Element packageElement = doc.getDocumentElement();
 						packageNameAndVersion = packageElement.getAttribute("name") + " v" + packageElement.getAttribute("version");
-						// Log.warning.println("Loading package " +
+						// System.err.println.println("Loading package " +
 						// packageNameAndVersion);
 						// Utils.logToSplashScreen("Loading package " +
 						// packageNameAndVersion);
@@ -461,7 +465,7 @@ public class BeastLauncher {
 				// File exists, but cannot open the file for some reason
 				// Log.debug.println("Skipping "+jarDirName+"/version.xml
 				// (unable to open file");
-				// Log.warning.println("Skipping "+jarDirName+"/version.xml
+				// System.err.println.println("Skipping "+jarDirName+"/version.xml
 				// (unable to open file");
 			}
 
@@ -555,11 +559,11 @@ public class BeastLauncher {
 	        		arg.startsWith("-Xms") ||
 	        	    arg.startsWith("-Xss")) {
 	        		// warn BEAST v2.5.x users that memory/stack allocation uses a different mechanism now
-	        		Log.warning("WARNING: the -Xmx, -Xms and -Xss arguments will be ignored for setting memory/stack space");
-	        		Log.warning("WARNING: If you want to use any of these arguments you must either change the script, or");
-	        		Log.warning("WARNING: call `java -Xmx16g -cp /path/to/launcher.jar " + main + " arg1 arg2 ...` instead");
-	        		Log.warning("WARNING: where `/path/to/` is replaced by the path to where the launcher.jar file is, and");
-	        		Log.warning("WARNING: arg1 the first argument, arg2, the second, etc.");
+	        		System.err.println("WARNING: the -Xmx, -Xms and -Xss arguments will be ignored for setting memory/stack space");
+	        		System.err.println("WARNING: If you want to use any of these arguments you must either change the script, or");
+	        		System.err.println("WARNING: call `java -Xmx16g -cp /path/to/launcher.jar " + main + " arg1 arg2 ...` instead");
+	        		System.err.println("WARNING: where `/path/to/` is replaced by the path to where the launcher.jar file is, and");
+	        		System.err.println("WARNING: arg1 the first argument, arg2, the second, etc.");
 	        	}
 	        }            
            
