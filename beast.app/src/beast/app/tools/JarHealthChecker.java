@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipEntry;
@@ -33,7 +34,17 @@ import beast.pkgmgmt.PackageManager;
 public class JarHealthChecker extends Runnable {
 	final public Input<File> jarFileInput = new Input<>("jar", "jar-file containing BEAST package classes", new File(OutFile.NO_FILE)); 
 	final public Input<OutFile> outputInput = new Input<>("output", "output-file where report is stored. Use stdout if not specified.", new OutFile(OutFile.NO_FILE)); 
+	final public Input<String> packageInput = new Input<>("package", "only classes inside this package will be listed", "beast"); 
 
+	
+	final static String [] knowServices = {"beast.app.inputeditor.InputEditor",
+			"beast.base.core.BEASTInterface",
+			"beast.base.evolution.datatype.DataType",
+			"beast.base.inference.ModelLogger",
+			"beast.pkgmgmt.NameSpaceInfo",
+			"beast.app.inputeditor.AlignmentImporter",
+			"beast.app.beauti.BeautiHelpAction",		
+			"beast.app.beauti.PriorProvider"};
 	
 	private PrintStream out = System.out;
 //	private Set<String> classesInJar;
@@ -99,7 +110,7 @@ public class JarHealthChecker extends Runnable {
 	
 	private Map<String, Set<String>> getDeclaredServices(File file) {
 		Map<String, Set<String>> declaredServices = new HashMap<>();
-		String destDir = Utils.isWindows() ? "\\temp\\" :"/tmp/" + file + "_extracted";
+		String destDir = Utils.isWindows() ? "\\temp\\" :"/tmp/" + file.getName() + "_extracted";
 		new File(destDir).mkdir();
 		try {
 			PackageManager.doUnzip(file.getAbsolutePath(), destDir);
@@ -116,7 +127,7 @@ public class JarHealthChecker extends Runnable {
 						declaredServices.put(metaInfFile, new HashSet<String>());
 					}
 					try {
-						for (String className : FileUtils.load(metaInfFile).split("\n")) {
+						for (String className : FileUtils.load(serviceDir + "/" + metaInfFile).split("\n")) {
 							declaredServices.get(metaInfFile).add(className);
 						}
 					} catch (IOException e) {
@@ -130,20 +141,17 @@ public class JarHealthChecker extends Runnable {
 	
 	
 	public void checkServices(Set<String> classesInJar, PrintStream out, Map<String, Set<String>> declaredServices) {
+		this.out = out;
 		report("Checking services");
 		boolean serviceDeclarationMissing = false;
 
 		if (declaredServices.size() == 0) {
-			report("No declared services found. If there are any classes that are one of these:\n"
-					+ "o beast.base.core.BEASTInterface\n"
-					+ "o beast.base.evolution.datatype.DataType\n"
-					+ "o beast.base.inference.util.ModelLogger\n"
-					+ "o beast.pkgmgmt.NameSpaceInfo\n"
-					+ "o beast.app.inputeditor.InputEditor\n"
-					+ "o beast.app.inputeditor.AlignmentImporter\n"
-					+ "o beast.app.beauti.PriorProvider\n"
-					+ "probably a service should be declared."
-					);
+			StringBuilder b = new StringBuilder();
+			b.append("No declared services found. If there are any classes that are one of these:\n");
+			for (String service : knowServices)  {
+				b.append("o " + service +"\n");
+			}
+			report(b.toString());
 			serviceDeclarationMissing = true;
 		}
 
@@ -157,64 +165,51 @@ public class JarHealthChecker extends Runnable {
 			}
 		}
 		
-		// check all classes that are known services are declared as service
-		for (String className: classesInJar) {
-			try {
-				Object o = BEASTClassLoader.forName(className).newInstance();
-				if (o instanceof DataType) {
-					if (hasDeclaredService(declaredServices, "beast.base.evolution.datatype.DataType", className)) {
-						report("Expected class " + className + " to be declared as service beast.base.evolution.datatype.DataType");
-						serviceDeclarationMissing = true;
-					}
-				} else if (o instanceof NameSpaceInfo) {
-					if (hasDeclaredService(declaredServices, "beast.pkgmgmt.NameSpaceInfo", className)) {
-						report("Expected class " + className + " to be declared as service beast.pkgmgmt.NameSpaceInfo");
-						serviceDeclarationMissing = true;
-					}
-				} else if (o instanceof InputEditor) {
-					if (hasDeclaredService(declaredServices, "beast.app.inputeditor.InputEditor", className)) {
-						report("Expected class " + className + " to be declared as service beast.app.inputeditor.InputEditor");
-						serviceDeclarationMissing = true;
-					}
-				} else if (o instanceof AlignmentImporter) {
-					if (hasDeclaredService(declaredServices, "beast.app.inputeditor.AlignmentImporter", className)) {
-						report("Expected class " + className + " to be declared as service beast.app.inputeditor.AlignmentImporter");
-						serviceDeclarationMissing = true;
-					}
-				} else if (o instanceof PriorProvider) {
-					if (hasDeclaredService(declaredServices, "beast.app.beauti.PriorProvider", className)) {
-						report("Expected class " + className + " to be declared as service beast.app.beauti.PriorProvider");
-						serviceDeclarationMissing = true;
-					}
-				} else if (o instanceof NameSpaceInfo) {
-					if (hasDeclaredService(declaredServices, "beast.pkgmgmt.NameSpaceInfo", className)) {
-						report("Expected class " + className + " to be declared as service beast.pkgmgmt.NameSpaceInfo");
-						serviceDeclarationMissing = true;
-					}
-				} else if (o instanceof ModelLogger) {
-					if (hasDeclaredService(declaredServices, "beast.base.inference.util.ModelLogger", className)) {
-						report("Expected class " + className + " to be declared as service beast.base.inference.util.ModelLogger");
-						serviceDeclarationMissing = true;
-					}
-				} else if (o instanceof BEASTInterface) {
-					if (hasDeclaredService(declaredServices, "beast.base.core.BEASTInterface", className)) {
-						report("Expected class " + className + " to be declared as service");
-						serviceDeclarationMissing = true;
-					}
-				}
-			} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-				// e.printStackTrace();
-				if (!className.contains("$")) { // ignore problems with inner classes
-				report("Could not instantiate class " + className + " through default constructor "
-						+ "-- skipping service check, but this might be an undeclared service");				
-				}
+		for (String service : knowServices) {
+			if (checkService(service, classesInJar, declaredServices)) {
+				serviceDeclarationMissing = true;	
 			}
 		}
+
+
 		if (serviceDeclarationMissing) {
 			showServiceInfo();
+		} else {
+			report("Services look OK");
 		}
 	}
 
+	private boolean checkService(String service, Set<String> classesInJar, Map<String, Set<String>> declaredServices) {		
+		boolean serviceDeclarationMissing = false;
+		List<String> list = PackageManager.find(service, packageInput.get());
+		for (String clazz : list) {
+			if (!clazz.equals(service) && 
+				clazz.indexOf('$') < 0 &&  
+				classesInJar.contains(clazz)) {
+				if (!hasDeclaredService(declaredServices, service, clazz)) {
+					report("Expected class " + clazz + " to be declared as service " + service);
+					serviceDeclarationMissing = true;
+				}
+
+			}
+		}
+		if (serviceDeclarationMissing) {
+			report("Suggested xml fragment for the build.xml file:");
+			StringBuilder b = new StringBuilder();
+			b.append("    <service type=\"" + service + "\">\n");
+			for (String clazz : list) {
+				if (!clazz.equals(service) && 
+					clazz.indexOf('$') < 0 &&  
+					classesInJar.contains(clazz)) {
+					b.append("        <provider classname=\"" + clazz + "\"/>\n");
+				}
+			}
+			b.append("    </service>\n");
+			report(b.toString());
+		}
+		return serviceDeclarationMissing;
+	}
+	
 	private boolean hasDeclaredService(Map<String,Set<String>> declaredServices, String service, String className) {
 		Set<String> services = declaredServices.get(service);		
 		if (services == null) {

@@ -1046,6 +1046,7 @@ public class PackageManager {
         System.err.print("Loading package ");
         for (String jarDirName : getBeastDirectories()) {
         	loadPackage(jarDirName);
+        	System.err.print(' ');
         }
         System.err.println();
         
