@@ -482,7 +482,7 @@ public class PackageManager {
             	// RRB: should be "if (responseCode != HttpURLConnection.HTTP_OK)"
             	// but package file hosted on github (which are most of them)
             	// produce a HttpURLConnection.HTTP_FORBIDDEN for some reason
-            	throw new IOException("Could not find pacakge at URL\n" + templateURL + "\n"
+            	throw new IOException("Could not find package at URL\n" + templateURL + "\n"
             			+ "The server may be bussy, or network may be down.\n"
             			+ "If you suspect there is a problem with the URL \n"
             			+ "(the URL may have a typo, or the file was removed)\n"
@@ -1191,9 +1191,8 @@ public class PackageManager {
                 }
             }
         } catch (Exception e) {
-            // File exists, but cannot open the file for some reason
-            System.err.println("Skipping "+jarDirName+"/version.xml (unable to open file");
-            System.err.println("Skipping "+jarDirName+"/version.xml (unable to open file");
+            // File exists, but cannot load the jar file for some reason
+            System.err.println("Skip loading of " + jarDirName + " : " + e.getMessage());
         }
 	}
 

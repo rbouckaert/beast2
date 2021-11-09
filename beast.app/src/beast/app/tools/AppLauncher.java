@@ -264,15 +264,15 @@ public class AppLauncher {
                     	nodes = doc.getElementsByTagName("addonapp");
                     }
                     for (int j = 0; j < nodes.getLength(); j++) {
-                        Element pacakgeAppElement = (Element) nodes.item(j);
+                        Element packageAppElement = (Element) nodes.item(j);
                         PackageApp packageApp = new PackageApp();
                         packageApp.packageName = packageElement.getAttribute("name");
                         packageApp.jarDir = jarDirName;
-                        packageApp.className = pacakgeAppElement.getAttribute("class");
-                        packageApp.description = pacakgeAppElement.getAttribute("description");
-                        packageApp.argumentsString = pacakgeAppElement.getAttribute("args");
+                        packageApp.className = packageAppElement.getAttribute("class");
+                        packageApp.description = packageAppElement.getAttribute("description");
+                        packageApp.argumentsString = packageAppElement.getAttribute("args");
 
-                        String iconLocation = pacakgeAppElement.getAttribute("icon");
+                        String iconLocation = packageAppElement.getAttribute("icon");
                         packageApp.icon = Utils.getIcon(iconLocation);
                         if (packageApp.icon == null || iconLocation.trim().isEmpty())
                             packageApp.icon = Utils.getIcon(DEFAULT_ICON);

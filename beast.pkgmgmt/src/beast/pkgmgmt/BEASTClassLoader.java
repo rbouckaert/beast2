@@ -119,7 +119,7 @@ public class BEASTClassLoader extends URLClassLoader {
 
 	    public void addURL(URL url, String packageName) {
 	    	if (!package2classLoaderMap.containsKey(packageName)) {
-		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0], null));
+		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0]));
 	    	}
 	    	MultiParentURLClassLoader loader = package2classLoaderMap.get(packageName);
 	    	loader.addURL(url);
@@ -143,7 +143,7 @@ public class BEASTClassLoader extends URLClassLoader {
 	    public void addJar(String jarFile, String packageName) {
 	    	System.err.println("Attempting to load " + jarFile);
 	    	if (!package2classLoaderMap.containsKey(packageName)) {
-		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0], null));
+		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0]));
 	    	}
 	    		
 	    	MultiParentURLClassLoader loader = package2classLoaderMap.get(packageName);

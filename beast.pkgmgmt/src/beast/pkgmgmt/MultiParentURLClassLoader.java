@@ -22,6 +22,12 @@ public class MultiParentURLClassLoader extends URLClassLoader {
 	List<ClassLoader> parentLoaders;
 	Set<ClassLoader> childLoaders;
 	
+	public MultiParentURLClassLoader(URL[] urls) {
+		super(urls);
+		childLoaders = new HashSet<>();
+		this.parentLoaders = new ArrayList<>();
+	}
+	
 	public MultiParentURLClassLoader(URL[] urls, ClassLoader [] parentLoaders) {
 		super(urls);
 		childLoaders = new HashSet<>();
