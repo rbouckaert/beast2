@@ -944,7 +944,7 @@ public class XMLParser {
 			Class<?> clazz = BEASTClassLoader.forName(clazzName);
 			if (!BEASTInterface.class.isAssignableFrom(clazz)) {
 				// throw new XMLParserException(node, "Expected object to be instance of BEASTObject", 108);
-				Log.warning("WARNING 108: Expected object to be instance of BEASTObject");
+				Log.warning("WARNING 108: Expected object to be instance of BEASTObject but was " + clazz.getClass().getName() + " " + clazzName);
 			}
 		} catch (ClassNotFoundException e1) {
 			// should never happen since clazzName is in the list of classes collected by the AddOnManager

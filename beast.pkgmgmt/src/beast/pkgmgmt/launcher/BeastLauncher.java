@@ -564,15 +564,17 @@ public class BeastLauncher {
 	public static boolean testCudaStatusOnMac() {
 	    String beastJar = Utils6.getPackageUserDir();
 	    beastJar += "/" + "BEAST.base" + "/" + "lib" + "/" + "BEAST.base.jar";
-		return testCudaStatusOnMac(beastJar, "beast.base.CudaDetector");
+		BeastLauncher clu = new BeastLauncher();
+		String launcherJar = clu.getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+		return testCudaStatusOnMac(beastJar + File.pathSeparator + launcherJar, "beast.base.CudaDetector");
 	}
 	
 	/**
 	 * 
-	 * @param jarFile contains 
+	 * @param classPath contains beast.base.CudaDetector
 	 * @return
 	 */
-	public static boolean testCudaStatusOnMac(String jarFile, String testCudaClass) {
+	public static boolean testCudaStatusOnMac(String classPath, String testCudaClass) {
 		String cudaStatusOnMac = "<html>It appears you have CUDA installed, but your computer hardware does not support it.<br>"
 				+ "You need to remove CUDA before BEAST/BEAUti can start.<br>"
 				+ "To remove CUDA, delete the following folders (if they exist) by typing in a terminal:<br>"
@@ -618,13 +620,15 @@ public class BeastLauncher {
 					    	  java += "/bin/java";
 					      }
 	            	 }
-				      if (!new File(jarFile).exists()) { 
-				    	  System.err.println("Could not find " + jarFile + ", giving up testCudaStatusOnMac");
-					      //TODO: first time BEAST is started, BEAST will not be installed as package yet, so beastJar does not exist
-				    	  return true;
-				      }
+	            	 for (String jarFile : classPath.split(File.pathSeparator)) {
+	            		 if (!new File(jarFile).exists()) { 
+	            			 System.err.println("Could not find " + jarFile + ", giving up testCudaStatusOnMac");
+	            			 //TODO: first time BEAST is started, BEAST will not be installed as package yet, so beastJar does not exist
+	            			 return true;
+	            		 }
+	            	 }
 				      Process p = Runtime.getRuntime().exec(new String[]{java , "-Dbeast.user.package.dir=/NONE", "-cp" , 
-				    		  jarFile , testCudaClass});
+				    		  classPath , testCudaClass});
 				      BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
 			          int c;
 			          while ((c = input.read()) != -1) {
