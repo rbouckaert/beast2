@@ -79,7 +79,7 @@ public class BeastLauncher {
 		}
 
 		if (!foundJavaJarFile) {
-			System.err.println("WARNING: could not find beast.jar");
+			System.err.println("WARNING: could not find " + packageName + ".jar");
 			// if beast.jar or its classes are not already in the class path (as
 			// is when launched e.g. as developer)
 			// the next line will fail
@@ -93,11 +93,11 @@ public class BeastLauncher {
 
 	private static void createBeastPackage(File jarDir0, String packageName, boolean copyExamplesAndTemplates) {
 		try {
-			System.err.println("jarDir0="+jarDir0.toString().toLowerCase());
+			//System.err.println("jarDir0="+jarDir0.toString().toLowerCase());
 			if (jarDir0.toString().toLowerCase().endsWith("lib")) {
 				jarDir0 = jarDir0.getParentFile();
 			}
-			System.err.println("jarDir0="+jarDir0.toString().toLowerCase());
+			//System.err.println("jarDir0="+jarDir0.toString().toLowerCase());
 
 			// create package user dir, if it not already exists
 			String userDir = getPackageUserDir();
@@ -386,7 +386,8 @@ public class BeastLauncher {
 		StringBuilder buf = new StringBuilder();
 		if (PackageManager.getBEASTInstallDir() != null) {
 			buf.append(File.pathSeparator);
-			buf.append(URLDecoder.decode(PackageManager.getBEASTInstallDir() + "/lib/beast.jar", "UTF-8"));
+			buf.append(URLDecoder.decode(PackageManager.getBEASTInstallDir() + "/lib/beast.base.jar", "UTF-8"));
+
 		}
 	    if (packagesString != null && packagesString.trim().length() > 0) {
 	    	Map<String, Package> packages = new HashMap<String, Package>();
@@ -479,7 +480,9 @@ public class BeastLauncher {
 		}
 		if (PackageManager.getBEASTInstallDir() != null) {
 			buf.append(File.pathSeparator);
-			buf.append(URLDecoder.decode(PackageManager.getBEASTInstallDir() + "/lib/beast.jar", "UTF-8"));
+			buf.append(URLDecoder.decode(PackageManager.getBEASTInstallDir() + "/lib/beast.base.jar", "UTF-8"));
+			buf.append(File.pathSeparator);
+			buf.append(URLDecoder.decode(PackageManager.getBEASTInstallDir() + "/lib/beast.app.jar", "UTF-8"));
 		}
 		return buf.toString();
 	}
@@ -620,8 +623,6 @@ public class BeastLauncher {
 					      //TODO: first time BEAST is started, BEAST will not be installed as package yet, so beastJar does not exist
 				    	  return true;
 				      }
-				      //beastJar = "\"" + beastJar + "\"";
-				      //beastJar = "/Users/remco/workspace/beast2/build/dist/beast.jar";
 				      Process p = Runtime.getRuntime().exec(new String[]{java , "-Dbeast.user.package.dir=/NONE", "-cp" , 
 				    		  jarFile , testCudaClass});
 				      BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));

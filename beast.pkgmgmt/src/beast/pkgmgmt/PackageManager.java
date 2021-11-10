@@ -32,6 +32,7 @@ package beast.pkgmgmt;
 
 
 
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -47,7 +48,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import java.io.*;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -1050,6 +1050,13 @@ public class PackageManager {
         }
         System.err.println();
         
+        for (String packageName : packages.keySet()) {
+        	Package p = packages.get(packageName);
+        	for (PackageDependency dep : p.installedVersionDeps) {        		
+            	BEASTClassLoader.classLoader.addParent(packageName, dep.dependencyName);
+        	}
+        }
+        
         externalJarsLoaded = true;
 //    	Utils6.logToSplashScreen("PackageManager::findDataTypes");
 //        findDataTypes();
@@ -1115,6 +1122,14 @@ public class PackageManager {
         		System.err.println("See http://beast2.org/managing-packages/ for details on how to install packages.");
         	}
         }
+        
+        for (String packageName : packages.keySet()) {
+        	Package p = packages.get(packageName);
+        	for (PackageDependency dep : p.installedVersionDeps) {        		
+            	BEASTClassLoader.classLoader.addParent(packageName, dep.dependencyName);
+        	}
+        }
+
         externalJarsLoaded = true;
 //        findDataTypes();
     } // loadExternalJars
@@ -1122,14 +1137,16 @@ public class PackageManager {
     private static void loadPackage(String jarDirName) {
         try {
             File versionFile = new File(jarDirName + "/version.xml");
-            String packageNameAndVersion = null;
+            String packageName = null;
             if (versionFile.exists()) {
                 try {
                     // print name and version of package
                     DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
                     Document doc = factory.newDocumentBuilder().parse(versionFile);
                     Element packageElement = doc.getDocumentElement();
-                    packageNameAndVersion = packageElement.getAttribute("name") + " v" + packageElement.getAttribute("version");
+                    String packageNameAndVersion = null;
+                    packageName = packageElement.getAttribute("name");
+                    packageNameAndVersion = packageName + " v" + packageElement.getAttribute("version");
                     System.err.print(packageNameAndVersion);
                     Utils6.logToSplashScreen("Loading package " + packageNameAndVersion);
                 } catch (Exception e) {
@@ -1184,7 +1201,7 @@ public class PackageManager {
 //                        @SuppressWarnings("deprecation")
                         URL url = new File(jarDir.getAbsolutePath() + "/" + fileName).toURI().toURL();
 //                        if (loadedClass == null) {
-                        addURL(url, packageNameAndVersion);
+                        addURL(url, packageName);
 //                        } else {
 //                            System.err.println("Skip loading " + url + ": contains class " + loadedClass + " that is already loaded");
 //                        }

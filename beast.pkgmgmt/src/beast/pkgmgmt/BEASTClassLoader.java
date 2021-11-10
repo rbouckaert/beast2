@@ -118,11 +118,33 @@ public class BEASTClassLoader extends URLClassLoader {
 	    }
 
 	    public void addURL(URL url, String packageName) {
+	    	if (true) {
+	    		// todo: placeholder code 
+	    		// find out why XMLParser produces VirtualBeastObjects instead of Tree around line 874
+	    		// when using MultiParentURLClassLoader hierarchy
+	    		super.addURL(url);
+	    		return;
+	    	}
 	    	if (!package2classLoaderMap.containsKey(packageName)) {
-		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0]));
+		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0], packageName));
+		    	System.err.println("Created classloader >>" + packageName + "<<");
 	    	}
 	    	MultiParentURLClassLoader loader = package2classLoaderMap.get(packageName);
 	    	loader.addURL(url);
+	    }
+
+	    public void addParent(String packageName, String parentPackage) {
+	    	if (!package2classLoaderMap.containsKey(packageName)) {
+		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0], packageName));
+		    	System.err.println("Created classloader >>" + packageName + "<<");
+	    	}
+	    	if (!package2classLoaderMap.containsKey(parentPackage)) {
+		    	package2classLoaderMap.put(parentPackage, new MultiParentURLClassLoader(new URL[0], parentPackage));
+		    	System.err.println("Created classloader >>" + packageName + "<<");
+	    	}
+	    	MultiParentURLClassLoader loader = package2classLoaderMap.get(packageName);
+	    	MultiParentURLClassLoader parentLoader = package2classLoaderMap.get(parentPackage);
+	    	loader.addParentLoader(parentLoader);
 	    }
 	    
 	    /** dynamically load jars **/
@@ -143,7 +165,7 @@ public class BEASTClassLoader extends URLClassLoader {
 	    public void addJar(String jarFile, String packageName) {
 	    	System.err.println("Attempting to load " + jarFile);
 	    	if (!package2classLoaderMap.containsKey(packageName)) {
-		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0]));
+		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0], packageName));
 	    	}
 	    		
 	    	MultiParentURLClassLoader loader = package2classLoaderMap.get(packageName);
@@ -159,7 +181,7 @@ public class BEASTClassLoader extends URLClassLoader {
 			for (MultiParentURLClassLoader loader : package2classLoaderMap.values()) {
 				try { 
 					return Class.forName(className, false, loader);
-				} catch (NoClassDefFoundError e) {
+				} catch (NoClassDefFoundError | java.lang.ClassNotFoundException e) {
 					// ignore -- assume another loader contains the class
 				}
 			}

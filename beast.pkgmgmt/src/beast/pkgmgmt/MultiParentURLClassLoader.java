@@ -21,11 +21,13 @@ public class MultiParentURLClassLoader extends URLClassLoader {
 
 	List<ClassLoader> parentLoaders;
 	Set<ClassLoader> childLoaders;
+	String name;
 	
-	public MultiParentURLClassLoader(URL[] urls) {
+	public MultiParentURLClassLoader(URL[] urls, String packageName) {
 		super(urls);
 		childLoaders = new HashSet<>();
 		this.parentLoaders = new ArrayList<>();
+		this.name = packageName;
 	}
 	
 	public MultiParentURLClassLoader(URL[] urls, ClassLoader [] parentLoaders) {
@@ -47,7 +49,10 @@ public class MultiParentURLClassLoader extends URLClassLoader {
 
 	public void addParentLoader(ClassLoader parentLoader) {
 		parentLoaders.add(parentLoader);
-		if (parentLoader instanceof  MultiParentURLClassLoader) {
+		if (parentLoader instanceof MultiParentURLClassLoader) {
+			System.err.println(((MultiParentURLClassLoader)parentLoader).name + " -> " + name);
+		}
+ 		if (parentLoader instanceof  MultiParentURLClassLoader) {
 			((MultiParentURLClassLoader)parentLoader).addChildLoader(this);
 		}
     }

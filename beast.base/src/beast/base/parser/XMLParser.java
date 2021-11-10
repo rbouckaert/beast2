@@ -850,18 +850,18 @@ public class XMLParser {
             }
         }
 
-        final String dRef = getIDRef(node);
-        if (dRef != null) {
+        final String idRef = getIDRef(node);
+        if (idRef != null) {
             // produce warning if there are other attributes than idref
             if (node.getAttributes().getLength() > 1) {
                 // check if there are just 2 attributes and other attribute is 'name' and/or 'id'
             	final int offset = (getAttribute(node, "id") == null? 0: 1) + (getAttribute(node, "name") == null? 0: 1);
                 if (node.getAttributes().getLength() > 1 + offset) {
-                    Log.warning.println("Element " + node.getNodeName() + " found with idref='" + dRef + "'. All other attributes are ignored.\n");
+                    Log.warning.println("Element " + node.getNodeName() + " found with idref='" + idRef + "'. All other attributes are ignored.\n");
                 }
             }
-            if (IDMap.containsKey(dRef)) {
-                final BEASTInterface beastObject = IDMap.get(dRef);
+            if (IDMap.containsKey(idRef)) {
+                final BEASTInterface beastObject = IDMap.get(idRef);
                 // TODO: testing for "Alignment" is a hack for a common problem
                 // occurring in many templates. As long as packages are not debugged
                 // this hack should stay in place, but should eventually (v2.5?) be removed.
@@ -869,15 +869,21 @@ public class XMLParser {
                     return beastObject;
                 }
                 checkType(classname, beastObject, node);
-                throw new XMLParserException(node, "id=" + dRef + ". Expected object of type " + classname + " instead of " + beastObject.getClass().getName(), 106);
-            } else if (IDNodeMap.containsKey(dRef)) {
-                final BEASTInterface beastObject = createObject(IDNodeMap.get(dRef), classname);
+                throw new XMLParserException(node, "id=" + idRef + ". Expected object of type " + classname + " instead of " + beastObject.getClass().getName(), 106);
+            } else if (IDNodeMap.containsKey(idRef)) {
+                final BEASTInterface beastObject = createObject(IDNodeMap.get(idRef), classname);
                 if (checkType(classname, beastObject, node)) {
                     return beastObject;
                 }
-                throw new XMLParserException(node, "id=" + dRef + ". Expected object of type " + classname + " instead of " + beastObject.getClass().getName(), 107);
+                
+                
+                System.err.println("error 107:" + beastObject.getClass() + " id=" + beastObject);
+                if (beastObject instanceof VirtualBEASTObject) {
+                	System.err.println("error 107:" + ((VirtualBEASTObject)beastObject).getObject().getClass());
+                }
+                throw new XMLParserException(node, "id=" + idRef + ". Expected object of type " + classname + " instead of " + beastObject.getClass().getName(), 107);
             }
-            throw new XMLParserException(node, "Could not find object associated with idref " + dRef, 170);
+            throw new XMLParserException(node, "Could not find object associated with idref " + idRef, 170);
         }
         // it's not in the ID map yet, so we have to create a new object
         String specClass = classname;
@@ -938,6 +944,7 @@ public class XMLParser {
 			Class<?> clazz = BEASTClassLoader.forName(clazzName);
 			if (!BEASTInterface.class.isAssignableFrom(clazz)) {
 				// throw new XMLParserException(node, "Expected object to be instance of BEASTObject", 108);
+				Log.warning("WARNING 108: Expected object to be instance of BEASTObject");
 			}
 		} catch (ClassNotFoundException e1) {
 			// should never happen since clazzName is in the list of classes collected by the AddOnManager
