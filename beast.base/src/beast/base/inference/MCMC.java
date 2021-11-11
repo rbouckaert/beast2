@@ -358,6 +358,26 @@ public class MCMC extends Runnable {
         	}
         }
 
+        // warn if loggers log with different frequencies (ignoring any stdout logger)
+        long logFrequency = -1;
+        boolean equalLogFrequency = true;
+        for (Logger l : loggers) {
+        	if (!l.isLoggingToStdout()) {
+        		if (logFrequency < 0) {
+        			logFrequency = l.everyInput.get();
+        		} else if (logFrequency != l.everyInput.get()) {
+        			equalLogFrequency = false;
+        			break;
+        		}
+        	}
+        }
+        if (!equalLogFrequency) {
+        	Log.warning("WARNING: Loggers appear to have different log frequency.");
+        	Log.warning("WARNING: This may cause problems in post-processing based on more than one log files.");
+        	Log.warning("WARNING: Therefore, it is recommended to use the same log frequency");
+        	Log.warning("Hint: note that TreeWithMetaDataLogger with dp=\"X\" prints out trees with decimal places, potentially reducing tree file sizez substantially.");
+        }
+
         // initialises log so that log file headers are written, etc.
         if (restoreFromFile) {
         	makeSureLogFilesAreSameLength();
