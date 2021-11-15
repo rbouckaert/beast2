@@ -21,88 +21,15 @@ import java.net.URLClassLoader;
  * resources (like images) from jar files instead of
  * ClassLoader.getResource
  */
-public class BEASTClassLoader extends URLClassLoader {
-//
-//	
-//	// singleton class loader
-//	static public BEASTClassLoader classLoader;// = new BEASTClassLoader(new URL[0], BEASTClassLoader.class.getClassLoader());
-//
-//    private BEASTClassLoader(ClassLoader parent) {
-//        super(new URL[]{}, parent);
-//    }
-//	/**
-//	 * Class loader should only be created by the singleton BEASTClassLoader.classLoader
-//	 * so keep this private
-//	 */
-//    private BEASTClassLoader(URL[] urls, ClassLoader parent) {
-//            super(urls, parent);
-//    }
-//
-//    /** dynamically load jars **/
-//    @Override
-//    public void addURL(URL url) {
-//    	super.addURL(url);
-//    }
-//
-//    /** dynamically load jars **/
-//    public void addJar(String jarFile) {
-//    	System.err.println("Attempting to load " + jarFile);
-//    	// TODO: fix this
-//        File file = new File(jarFile);
-//        if (file.exists()) {
-//        	System.err.println("found file " + jarFile);
-//                try {
-//                    URL url = file.toURI().toURL();
-//                    classLoader.addURL(url);
-//                    System.err.println("Loaded " + url);
-//                } catch (MalformedURLException e) {
-//                        e.printStackTrace();
-//                }
-//        }
-//    }
-//   
-//    
-//    /**
-//     *  The BEAST package alternative for Class.forName().
-//     *  The latter won't work for loading classes from packages from BEAST v2.6.0 onwards. 
-//     * **/
-//	public static Class<?> forName(String className) throws ClassNotFoundException {
-//		if (classLoader ==  null) {
-//			Path [] paths = new Path[]{
-////					Paths.get("build/dist/beast.base.jar"),
-////					Paths.get("build/dist/beast.app.jar"),
-////					Paths.get("build/dist/json.jar"),
-////					Paths.get("build/dist/commons-math.jar"),
-//			};
-//			ModuleFinder moduleFinder = ModuleFinder.of(paths);
-//			
-//	        //Create a new Configuration for a new module layer deriving from the boot configuration, and resolving
-//	        //the "my.implementation" module.
-//	        var cfg = ModuleLayer.boot().configuration().resolve(moduleFinder ,ModuleFinder.of(),Set.of("beast.base", "beast.app"));
-//	        
-//	        //Create classloader
-//	        // var mcl = new URLClassLoader(new URL[] {new URL("file:///tmp/mymodule.jar")});        
-//	        var mcl = new URLClassLoader(new URL[] {});
-//	        
-//	        // make the module layer, using the configuration and classloader.        
-//	        ModuleLayer ml = ModuleLayer.boot().defineModulesWithOneLoader(cfg, mcl);
-//	        classLoader = new BEASTClassLoader(ml.findLoader("beast.base"));
-//		}
-//		
-//		// System.err.println("Loading: " + className);
-//		try { 
-//			return Class.forName(className, false, classLoader);
-//		} catch (NoClassDefFoundError e2) {
-//			throw new ClassNotFoundException(e2.getMessage());
-//		}
-//	}
-	
-	
+public class BEASTClassLoader extends URLClassLoader {	
 		static Map<String, MultiParentURLClassLoader> package2classLoaderMap = new HashMap<>();
 	
 		// singleton class loader
 		static final public BEASTClassLoader classLoader = new BEASTClassLoader(new URL[0], BEASTClassLoader.class.getClassLoader());
 
+		
+		static private Map<String, Set<String>> services = new HashMap<>();
+		static private Map<String, ClassLoader> class2loaderMap = new HashMap<>();
 		/**
 		 * Class loader should only be created by the singleton BEASTClassLoader.classLoader
 		 * so keep this private
@@ -113,41 +40,34 @@ public class BEASTClassLoader extends URLClassLoader {
 
 	    /** dynamically load jars **/
 	    @Override
+	    // TODO: purge use of addURL(jarFile)
+	    @Deprecated // use addURL(jarFile, packageName) instead
 	    public void addURL(URL url) {
 	    	super.addURL(url);
 	    }
 
-	    public void addURL(URL url, String packageName) {
-	    	if (true) {
-	    		// todo: placeholder code 
-	    		// find out why XMLParser produces VirtualBeastObjects instead of Tree around line 874
-	    		// when using MultiParentURLClassLoader hierarchy
-	    		super.addURL(url);
-	    		return;
-	    	}
-	    	if (!package2classLoaderMap.containsKey(packageName)) {
-		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0], packageName));
-		    	System.err.println("Created classloader >>" + packageName + "<<");
-	    	}
-	    	MultiParentURLClassLoader loader = package2classLoaderMap.get(packageName);
+	    public void addURL(URL url, String packageName, Map<String, Set<String>> services) {
+	    	MultiParentURLClassLoader loader = getClassLoader(packageName);
 	    	loader.addURL(url);
+
+	    	if (services != null) {
+	    		addServices(packageName, services);
+	    	}
+	    	
 	    }
 
 	    public void addParent(String packageName, String parentPackage) {
-	    	if (!package2classLoaderMap.containsKey(packageName)) {
-		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0], packageName));
-		    	System.err.println("Created classloader >>" + packageName + "<<");
-	    	}
-	    	if (!package2classLoaderMap.containsKey(parentPackage)) {
-		    	package2classLoaderMap.put(parentPackage, new MultiParentURLClassLoader(new URL[0], parentPackage));
-		    	System.err.println("Created classloader >>" + packageName + "<<");
-	    	}
-	    	MultiParentURLClassLoader loader = package2classLoaderMap.get(packageName);
-	    	MultiParentURLClassLoader parentLoader = package2classLoaderMap.get(parentPackage);
+    		if (parentPackage.equals(packageName)) {
+    			return;
+    		}
+	    	MultiParentURLClassLoader loader = getClassLoader(packageName);
+	    	MultiParentURLClassLoader parentLoader = getClassLoader(parentPackage);
 	    	loader.addParentLoader(parentLoader);
 	    }
 	    
 	    /** dynamically load jars **/
+	    // TODO: purge use of addJar(jarFile)
+	    @Deprecated // use addJar(jarFile, packageName) instead
 	    public void addJar(String jarFile) {
 	        File file = new File(jarFile);
 	        if (file.exists()) {
@@ -164,11 +84,7 @@ public class BEASTClassLoader extends URLClassLoader {
 	    
 	    public void addJar(String jarFile, String packageName) {
 	    	System.err.println("Attempting to load " + jarFile);
-	    	if (!package2classLoaderMap.containsKey(packageName)) {
-		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0], packageName));
-	    	}
-	    		
-	    	MultiParentURLClassLoader loader = package2classLoaderMap.get(packageName);
+	    	MultiParentURLClassLoader loader = getClassLoader(packageName);
 	    	loader.addURL(jarFile);
 	    } 	
 	   
@@ -177,9 +93,15 @@ public class BEASTClassLoader extends URLClassLoader {
 	     *  The latter won't work for loading classes from packages from BEAST v2.6.0 onwards. 
 	     * **/
 		public static Class<?> forName(String className) throws ClassNotFoundException {
-			// System.err.println("Loading: " + className);
+			if (class2loaderMap.containsKey(className)) {
+				ClassLoader loader = class2loaderMap.get(className);
+				return Class.forName(className, false, loader);
+			}
+			
+			System.err.println("Loading non-service: " + className);
 			for (MultiParentURLClassLoader loader : package2classLoaderMap.values()) {
 				try { 
+					// System.err.println("Trying to load "+className+" using " + loader.name);
 					return Class.forName(className, false, loader);
 				} catch (NoClassDefFoundError | java.lang.ClassNotFoundException e) {
 					// ignore -- assume another loader contains the class
@@ -187,6 +109,7 @@ public class BEASTClassLoader extends URLClassLoader {
 			}
 			
 			try { 
+				// System.err.println("Trying to load using BEASTClassLoader.classLoader");
 				return Class.forName(className, false, BEASTClassLoader.classLoader);
 			} catch (NoClassDefFoundError e) {
 				throw new ClassNotFoundException(e.getMessage());
@@ -200,21 +123,60 @@ public class BEASTClassLoader extends URLClassLoader {
 		 * @param service: class identifying the service
 		 * @return set of services found
 		 */
-		public static Set<?> loadService(Class<?> service) {
-			Set<Object> classes = new HashSet<>();
-			for (MultiParentURLClassLoader loader : package2classLoaderMap.values()) {
-				Iterable<?> services = java.util.ServiceLoader.load(service, loader);
-		        for (Object d : services) {
-		        	classes.add(d);
-		        }
+		public static Set<String> loadService(Class<?> service) {
+			Set<String> providers = services.get(service.getName());
+			if (providers == null) {
+				providers = new HashSet<>();
+				services.put(service.getName(), providers);				
 			}
+			return providers;
+			
+//			Set<Object> classes = new HashSet<>();
+			
+//			Set<Object> classes = new HashSet<>();
+//			for (MultiParentURLClassLoader loader : package2classLoaderMap.values()) {
+//				Iterable<?> services = java.util.ServiceLoader.load(service, loader);
+//		        for (Object d : services) {
+//		        	classes.add(d);
+//		        }
+//			}
+//
+//			Iterable<?> services = java.util.ServiceLoader.load(service, BEASTClassLoader.classLoader);
+//	        for (Object d : services) {
+//	        	classes.add(d);
+//	        }
+//	       
+//			return classes;
+		}
 
-			Iterable<?> services = java.util.ServiceLoader.load(service, BEASTClassLoader.classLoader);
-	        for (Object d : services) {
-	        	classes.add(d);
-	        }
-	       
-			return classes;
+		public void addServices(String packageName, Map<String, Set<String>> services) {
+			ClassLoader loader = getClassLoader(packageName);
+
+	    	for (String service : services.keySet()) {
+	    		if (!BEASTClassLoader.services.containsKey(service)) {	    			
+	    			BEASTClassLoader.services.put(service, new HashSet<>());
+	    		}
+	    		Set<String> providers = BEASTClassLoader.services.get(service);
+	    		providers.addAll(services.get(service));
+	    		for (String provider : services.get(service)) {
+	    			class2loaderMap.put(provider, loader);
+	    		}
+	    	}	    	
+			
+		}
+
+		/*
+		 * get deepest level class loader associated with a specific package
+		 * identified by the package name
+		 */
+		private static MultiParentURLClassLoader getClassLoader(String packageName) {
+	    	if (!package2classLoaderMap.containsKey(packageName)) {
+		    	package2classLoaderMap.put(packageName, new MultiParentURLClassLoader(new URL[0], packageName));
+		    	System.err.println("Created classloader >>" + packageName + "<<");
+	    	}
+	    		
+	    	MultiParentURLClassLoader loader = package2classLoaderMap.get(packageName);
+	    	return loader;
 		}
 
 }

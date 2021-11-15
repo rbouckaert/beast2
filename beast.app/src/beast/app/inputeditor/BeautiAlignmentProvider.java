@@ -74,12 +74,12 @@ public class BeautiAlignmentProvider extends BEASTObject {
 			}
         }
         
-		if (Utils6.isJUnitTest() || importers.size() == 0) {
-	        // add standard importers
-				 importers.add(new NexusImporter());
-				 importers.add(new XMLImporter());
-		       	 importers.add(new FastaImporter());
-		}
+//		if (Utils6.isJUnitTest() || importers.size() == 0) {
+//	        // add standard importers
+//				 importers.add(new NexusImporter());
+//				 importers.add(new XMLImporter());
+//		       	 importers.add(new FastaImporter());
+//		}
 	}
 
 	final public Input<BeautiSubTemplate> template = new Input<>("template", "template to be used after creating a new alignment. ", Validate.REQUIRED);

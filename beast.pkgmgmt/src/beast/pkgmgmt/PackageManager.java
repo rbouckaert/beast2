@@ -1053,7 +1053,7 @@ public class PackageManager {
         for (String packageName : packages.keySet()) {
         	Package p = packages.get(packageName);
         	for (PackageDependency dep : p.installedVersionDeps) {        		
-            	BEASTClassLoader.classLoader.addParent(packageName, dep.dependencyName);
+            	BEASTClassLoader.classLoader.addParent(standardise(packageName), standardise(dep.dependencyName));
         	}
         }
         
@@ -1126,7 +1126,7 @@ public class PackageManager {
         for (String packageName : packages.keySet()) {
         	Package p = packages.get(packageName);
         	for (PackageDependency dep : p.installedVersionDeps) {        		
-            	BEASTClassLoader.classLoader.addParent(packageName, dep.dependencyName);
+            	BEASTClassLoader.classLoader.addParent(standardise(packageName), standardise(dep.dependencyName));
         	}
         }
 
@@ -1134,10 +1134,22 @@ public class PackageManager {
 //        findDataTypes();
     } // loadExternalJars
 
-    private static void loadPackage(String jarDirName) {
+	// BEAST.app and BEAST.base are split, but are used together by beast.pkgmgmt.launcher.XYZLauncher 
+	// classes to launch BEAST, BEAUti etc.
+	// However, because they live in separate BEAST packages, they are loaded using their own
+	// package name, which hinders launchers, so BEAST.app loader is merged with BEAST.base loader
+    private static String standardise(String packageName) {
+    	if (packageName.equals("BEAST.app")) {
+    		packageName = "BEAST.base";
+    	}
+		return packageName;
+	}
+
+	private static void loadPackage(String jarDirName) {
         try {
             File versionFile = new File(jarDirName + "/version.xml");
             String packageName = null;
+            Map<String,Set<String>> services = null;
             if (versionFile.exists()) {
                 try {
                     // print name and version of package
@@ -1149,6 +1161,7 @@ public class PackageManager {
                     packageNameAndVersion = packageName + " v" + packageElement.getAttribute("version");
                     System.err.print(packageNameAndVersion);
                     Utils6.logToSplashScreen("Loading package " + packageNameAndVersion);
+                    services = parseServices(doc);
                 } catch (Exception e) {
                     // too bad, won't print out any info
 
@@ -1201,7 +1214,7 @@ public class PackageManager {
 //                        @SuppressWarnings("deprecation")
                         URL url = new File(jarDir.getAbsolutePath() + "/" + fileName).toURI().toURL();
 //                        if (loadedClass == null) {
-                        addURL(url, packageName);
+                        addURL(url, packageName, services);
 //                        } else {
 //                            System.err.println("Skip loading " + url + ": contains class " + loadedClass + " that is already loaded");
 //                        }
@@ -1214,7 +1227,41 @@ public class PackageManager {
         }
 	}
 
-    /**
+	/**
+	 * Retrieves map of service names to service classes from version.xml file of the form
+	 * <service type="beast.base.evolution.datatype.DataType">
+	 * 		<provider classname="beast.base.evolution.datatype.Aminoacid"/>
+	 *		<provider classname="beast.base.evolution.datatype.Nucleotide"/>
+	 * </service>
+	 * @param doc org.w3.doc document containing version.xml file
+	 * @return
+	 */
+    public static Map<String, Set<String>> parseServices(Document doc) {
+		Map<String, Set<String>> serviceMap = new HashMap<>();
+        NodeList nodes = doc.getElementsByTagName("service");
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element service = (Element) nodes.item(i);
+            String type = service.getAttribute("type");
+            Set<String> providers = new HashSet<>();
+
+            NodeList content = service.getChildNodes();
+            for (int j = 0; j < content.getLength(); j++) {
+            	Node n = content.item(j);
+            	if (n.getNodeType() == Node.ELEMENT_NODE) {
+            		if (n.getNodeName().equals("provider")) {
+            			String clazz = ((Element)n).getAttribute("classname");
+            			providers.add(clazz);
+            		} else {
+            			System.err.println("Unrecognised element " + n.getNodeName() + " found. Expected 'provider'");
+            		}
+            	}
+            }
+            serviceMap.put(type, providers);
+        }
+		return serviceMap;
+	}
+
+	/**
      * Populate given map with versions of packages to install which satisfy dependencies
      * of those already present.
      *
@@ -1358,8 +1405,8 @@ public class PackageManager {
      * @param u URL
      * @throws IOException if something goes wrong when adding a url
      */
-    public static void addURL(URL u, String packageName) throws IOException {
-    	BEASTClassLoader.classLoader.addURL(u, packageName);    	
+    public static void addURL(URL u, String packageName, Map<String, Set<String>> services) throws IOException {
+    	BEASTClassLoader.classLoader.addURL(u, standardise(packageName), services);    	
         String classpath = System.getProperty("java.class.path");
         String jar = u + "";
         classpath += System.getProperty("path.separator") + jar.substring(5);

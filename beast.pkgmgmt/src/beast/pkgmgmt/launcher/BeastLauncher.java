@@ -674,10 +674,34 @@ public class BeastLauncher {
 	        		System.err.println("WARNING: arg1 the first argument, arg2, the second, etc.");
 	        	}
 	        }            
-           
-			for (String jarFile : classPath.substring(1, classPath.length() - 1).split(File.pathSeparator)) {
-				if (jarFile.toLowerCase().endsWith("jar")) {
-					BEASTClassLoader.classLoader.addJar(jarFile);
+           	        	     
+			for (String jarFileName : classPath.substring(1, classPath.length() - 1).split(File.pathSeparator)) {
+				if (jarFileName.toLowerCase().endsWith("jar")) {
+					File jarFile = new File(jarFileName);
+					BEASTClassLoader.classLoader.addURL(jarFile.toURI().toURL(), "BEAST.base", null);
+				}
+			}
+			
+			// try to find version.xml files in source path
+			for (String jarFileName : classPath.substring(1, classPath.length() - 1).split(File.pathSeparator)) {
+				File jarFile = new File(jarFileName);
+				try {
+					String parentDir = jarFile.getParentFile().getParentFile().getPath();
+					if (new File(parentDir + File.separator + "version.xml").exists()) {
+						addServices(parentDir + File.separator + "version.xml");
+					}
+					if (new File(parentDir + File.separator + "beast.base.version.xml").exists()) {
+						addServices(parentDir + File.separator + "beast.base.version.xml");
+					}  else if (new File(parentDir + File.separator + "beast.base" + File.separator + "version.xml").exists()) {
+						addServices(parentDir + File.separator + "beast.base" + File.separator + "version.xml");
+					}
+					if (new File(parentDir + File.separator + "beast.app.version.xml").exists()) {
+						addServices(parentDir + File.separator + "beast.app.version.xml");
+					} else if (new File(parentDir + File.separator + "beast.app" + File.separator + "version.xml").exists()) {
+						addServices(parentDir + File.separator + "beast.app" + File.separator + "version.xml");
+					}
+				} catch (Throwable e) {
+					// ignore
 				}
 			}
 		
@@ -689,6 +713,19 @@ public class BeastLauncher {
             e.printStackTrace();
         }
 
-    }	
+    }
+
+	private static void addServices(String versionFile) {
+		try {
+			Map<String,Set<String>> services = null;
+	        // print name and version of package
+	        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	        Document doc = factory.newDocumentBuilder().parse(versionFile);
+	        services = PackageManager.parseServices(doc);
+			BEASTClassLoader.classLoader.addServices("BEAST.base", services);			
+		} catch (Throwable e) {
+			// ignore
+		}
+	}	
 	
 }

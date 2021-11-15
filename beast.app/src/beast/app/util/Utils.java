@@ -402,10 +402,7 @@ public class Utils {
 	 * @return
 	 */
 	public static Set<String> loadService(Class<?> type) {
-		Set<String> classes = new HashSet<>();
-		for (Object c : BEASTClassLoader.loadService(type)) {
-			classes.add(c.getClass().getName());
-		}
+		Set<String> classes = BEASTClassLoader.loadService(type);
 		return classes;
 	}
 

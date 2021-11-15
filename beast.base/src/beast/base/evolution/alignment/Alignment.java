@@ -65,39 +65,22 @@ public class Alignment extends Map<String> {
     static public void findDataTypes() {
     	
     	//Iterable<DataType> dataTypes = (Iterable<DataType>) BEASTClassLoader.load(DataType.class);
-    	Set<DataType> dataTypes = (Set<DataType>) BEASTClassLoader.loadService(DataType.class);
+    	Set<String> dataTypes = BEASTClassLoader.loadService(DataType.class);
     	
         Log.warning("findDataTypes called");
         // build up list of data types
         // List<String> m_sDataTypes = PackageManager.find(beast.base.evolution.datatype.DataType.class, IMPLEMENTATION_DIR);
-        for (DataType d : dataTypes) {
+        for (String d : dataTypes) {
             try {
-                DataType dataType = (DataType) BEASTClassLoader.forName(d.getClass().getName()).newInstance();
+                DataType dataType = (DataType) BEASTClassLoader.forName(d).newInstance();
                 if (dataType.isStandard()) {
                     String description = dataType.getTypeDescription();
                     types.putIfAbsent(description, dataType);
-                    Log.warning("Discovered " + d.getClass().getName());
+                    Log.warning("Discovered " + d);
                 }
             } catch (Exception e) {
-                Log.warning("Failed to discover " + d.getClass().getName() + " " + e.getMessage());
+                Log.warning("Failed to discover " + d + " " + e.getMessage());
                 // TODO: handle exception
-            }
-        }
-        
-        if (beast.pkgmgmt.Utils6.isJUnitTest() || types.size() == 0) {
-        	List<String> m_sDataTypes = PackageManager.find(beast.base.evolution.datatype.DataType.class, IMPLEMENTATION_DIR);
-            for (String d : m_sDataTypes) {
-                try {
-                    DataType dataType = (DataType) BEASTClassLoader.forName(d).newInstance();
-                    if (dataType.isStandard()) {
-                        String description = dataType.getTypeDescription();
-                        types.putIfAbsent(description, dataType);
-                        Log.warning("Discovered " + d);
-                    }
-                } catch (Exception e) {
-                    Log.warning("Failed to discover " + d + " " + e.getMessage());
-                    // TODO: handle exception
-                }
             }
         }
     }

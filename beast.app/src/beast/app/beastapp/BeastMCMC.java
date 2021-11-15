@@ -38,7 +38,6 @@ import beast.base.parser.XMLParser;
 import beast.base.parser.XMLParserException;
 import beast.base.util.FileUtils;
 import beast.base.util.Randomizer;
-import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
 import beast.pkgmgmt.Version;
 import jam.util.IconUtils;
