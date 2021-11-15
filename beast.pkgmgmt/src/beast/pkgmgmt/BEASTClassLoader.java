@@ -124,10 +124,16 @@ public class BEASTClassLoader extends URLClassLoader {
 		
 		public static Class<?> forName(String className, String service) throws ClassNotFoundException {
 			if (!services.containsKey(service)) {
-				throw new IllegalArgumentException("Could not find service " + service + " while trying to forName class " + className);
+				if (services.size() == 0) {
+					services.put(service, new HashSet<>());
+					initServices();
+					return forName(className, service);
+				} else {
+					throw new IllegalArgumentException("Could not find service " + service + " while trying to forName class " + className);
+				}
 			}
 			if (!services.get(service).contains(className)) {
-				throw new IllegalArgumentException("Could not find class " + className + " as service " + service + "\n"
+				throw new ClassNotFoundException("Could not find class " + className + " as service " + service + "\n"
 						+ "Perhaps the package is missing or the package is not correctly configured by the developer "
 						+ "(Developer: check by running beast.app.tools.PackageHealthChecker on the package)");
 			}
@@ -145,23 +151,27 @@ public class BEASTClassLoader extends URLClassLoader {
 			Set<String> providers = services.get(service.getName());
 			if (providers == null) {
 				if (services.size() == 0) {
-					// no services loaded at all. Should only get here when running
-					// junit tests or from an IDE
-					// Try to find version.xml files
-					String classPath = System.getProperty("java.class.path");
-					try {
-						// deal with special characters and spaces in path
-						classPath = URLDecoder.decode(classPath, "UTF-8");
-					} catch (UnsupportedEncodingException e) {
-						// ignore
-					}
-					loadServices("/" + classPath + "/");
+					initServices();
 				} else {
 					services.put(service.getName(), new HashSet<>());
 				}
 				providers = services.get(service.getName());
 			}
 			return providers;
+		}
+
+		private static void initServices() {
+			// no services loaded at all. Should only get here when running
+			// junit tests or from an IDE
+			// Try to find version.xml files
+			String classPath = System.getProperty("java.class.path");
+			try {
+				// deal with special characters and spaces in path
+				classPath = URLDecoder.decode(classPath, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				// ignore
+			}
+			loadServices("/" + classPath + "/");
 		}
 
 		public static void loadServices(String classPath) {
@@ -234,6 +244,23 @@ public class BEASTClassLoader extends URLClassLoader {
 	    		
 	    	MultiParentURLClassLoader loader = package2classLoaderMap.get(packageName);
 	    	return loader;
+		}
+
+		
+		/**
+		 * add service with specified class name -- useful for testing
+		 * @param service: name of the service to add
+		 * @param className: name of the service provider
+		 */
+		public static void addService(String service, String className, String packageName) {
+    		if (!BEASTClassLoader.services.containsKey(service)) {
+    			if (services.size() == 0) {
+    				initServices();
+    			}
+    		}
+    		BEASTClassLoader.services.get(service).add(className);
+    		
+    		class2loaderMap.put(className, getClassLoader(packageName));
 		}
 
 }

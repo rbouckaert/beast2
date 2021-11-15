@@ -7,8 +7,10 @@ import java.nio.file.Files;
 
 import org.junit.Test;
 
+import beast.base.core.BEASTInterface;
 import beast.base.evolution.substitutionmodel.JukesCantor;
 import beast.base.parser.XMLParser;
+import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.BEASTVersion;
 import beast.pkgmgmt.PackageManager;
 import junit.framework.TestCase;
@@ -48,6 +50,9 @@ public class XMLParserTest extends TestCase {
     	out.println("<map from='beast.base.evolution.substitutionmodel.JoMamma' to='beast.base.evolution.substitutionmodel.JukesCantor'/>");
     	out.println("</package>");
     	out.close();
+    	
+    	BEASTClassLoader.addService(BEASTInterface.class.getName(), "beast.base.evolution.substitutionmodel.JoMamma", "BEAST.base");
+    	
     	
     	// parse XML containing entry in map
     	Object o = null;

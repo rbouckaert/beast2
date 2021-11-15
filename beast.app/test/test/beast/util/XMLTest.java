@@ -8,6 +8,7 @@ import beast.base.evolution.alignment.Taxon;
 import beast.base.parser.XMLParser;
 import beast.base.parser.XMLParserUtils;
 import beast.base.parser.XMLProducer;
+import beast.pkgmgmt.BEASTClassLoader;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -25,6 +26,7 @@ public class XMLTest extends TestCase {
     	taxa.add(new Taxon("second one"));
 
     	AnnotatedRunnableTestClass t = new AnnotatedRunnableTestClass(3, taxa);
+    	BEASTClassLoader.addService(BEASTInterface.class.getName(), AnnotatedRunnableTestClass.class.getName(), "BEAST.base");
     	
     	XMLProducer producer = new XMLProducer();
     	String xml = producer.toXML(t);

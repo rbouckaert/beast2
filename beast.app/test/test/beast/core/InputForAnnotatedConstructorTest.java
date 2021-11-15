@@ -5,6 +5,7 @@ import java.util.*;
 import org.json.JSONException;
 import org.junit.Test;
 
+import beast.base.core.BEASTInterface;
 import beast.base.core.Input;
 import beast.base.parser.JSONParser;
 import beast.base.parser.JSONParserException;
@@ -12,6 +13,7 @@ import beast.base.parser.JSONProducer;
 import beast.base.parser.XMLParser;
 import beast.base.parser.XMLParserException;
 import beast.base.parser.XMLProducer;
+import beast.pkgmgmt.BEASTClassLoader;
 import junit.framework.TestCase;
 import test.beast.core.PrimitiveBeastObject.Enumeration;
 import test.beast.core.PrimitiveBeastObject.InnerClass;
@@ -168,7 +170,12 @@ public class InputForAnnotatedConstructorTest extends TestCase {
 	
 	@Test
 	public void testXML() throws XMLParserException {
-
+		// register test classes
+		BEASTClassLoader.addService(BEASTInterface.class.getName(), PrimitiveBeastObject.class.getName(), "BEAST.base");
+		BEASTClassLoader.addService(BEASTInterface.class.getName(), PrimitiveBeastObject.InnerClass.class.getName(), "BEAST.base");
+		BEASTClassLoader.addService(BEASTInterface.class.getName(), PrimitiveInterface.InterfaceInnerClass.class.getName(), "BEAST.base");
+		
+		
 		// test enum & int c'tor
 		String xml = "<input id='testObject' spec='test.beast.core.PrimitiveBeastObject' e='two' i='3'/>";
 		String  xml2;
