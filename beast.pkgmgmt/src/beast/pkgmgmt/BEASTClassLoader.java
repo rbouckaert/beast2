@@ -5,10 +5,16 @@ package beast.pkgmgmt;
 
 import java.util.*;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.net.URLDecoder;
 
 /**
  * This class helps dynamically load BEAST packages
@@ -116,7 +122,19 @@ public class BEASTClassLoader extends URLClassLoader {
 			}
 		}	
 		
-		
+		public static Class<?> forName(String className, String service) throws ClassNotFoundException {
+			if (!services.containsKey(service)) {
+				throw new IllegalArgumentException("Could not find service " + service + " while trying to forName class " + className);
+			}
+			if (!services.get(service).contains(className)) {
+				throw new IllegalArgumentException("Could not find class " + className + " as service " + service + "\n"
+						+ "Perhaps the package is missing or the package is not correctly configured by the developer "
+						+ "(Developer: check by running beast.app.tools.PackageHealthChecker on the package)");
+			}
+			ClassLoader loader = class2loaderMap.get(className);
+			return Class.forName(className, false, loader);
+		}
+
 		
 		/**
 		 * Return set of services provided by all packages
@@ -126,29 +144,68 @@ public class BEASTClassLoader extends URLClassLoader {
 		public static Set<String> loadService(Class<?> service) {
 			Set<String> providers = services.get(service.getName());
 			if (providers == null) {
-				providers = new HashSet<>();
-				services.put(service.getName(), providers);				
+				if (services.size() == 0) {
+					// no services loaded at all. Should only get here when running
+					// junit tests or from an IDE
+					// Try to find version.xml files
+					String classPath = System.getProperty("java.class.path");
+					try {
+						// deal with special characters and spaces in path
+						classPath = URLDecoder.decode(classPath, "UTF-8");
+					} catch (UnsupportedEncodingException e) {
+						// ignore
+					}
+					loadServices("/" + classPath + "/");
+				} else {
+					services.put(service.getName(), new HashSet<>());
+				}
+				providers = services.get(service.getName());
 			}
 			return providers;
-			
-//			Set<Object> classes = new HashSet<>();
-			
-//			Set<Object> classes = new HashSet<>();
-//			for (MultiParentURLClassLoader loader : package2classLoaderMap.values()) {
-//				Iterable<?> services = java.util.ServiceLoader.load(service, loader);
-//		        for (Object d : services) {
-//		        	classes.add(d);
-//		        }
-//			}
-//
-//			Iterable<?> services = java.util.ServiceLoader.load(service, BEASTClassLoader.classLoader);
-//	        for (Object d : services) {
-//	        	classes.add(d);
-//	        }
-//	       
-//			return classes;
 		}
 
+		public static void loadServices(String classPath) {
+			// try to find version.xml files in source path
+			for (String jarFileName : classPath.substring(1, classPath.length() - 1).split(File.pathSeparator)) {
+				File jarFile = new File(jarFileName);
+				try {
+					String parentDir = jarFile.isDirectory() ?							
+							jarFile.getParentFile().getPath() :
+							jarFile.getParentFile().getParentFile().getPath();
+					if (new File(parentDir + File.separator + "version.xml").exists()) {
+						addServices(parentDir + File.separator + "version.xml");
+					}
+					if (new File(parentDir + File.separator + "beast.base.version.xml").exists()) {
+						addServices(parentDir + File.separator + "beast.base.version.xml");
+					}  else if (new File(parentDir + File.separator + "beast.base" + File.separator + "version.xml").exists()) {
+						addServices(parentDir + File.separator + "beast.base" + File.separator + "version.xml");
+					}
+					if (new File(parentDir + File.separator + "beast.app.version.xml").exists()) {
+						addServices(parentDir + File.separator + "beast.app.version.xml");
+					} else if (new File(parentDir + File.separator + "beast.app" + File.separator + "version.xml").exists()) {
+						addServices(parentDir + File.separator + "beast.app" + File.separator + "version.xml");
+					}
+				} catch (Throwable e) {
+					// ignore
+				}
+			}		
+		}
+		
+		
+		private static void addServices(String versionFile) {
+			try {
+				Map<String,Set<String>> services = null;
+		        // print name and version of package
+		        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		        Document doc = factory.newDocumentBuilder().parse(versionFile);
+		        services = PackageManager.parseServices(doc);
+				BEASTClassLoader.classLoader.addServices("BEAST.base", services);			
+			} catch (Throwable e) {
+				// ignore
+			}
+		}	
+		
+		
 		public void addServices(String packageName, Map<String, Set<String>> services) {
 			ClassLoader loader = getClassLoader(packageName);
 

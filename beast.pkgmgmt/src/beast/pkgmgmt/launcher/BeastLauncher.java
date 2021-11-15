@@ -4,6 +4,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import beast.pkgmgmt.BEASTClassLoader;
+import beast.pkgmgmt.BEASTVersion;
 import beast.pkgmgmt.Package;
 import beast.pkgmgmt.PackageManager;
 import beast.pkgmgmt.PackageVersion;
@@ -682,28 +683,7 @@ public class BeastLauncher {
 				}
 			}
 			
-			// try to find version.xml files in source path
-			for (String jarFileName : classPath.substring(1, classPath.length() - 1).split(File.pathSeparator)) {
-				File jarFile = new File(jarFileName);
-				try {
-					String parentDir = jarFile.getParentFile().getParentFile().getPath();
-					if (new File(parentDir + File.separator + "version.xml").exists()) {
-						addServices(parentDir + File.separator + "version.xml");
-					}
-					if (new File(parentDir + File.separator + "beast.base.version.xml").exists()) {
-						addServices(parentDir + File.separator + "beast.base.version.xml");
-					}  else if (new File(parentDir + File.separator + "beast.base" + File.separator + "version.xml").exists()) {
-						addServices(parentDir + File.separator + "beast.base" + File.separator + "version.xml");
-					}
-					if (new File(parentDir + File.separator + "beast.app.version.xml").exists()) {
-						addServices(parentDir + File.separator + "beast.app.version.xml");
-					} else if (new File(parentDir + File.separator + "beast.app" + File.separator + "version.xml").exists()) {
-						addServices(parentDir + File.separator + "beast.app" + File.separator + "version.xml");
-					}
-				} catch (Throwable e) {
-					// ignore
-				}
-			}
+			BEASTClassLoader.loadServices(classPath);
 		
 			Class<?> mainClass = BEASTClassLoader.forName(main);
 			Method mainMethod = mainClass.getMethod("main", String [].class);
@@ -712,20 +692,10 @@ public class BeastLauncher {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
+	
+	
 
-	private static void addServices(String versionFile) {
-		try {
-			Map<String,Set<String>> services = null;
-	        // print name and version of package
-	        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	        Document doc = factory.newDocumentBuilder().parse(versionFile);
-	        services = PackageManager.parseServices(doc);
-			BEASTClassLoader.classLoader.addServices("BEAST.base", services);			
-		} catch (Throwable e) {
-			// ignore
-		}
-	}	
+
 	
 }

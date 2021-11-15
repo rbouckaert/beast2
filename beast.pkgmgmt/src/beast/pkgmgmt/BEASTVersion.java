@@ -1,6 +1,4 @@
-package beast.pkgmgmt.launcher;
-
-import beast.pkgmgmt.Version;
+package beast.pkgmgmt;
 
 /**
  * This class provides a mechanism for returning the version number of the
@@ -21,9 +19,11 @@ public class BEASTVersion extends Version {
      */
     private static final String VERSION = "2.7.0";
 
-    private static final String DATE_STRING = "2002-2021";
+    private static final String DATE_STRING = "2002-2022";
 
     private static final boolean IS_PRERELEASE = true;
+
+    private static final String PROGRAM_NAME = "BEAST";
 
     private static final String BEAST2_WEBPAGE = "http://beast2.org/";
     
@@ -34,7 +34,7 @@ public class BEASTVersion extends Version {
         return VERSION;
     }
 
-    @Override
+	@Override
 	public String getVersionString() {
         return "v" + VERSION + (IS_PRERELEASE ? " Prerelease" : "");
     }
@@ -103,6 +103,11 @@ public class BEASTVersion extends Version {
                         "<p>Thanks to Roald Forsberg, Beth Shapiro and Korbinian Strimmer</p>";
     }
 
+	public String getProgramName() {
+        return PROGRAM_NAME;
+    }
 
 	public static BEASTVersion INSTANCE = new BEASTVersion();
+	
+	
 }

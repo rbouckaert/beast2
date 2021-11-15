@@ -30,8 +30,8 @@ import beast.base.core.Log;
 import beast.base.inference.Runnable;
 import beast.base.util.FileUtils;
 import beast.pkgmgmt.BEASTClassLoader;
+import beast.pkgmgmt.BEASTVersion;
 import beast.pkgmgmt.PackageManager;
-import beast.pkgmgmt.launcher.BEASTVersion;
 
 @Description("Does sanity checks on a BEAST package\n" 
 		+ "o make sure all classes implementing services are registered as services\n"

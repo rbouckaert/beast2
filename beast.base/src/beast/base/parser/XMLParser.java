@@ -985,7 +985,7 @@ public class XMLParser {
 		// create new instance using class name
 		Object o = null;
 		try {
-			Class<?> c = BEASTClassLoader.forName(clazzName); 
+			Class<?> c = BEASTClassLoader.forName(clazzName, BEASTInterface.class.getName()); 
 				o = c.newInstance();
 		} catch (InstantiationException e) {
 			// we only get here when the class exists, but cannot be
