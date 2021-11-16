@@ -413,7 +413,7 @@
             <formatter type="xml" />
 
             <batchtest fork="yes" todir="${report}">
-                <fileset dir="test.beast/src">
+                <fileset dir="beast.app/test">
                     <include name="test/beast/app/beauti/**/*Test.java"/>
                 </fileset>
             </batchtest>

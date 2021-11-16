@@ -253,10 +253,13 @@ public class BEASTClassLoader extends URLClassLoader {
 		 * @param className: name of the service provider
 		 */
 		public static void addService(String service, String className, String packageName) {
-    		if (!BEASTClassLoader.services.containsKey(service)) {
+    		if (!BEASTClassLoader.services.containsKey(service)) {    			
     			if (services.size() == 0) {
     				initServices();
     			}
+        		if (!BEASTClassLoader.services.containsKey(service)) {    			
+        			BEASTClassLoader.services.put(service, new HashSet<>());    			
+        		}
     		}
     		BEASTClassLoader.services.get(service).add(className);
     		
