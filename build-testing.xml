@@ -305,19 +305,19 @@
     <target name="junit">
         <mkdir dir="${report}" />
         
-        <junit printsummary="yes" failureproperty="junitfailed" fork="true">
+        <junit printsummary="yes" failureproperty="junitfailed" fork="true" dir="/beast2">
             <classpath>
                 <path id="classpath2">
-			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
-        			<fileset dir="${lib}" includes="beagle.jar"/>
-			        <fileset dir="${lib}" includes="jam.jar"/>
-			        <fileset dir="${lib}" includes="colt.jar"/>
-			        <fileset dir="${lib}" includes="fest.jar"/>
-			        <fileset dir="${lib}" includes="antlr-runtime-4.9.2.jar"/>
-			        <fileset dir="build/dist" includes="beast.base.jar" />
-			        <fileset dir="build/dist" includes="beast.app.jar" />
-			        <fileset dir="build/dist" includes="beast.pkgmgmt.jar" />
-			        <fileset dir="build/dist" includes="test.beast.jar" />
+			        <fileset dir="/beast2/${lib}" includes="junit-4.8.2.jar"/>
+        			<fileset dir="/beast2/${lib}" includes="beagle.jar"/>
+			        <fileset dir="/beast2/${lib}" includes="jam.jar"/>
+			        <fileset dir="/beast2/${lib}" includes="colt.jar"/>
+			        <fileset dir="/beast2/${lib}" includes="fest.jar"/>
+			        <fileset dir="/beast2/${lib}" includes="antlr-runtime-4.9.2.jar"/>
+			        <fileset dir="/beast2/build/dist" includes="beast.base.jar" />
+			        <fileset dir="/beast2/build/dist" includes="beast.app.jar" />
+			        <fileset dir="/beast2/build/dist" includes="launcher.jar" />
+			        <fileset dir="/beast2/build/dist" includes="test.beast.jar" />
 			    </path>		
 			    
 			    <!--	    
@@ -354,23 +354,23 @@
     <!-- testing beauti gui-->
     <target name="junitb">
         <mkdir dir="${report}" />
-        <junit printsummary="yes" failureproperty="junitbfailed">
+        <junit printsummary="yes" failureproperty="junitbfailed" dir="/beast2/">
             <!--showoutput='yes'-->
             <classpath>
                 <path id="assertj.classpath">
-			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
-        			<fileset dir="${lib}" includes="beagle.jar"/>
-			        <fileset dir="${lib}" includes="jam.jar"/>
-			        <fileset dir="${lib}" includes="colt.jar"/>
-			        <fileset dir="${lib}" includes="fest.jar"/>
-			        <fileset dir="${lib}" includes="antlr-runtime-4.9.2.jar"/>
-			        <fileset dir="build/dist" includes="beast.base.jar" />
-			        <fileset dir="build/dist" includes="beast.app.jar" />
-			        <fileset dir="build/dist" includes="beast.pkgmgmt.jar" />
-			        <fileset dir="build/dist" includes="test.beast.jar" />
-			        <fileset dir="${lib}" includes="assertj-swing-junit-3.17.1.jar"/>
-				    <fileset dir="${lib}" includes="assertj-core-3.20.2.jar"/>
-				    <fileset dir="${lib}" includes="assertj-swing-3.17.1.jar"/>
+			        <fileset dir="/beast2/${lib}" includes="junit-4.8.2.jar"/>
+        			<fileset dir="/beast2/${lib}" includes="beagle.jar"/>
+			        <fileset dir="/beast2/${lib}" includes="jam.jar"/>
+			        <fileset dir="/beast2/${lib}" includes="colt.jar"/>
+			        <fileset dir="/beast2/${lib}" includes="fest.jar"/>
+			        <fileset dir="/beast2/${lib}" includes="antlr-runtime-4.9.2.jar"/>
+			        <fileset dir="/beast2/build/dist" includes="beast.base.jar" />
+			        <fileset dir="/beast2/build/dist" includes="beast.app.jar" />
+			        <fileset dir="/beast2/build/dist" includes="launcher.jar" />
+			        <fileset dir="/beast2/build/dist" includes="test.beast.jar" />
+			        <fileset dir="/beast2/${lib}" includes="assertj-swing-junit-3.17.1.jar"/>
+				    <fileset dir="/beast2/${lib}" includes="assertj-core-3.20.2.jar"/>
+				    <fileset dir="/beast2/${lib}" includes="assertj-swing-3.17.1.jar"/>
                 </path>
                 <!--
                 <path location="${build}" />
@@ -389,17 +389,29 @@
     </target>
     
 
+    <target name="create-symlinks">
+        <mkdir dir="/beast2"/>
+        <symlink link="/beast2/examples" resource="/examples"/>
+        <symlink link="/beast2/lib" resource="/lib"/>
+        <symlink link="/beast2/build" resource="/build"/>
+        <symlink link="/beast2/templates" resource="/templates"/>
+        <symlink link="/beast2/beast.app" resource="/beast.app"/>
+        <symlink link="/beast2/beast.base" resource="/beast.base"/>
+        <symlink link="/beast2/beast.pkgmgmt" resource="/beast.pkgmgmt"/>
+    </target>
+
+
     <!-- Target for CI testing with non-zero exit status on test failure. -->
-    <target name="test-all" depends="clean, compile-all, junit, junitb">
+    <target name="test-all" depends="clean, compile-all, create-symlinks, junit, junitb">
         <fail if="junitfailed" message="One or more CORE BEAST tests failed."/>
         <fail if="junitbfailed" message="One or more BEAUTI tests failed."/>
     </target>
 
-    <target name="test-core" depends="clean, compile-all, junit">
+    <target name="test-core" depends="clean, compile-all, create-symlinks, junit">
         <fail if="junitfailed" message="One or more CORE BEAST tests failed."/>
     </target>
 
-    <target name="test-beauti" depends="clean, compile-all, junitb">
+    <target name="test-beauti" depends="clean, compile-all, create-symlinks, junitb">
         <fail if="junitbfailed" message="One or more BEAUTI tests failed."/>
     </target>
 

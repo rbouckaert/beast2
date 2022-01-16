@@ -10,7 +10,7 @@
 
     <!-- set global properties for this build -->
     <!--property name="beast2" location="beast2.7"/-->
-    <property name="beast2" location="../beast2.7"/>
+    <property name="beast2" location="../beast2"/>
     <property name="src" location="${beast2}/src"/>
     <property name="build" location="${beast2}/build" />
     <property name="lib" location="${beast2}/lib" />
