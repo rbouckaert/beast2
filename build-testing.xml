@@ -108,7 +108,7 @@
             <include name="beast/**/**" />
         </javac>
                 
-        <jar jarfile="build/dist/beast.pkgmgmt.jar">
+        <jar jarfile="build/dist/launcher.jar">
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>
@@ -391,9 +391,10 @@
 
     <target name="create-symlinks">
         <mkdir dir="/beast2"/>
-        <symlink link="/beast2/examples" resource="/examples"/>
         <symlink link="/beast2/lib" resource="/lib"/>
+        <symlink link="/beast2/test" resource="/test"/>
         <symlink link="/beast2/build" resource="/build"/>
+        <symlink link="/beast2/examples" resource="/examples"/>
         <symlink link="/beast2/templates" resource="/templates"/>
         <symlink link="/beast2/beast.app" resource="/beast.app"/>
         <symlink link="/beast2/beast.base" resource="/beast.base"/>
