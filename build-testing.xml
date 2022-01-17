@@ -305,7 +305,7 @@
     <target name="junit">
         <mkdir dir="${report}" />
         
-        <junit printsummary="yes" failureproperty="junitfailed" fork="true" dir="/beast2">
+        <junit printsummary="yes" showoutput="true" failureproperty="junitfailed" fork="true" dir="/beast2">
             <classpath>
                 <path id="classpath2">
 			        <fileset dir="/beast2/${lib}" includes="junit-4.8.2.jar"/>
