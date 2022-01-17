@@ -399,6 +399,8 @@
         <symlink link="/beast2/beast.app" resource="/beast.app"/>
         <symlink link="/beast2/beast.base" resource="/beast.base"/>
         <symlink link="/beast2/beast.pkgmgmt" resource="/beast.pkgmgmt"/>
+    	<mkdir dir="/test"/>
+        <symlink link="/beast2/test" resource="/test"/>
     </target>
 
 
