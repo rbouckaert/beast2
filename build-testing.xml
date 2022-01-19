@@ -140,21 +140,6 @@
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>
-
-            <!-- data types -->
-            <service type="beast.base.evolution.datatype.DataType">
-				<provider classname="beast.base.evolution.datatype.Aminoacid"/>
-				<provider classname="beast.base.evolution.datatype.Nucleotide"/>
-				<provider classname="beast.base.evolution.datatype.TwoStateCovarion"/>
-				<provider classname="beast.base.evolution.datatype.Binary"/>
-				<provider classname="beast.base.evolution.datatype.IntegerData"/>
-				<provider classname="beast.base.evolution.datatype.StandardData"/>
-				<provider classname="beast.base.evolution.datatype.UserDataType"/>
-            </service>
-                
-            <!-- Model logger service: for breaking dependency between beast.base.inference and beast.base.parser -->
-            <service type="beast.base.inference.util.ModelLogger"
-            	provider="beast.base.parser.XMLModelLogger"/>
             	
             <fileset dir="${build}">
                 <include name="org/**/*.class" />
@@ -188,67 +173,6 @@
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>
 
-			<service type="beast.app.inputeditor.InputEditor">
-				<provider classname="beast.app.inputeditor.AlignmentListInputEditor"/>
-				<provider classname="beast.app.inputeditor.BEASTObjectInputEditor"/>
-				<provider classname="beast.app.inputeditor.BooleanInputEditor"/>
-				<provider classname="beast.app.inputeditor.DoubleInputEditor"/>
-				<provider classname="beast.app.inputeditor.DoubleListInputEditor"/>
-				<provider classname="beast.app.inputeditor.EnumInputEditor"/>
-				<provider classname="beast.app.inputeditor.FileInputEditor"/>
-				<provider classname="beast.app.inputeditor.FileListInputEditor"/>
-				<provider classname="beast.app.inputeditor.IntegerInputEditor"/>
-				<provider classname="beast.app.inputeditor.IntegerListInputEditor"/>
-				<provider classname="beast.app.inputeditor.ListInputEditor"/>
-				<provider classname="beast.app.inputeditor.LogFileInputEditor"/>
-				<provider classname="beast.app.inputeditor.LogFileListInputEditor"/>
-				<provider classname="beast.app.inputeditor.LoggerListInputEditor"/>
-				<provider classname="beast.app.inputeditor.LongInputEditor"/>
-				<provider classname="beast.app.inputeditor.MRCAPriorInputEditor"/>
-				<provider classname="beast.app.inputeditor.OutFileInputEditor"/>
-				<provider classname="beast.app.inputeditor.OutFileListInputEditor"/>
-				<provider classname="beast.app.inputeditor.ParameterInputEditor"/>
-				<provider classname="beast.app.inputeditor.ParametricDistributionInputEditor"/>
-				<provider classname="beast.app.inputeditor.SiteModelInputEditor"/>
-				<provider classname="beast.app.inputeditor.StringInputEditor"/>
-				<provider classname="beast.app.inputeditor.TaxonSetInputEditor"/>
-				<provider classname="beast.app.inputeditor.TaxonSetListInputEditor"/>
-				<provider classname="beast.app.inputeditor.TipDatesInputEditor"/>
-				<provider classname="beast.app.inputeditor.TreeFileInputEditor"/>
-				<provider classname="beast.app.inputeditor.TreeFileListInputEditor"/>
-				<provider classname="beast.app.inputeditor.XMLFileInputEditor"/>
-				<provider classname="beast.app.inputeditor.XMLFileListInputEditor"/>
-				<provider classname="beast.app.beauti.ClockModelListInputEditor"/>
-				<provider classname="beast.app.beauti.ConstantPopulationInputEditor"/>
-				<provider classname="beast.app.beauti.FrequenciesInputEditor"/>
-				<provider classname="beast.app.beauti.GeneTreeForSpeciesTreeDistributionInputEditor"/>
-				<provider classname="beast.app.beauti.OperatorListInputEditor"/>
-				<provider classname="beast.app.beauti.PriorInputEditor"/>
-				<provider classname="beast.app.beauti.PriorListInputEditor"/>
-				<provider classname="beast.app.beauti.SpeciesTreePriorInputEditor"/>
-				<provider classname="beast.app.beauti.StateNodeInitialiserListInputEditor"/>
-				<provider classname="beast.app.beauti.StateNodeListInputEditor"/>
-				<provider classname="beast.app.beauti.TreeDistributionInputEditor"/>
-			</service>
-	
-			<!-- AlignmentImporter declares classes for parsing different alignment formats -->
-			<service type="beast.app.inputeditor.AlignmentImporter">
-				<provider classname="beast.app.inputeditor.NexusImporter"/>
-				<provider classname="beast.app.inputeditor.FastaImporter"/>
-				<provider classname="beast.app.inputeditor.XMLImporter"/>
-			</service>
-	
-			<!--
-			<service type="beast.app.beauti.BeautiHelpAction">		</service>
-			-->
-			
-			<!--			
-			PriorProvider is for providing extra priors in the prior panel of BEAUti
-			like MultiMonophyleticConstrains
-			-->
-			<service type="beast.app.beauti.PriorProvider">
-				<provider classname="beast.app.beauti.MRCAPriorProvider"/>
-			</service>
             	
             <fileset dir="${build}">
                 <include name="beast/app/**/*.class" />
@@ -305,7 +229,7 @@
     <target name="junit">
         <mkdir dir="${report}" />
         
-        <junit printsummary="yes" showoutput="true" failureproperty="junitfailed" fork="true" dir="/beast2">
+        <junit printsummary="yes" failureproperty="junitfailed" fork="true" dir="/beast2">
             <classpath>
                 <path id="classpath2">
 			        <fileset dir="/beast2/${lib}" includes="junit-4.8.2.jar"/>
