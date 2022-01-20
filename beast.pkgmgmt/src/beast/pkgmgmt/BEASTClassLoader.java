@@ -27,15 +27,21 @@ import java.net.URLDecoder;
  * resources (like images) from jar files instead of
  * ClassLoader.getResource
  */
-public class BEASTClassLoader extends URLClassLoader {	
+public class BEASTClassLoader extends URLClassLoader {
+		// maps package name (String) to class loader (MultiParentURLClassLoader)
+	    // used to find class loader for a package
 		static Map<String, MultiParentURLClassLoader> package2classLoaderMap = new HashMap<>();
 	
 		// singleton class loader
 		static final public BEASTClassLoader classLoader = new BEASTClassLoader(new URL[0], BEASTClassLoader.class.getClassLoader());
 
-		
+		// maps service (=class name) to service providers (=set of class names)
 		static private Map<String, Set<String>> services = new HashMap<>();
+		
+		// maps service provider (=class name) to class loader for that provider (=class) 
 		static private Map<String, ClassLoader> class2loaderMap = new HashMap<>();
+		
+		static private Set<String> namespaces = new HashSet<>();
 		/**
 		 * Class loader should only be created by the singleton BEASTClassLoader.classLoader
 		 * so keep this private
@@ -209,7 +215,7 @@ public class BEASTClassLoader extends URLClassLoader {
 		        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		        Document doc = factory.newDocumentBuilder().parse(versionFile);
 		        services = PackageManager.parseServices(doc);
-				BEASTClassLoader.classLoader.addServices("BEAST.base", services);			
+				BEASTClassLoader.classLoader.addServices("BEAST.base", services);
 			} catch (Throwable e) {
 				// ignore
 			}
@@ -227,6 +233,10 @@ public class BEASTClassLoader extends URLClassLoader {
 	    		providers.addAll(services.get(service));
 	    		for (String provider : services.get(service)) {
 	    			class2loaderMap.put(provider, loader);
+					if (provider.contains(".")) {
+						String namespace = provider.substring(0, provider.lastIndexOf('.'));
+						namespaces.add(namespace);
+					}
 	    		}
 	    	}	    	
 			
@@ -264,6 +274,18 @@ public class BEASTClassLoader extends URLClassLoader {
     		BEASTClassLoader.services.get(service).add(className);
     		
     		class2loaderMap.put(className, getClassLoader(packageName));
+		}
+
+		public static String usesExistingNamespaces(Set<String> services) {
+			for (String service : services) {
+				if (service.contains(".")) {
+					String namespace = service.substring(0, service.lastIndexOf('.'));
+					if (namespaces.contains(namespace)) {
+						return namespace;
+					}
+				}
+			}
+			return null;
 		}
 
 }

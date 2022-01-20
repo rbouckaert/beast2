@@ -1160,12 +1160,26 @@ public class PackageManager {
                     System.err.print(packageNameAndVersion);
                     Utils6.logToSplashScreen("Loading package " + packageNameAndVersion);
                     services = parseServices(doc);
+
+                    // check none of the services clashes with already loaded services
+                    for (String service : services.keySet()) {
+                    	Set<String> s = services.get(service);
+                    	String existingNamespace = BEASTClassLoader.usesExistingNamespaces(s);
+                    	if (existingNamespace != null) {
+                    		System.err.println("Programmer error: One of the services (" + service + ") in package "
+                    				+ packageName + " uses a namespace that is already in use: " + existingNamespace
+                    				+ ". Package " + packageName + " is NOT loaded and will be removed");
+                    		uninstallPackage(new Package(packageName), false, null);
+                    	}
+                    }
                 } catch (Exception e) {
                     // too bad, won't print out any info
 
                     // File is called version.xml, but is not a Beast2 version file
                     // Log.debug.print("Skipping "+jarDirName+" (not a Beast2 package)");
                 }
+            } else {
+            	// TODO: return?;
             }
             File jarDir = new File(jarDirName + "/lib");
             if (!jarDir.exists()) {
