@@ -177,17 +177,18 @@ public class BEASTClassLoader extends URLClassLoader {
 			} catch (UnsupportedEncodingException e) {
 				// ignore
 			}
-			loadServices("/" + classPath + "/");
+			initServices("/" + classPath + "/");
 		}
 
-		public static void loadServices(String classPath) {
+		public static void initServices(String classPath) {
 			// try to find version.xml files in source path
 			for (String jarFileName : classPath.substring(1, classPath.length() - 1).split(File.pathSeparator)) {
 				File jarFile = new File(jarFileName);
 				try {
 					String parentDir = jarFile.isDirectory() ?							
-							jarFile.getParentFile().getPath() :
-							jarFile.getParentFile().getParentFile().getPath();
+							(jarFile.getParentFile() == null ? File.pathSeparator :jarFile.getParentFile().getPath()) :
+							(jarFile.getParentFile() == null  || jarFile.getParentFile().getParentFile() == null ? File.pathSeparator :
+							jarFile.getParentFile().getParentFile().getPath());
 					if (new File(parentDir + File.separator + "version.xml").exists()) {
 						addServices(parentDir + File.separator + "version.xml");
 					}
@@ -264,7 +265,7 @@ public class BEASTClassLoader extends URLClassLoader {
 		 */
 		public static void addService(String service, String className, String packageName) {
     		if (!BEASTClassLoader.services.containsKey(service)) {    			
-    			if (services.size() == 0) {
+    			if (BEASTClassLoader.services.size() == 0) {
     				initServices();
     			}
         		if (!BEASTClassLoader.services.containsKey(service)) {    			

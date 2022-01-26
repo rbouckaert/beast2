@@ -683,7 +683,7 @@ public class BeastLauncher {
 				}
 			}
 			
-			BEASTClassLoader.loadServices(classPath);
+			BEASTClassLoader.initServices(classPath);
 		
 			Class<?> mainClass = BEASTClassLoader.forName(main);
 			Method mainMethod = mainClass.getMethod("main", String [].class);

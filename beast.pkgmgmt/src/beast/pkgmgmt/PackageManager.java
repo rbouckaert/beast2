@@ -505,6 +505,21 @@ public class PackageManager {
             doUnzip(zipFile, dirName);
             fos.close();
 
+            // sanity check: does this package contains services that clash
+            // TODO: what if this is an update, not a fresh package installation
+            String nameSpaceCheck = null;
+			try {
+				nameSpaceCheck = hasNamespaceClash(thisPkg.getName(), dirName);
+			} catch (SAXException | IOException | ParserConfigurationException e) {
+				e.printStackTrace();
+			}
+            if (nameSpaceCheck != null) {
+            	// remove all files from the package and abort installation
+            	deleteRecursively(dir, new ArrayList<>());
+            	throw new RuntimeException(nameSpaceCheck);
+            }
+            
+
             dirList.put(thisPkg.getName(), dirName);
         }
 
@@ -513,7 +528,30 @@ public class PackageManager {
         return dirList;
     }
 
-    public static String getPackageDir(Package thisPkg, PackageVersion thisPkgVersion, boolean useAppDir, String customDir) {
+    private static String hasNamespaceClash(String packageName, String dirName) throws SAXException, IOException, ParserConfigurationException {
+    	// load services from version.xml 
+        File versionFile = new File(dirName + "/version.xml");
+        Map<String,Set<String>> services = null;
+        if (versionFile.exists()) {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            Document doc = factory.newDocumentBuilder().parse(versionFile);
+            services = parseServices(doc);
+        }
+    	
+    	// check none of the services clashes with already loaded services
+        for (String service : services.keySet()) {
+        	Set<String> s = services.get(service);
+        	String existingNamespace = BEASTClassLoader.usesExistingNamespaces(s);
+        	if (existingNamespace != null) {
+    			return "Programmer error: One of the services (" + service + ") in package "
+				+ packageName + " uses a namespace that is already in use: " + existingNamespace
+				+ ". Package " + packageName + " is NOT loaded and will be removed";
+        	}
+        }
+		return null;
+	}
+
+	public static String getPackageDir(Package thisPkg, PackageVersion thisPkgVersion, boolean useAppDir, String customDir) {
         String dirName = (useAppDir ? getPackageSystemDir() : getPackageUserDir()) + 
         		(useArchive ? "/" + ARCHIVE_DIR : "") + 
         		"/" + thisPkg.getName() +
@@ -1161,17 +1199,6 @@ public class PackageManager {
                     Utils6.logToSplashScreen("Loading package " + packageNameAndVersion);
                     services = parseServices(doc);
 
-                    // check none of the services clashes with already loaded services
-                    for (String service : services.keySet()) {
-                    	Set<String> s = services.get(service);
-                    	String existingNamespace = BEASTClassLoader.usesExistingNamespaces(s);
-                    	if (existingNamespace != null) {
-                    		System.err.println("Programmer error: One of the services (" + service + ") in package "
-                    				+ packageName + " uses a namespace that is already in use: " + existingNamespace
-                    				+ ". Package " + packageName + " is NOT loaded and will be removed");
-                    		uninstallPackage(new Package(packageName), false, null);
-                    	}
-                    }
                 } catch (Exception e) {
                     // too bad, won't print out any info
 
