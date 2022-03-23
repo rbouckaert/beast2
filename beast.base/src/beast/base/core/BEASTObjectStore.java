@@ -29,6 +29,17 @@ public class BEASTObjectStore {
 		if (o instanceof BEASTObject) {
 			return (BEASTObject) o;
 		}
+		
+		Class p = o.getClass();
+		System.err.println("BEASTObjectStore found non-BEASTObject:");
+		while (p != null) {
+			System.err.println(p.getName() + " " + (BEASTObject.class.equals(p)) + 
+					" " + BEASTObject.class.getName() + " " + p.getName().equals(BEASTObject.class.getName()));
+			p = p.getSuperclass();
+		}
+		
+		
+		
 		VirtualBEASTObject vbo = new VirtualBEASTObject(o);
 		objectStore.put(o, vbo);
 		return vbo;

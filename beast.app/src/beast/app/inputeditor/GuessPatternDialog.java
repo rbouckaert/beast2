@@ -25,6 +25,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import beast.app.beauti.Beauti;
+import beast.app.beauti.WrappedOptionPane;
+import beast.app.beauti.GuessPatternDialog.Status;
 import beast.app.util.Utils;
 import beast.base.core.Log;
 import beast.base.core.ProgramStatus;
@@ -210,7 +213,7 @@ public class GuessPatternDialog extends JDialog {
 
         btnBrowse = new JButton("Browse");
         btnBrowse.addActionListener(e -> {
-                File file = Utils.getLoadFile("Load trait from file", new File(ProgramStatus.g_sDir), "Select trait file", "dat","txt");
+                File file = Utils.getLoadFile("Load trait from file", new File(Beauti.g_sDir), "Select trait file", "dat","txt");
                 if (file != null) {
                     txtFile.setText(file.getPath());
                     readFromFile.setSelected(true);
@@ -572,8 +575,13 @@ public class GuessPatternDialog extends JDialog {
                 while (fin.ready()) {
                     String[] strArray = fin.readLine().trim().split("\t");
                     // only add entries that are non-empty
-                    if (strArray.length == 2) {
-                        traitMap.put(strArray[0], strArray[1]);
+                    if (strArray.length >= 2) {
+                    	String str = strArray[1];
+                    	int k = 2;
+                    	while (k < strArray.length) {
+                    		str += "\t" + strArray[k++];
+                    	}
+                        traitMap.put(strArray[0], str);
                     }
                 }
                 fin.close();

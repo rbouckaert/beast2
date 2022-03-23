@@ -44,7 +44,9 @@ public class MergeDataWith extends BEASTObject {
 	void process(Alignment data, int iteration) throws IOException, XMLParserException, IllegalArgumentException, IllegalAccessException {
 		// read template
 		String templateXML = FileUtils.load(templateFile);
-		templateXML = templateXML.replaceAll("\\$\\(n\\)", iteration+"");
+		// RRB: the following line prevents use of templates in input XML that use var="n", 
+		// which is widely used, so commented out
+		// templateXML = templateXML.replaceAll("\\$\\(n\\)", iteration+"");
 		XMLParser parser = new XMLParser();
 		BEASTInterface b = parser.parseBareFragment(templateXML, false);
 
