@@ -95,7 +95,7 @@ public class DocMaker {
 
     public DocMaker() {
         // find plug ins to document
-        m_beastObjectNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
+        m_beastObjectNames = PackageManager.listServices("beast.base.core.BEASTInterface");
         /** determine hierarchical relation between plug-ins **/
         m_isa = new HashMap<>();
         m_ancestors = new HashMap<>();

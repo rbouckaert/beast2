@@ -225,8 +225,8 @@ public class BEASTClassLoader extends URLClassLoader {
 			}
 		}	
 		
-		public static Set<String> listServices(String service) {
-			return BEASTClassLoader.services.get(service);
+		public static Map<String, Set<String>> getServices() {			
+			return services;
 		}
 		
 		public void addServices(String packageName, Map<String, Set<String>> services) {

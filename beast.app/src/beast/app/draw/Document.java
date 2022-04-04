@@ -105,7 +105,7 @@ public class Document {
 
     public Document() {
         // load all parsers
-        Set<String> plugInNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
+        Set<String> plugInNames = PackageManager.listServices("beast.base.core.BEASTInterface");
         m_sPlugInNames = plugInNames.toArray(new String[0]);
         tabulist = new HashSet<>();
         Properties properties = new Properties();

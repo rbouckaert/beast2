@@ -29,7 +29,7 @@ public class DocumentationTest extends TestCase {
      */
     @Test
     public void testDescriptions() {
-        final Set<String> pluginNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
+        final Set<String> pluginNames = PackageManager.listServices("beast.base.core.BEASTInterface");
         final List<String> undocumentedPlugins = new ArrayList<String>();
         for (final String beastObjectName : pluginNames) {
             try {
@@ -60,7 +60,7 @@ public class DocumentationTest extends TestCase {
      */
     @Test
     public void testInputTipText() {
-        final Set<String> pluginNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
+        final Set<String> pluginNames = PackageManager.listServices("beast.base.core.BEASTInterface");
         final List<String> undocumentedInputs = new ArrayList<String>();
         for (final String beastObjectName : pluginNames) {
             try {

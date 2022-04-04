@@ -46,7 +46,7 @@ public class XMLParserTest extends TestCase {
     	
     	// create new version.xml
     	PrintStream out = new PrintStream(new File(versionFile));
-    	out.println("<package name='BEAST' version='" + new BEASTVersion().getVersion() + "'>");
+    	out.println("<package name='BEAST.base' version='" + new BEASTVersion().getVersion() + "'>");
     	out.println("<map from='beast.base.evolution.substitutionmodel.JoMamma' to='beast.base.evolution.substitutionmodel.JukesCantor'/>");
     	out.println("</package>");
     	out.close();

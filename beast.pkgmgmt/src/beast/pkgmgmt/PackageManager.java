@@ -1300,6 +1300,20 @@ public class PackageManager {
 		return serviceMap;
 	}
 
+    
+	public static Set<String> listServices(String service) {
+		Set<String> services = BEASTClassLoader.getServices().get(service);
+		if (services == null) {
+			try {
+				loadExternalJars();
+			} catch (IOException e) {
+				// ignore
+			}
+		}
+		services = BEASTClassLoader.getServices().get(service);
+		return services;
+	}
+
 	/**
      * Populate given map with versions of packages to install which satisfy dependencies
      * of those already present.

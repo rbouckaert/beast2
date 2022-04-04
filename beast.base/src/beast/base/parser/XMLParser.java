@@ -941,6 +941,9 @@ public class XMLParser {
 				
 		// sanity check		
 		try {
+        	if (oldClass2ClassMap.containsKey(clazzName)) {
+        		clazzName = oldClass2ClassMap.get(clazzName);
+        	}
 			Class<?> clazz = BEASTClassLoader.forName(clazzName, BEASTInterface.class.getName());
 			if (!BEASTInterface.class.isAssignableFrom(clazz)) {
 				// throw new XMLParserException(node, "Expected object to be instance of BEASTObject", 108);

@@ -32,7 +32,7 @@ public class InputTypeTest extends TestCase {
 	 */
 	@Test
 	public void testInputTypeCanBeSet() throws Exception {
-		final Set<String> beastObjectNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
+		final Set<String> beastObjectNames = PackageManager.listServices("beast.base.core.BEASTInterface");
 		List<String> failingInputs = new ArrayList<String>();
 		for (String beastObjectName : beastObjectNames) {
 			try {
@@ -63,7 +63,7 @@ public class InputTypeTest extends TestCase {
 
 	@Test
 	public void testAnnotatedInputHasGetters() throws Exception {
-		final Set<String> beastObjectNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
+		final Set<String> beastObjectNames = PackageManager.listServices("beast.base.core.BEASTInterface");
 		System.err.println("Testing " + beastObjectNames.size() + " classes");
 		List<String> failingInputs = new ArrayList<String>();
 		for (String beastObject : beastObjectNames) {
