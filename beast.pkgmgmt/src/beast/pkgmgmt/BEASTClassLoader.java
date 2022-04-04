@@ -167,7 +167,7 @@ public class BEASTClassLoader extends URLClassLoader {
 			return providers;
 		}
 
-		private static void initServices() {
+		public static void initServices() {
 			// no services loaded at all. Should only get here when running
 			// junit tests or from an IDE
 			// Try to find version.xml files

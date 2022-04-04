@@ -40,7 +40,14 @@ import beast.pkgmgmt.PackageManager;
  */
 public class XMLParserUtils {
 	
-	final static public Set<String> beastObjectNames = PackageManager.listServices("beast.base.core.BEASTInterface");
+	static private Set<String> beastObjectNames;
+
+	static public Set<String> getBeastObjectNames() {
+		if (beastObjectNames == null) {			
+			beastObjectNames = PackageManager.listServices("beast.base.core.BEASTInterface");
+		}
+		return beastObjectNames;
+	}
 
     /**
      * Expand plates in XML by duplicating the containing XML and replacing
@@ -412,7 +419,7 @@ public class XMLParserUtils {
         }
         int bestDistance = Integer.MAX_VALUE;
         String closestName = null;
-        for (final String beastObject : beastObjectNames) {
+        for (final String beastObject : getBeastObjectNames()) {
             final String classname2 = beastObject.substring(beastObject.lastIndexOf('.') + 1);
             final int distance = getLevenshteinDistance(name, classname2);
 
@@ -476,7 +483,7 @@ public class XMLParserUtils {
 
     public static String resolveClass(String specClass, String [] nameSpaces) {
 		for (String nameSpace : nameSpaces) {
-			if (XMLParserUtils.beastObjectNames.contains(nameSpace + specClass)) {
+			if (XMLParserUtils.getBeastObjectNames().contains(nameSpace + specClass)) {
 				String clazzName = nameSpace + specClass;
 				return clazzName;
 			}

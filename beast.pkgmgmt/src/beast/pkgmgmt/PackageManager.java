@@ -1306,6 +1306,7 @@ public class PackageManager {
 		if (services == null) {
 			try {
 				loadExternalJars();
+				BEASTClassLoader.initServices();
 			} catch (IOException e) {
 				// ignore
 			}

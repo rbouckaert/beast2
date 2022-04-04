@@ -828,7 +828,7 @@ public class JSONParser {
 		// determine clazzName from specName, taking name spaces in account
 		for (String nameSpace : nameSpaces) {
 			if (clazzName == null) {
-				if (XMLParserUtils.beastObjectNames.contains(nameSpace + specClass)) {
+				if (XMLParserUtils.getBeastObjectNames().contains(nameSpace + specClass)) {
 					clazzName = nameSpace + specClass;
 					break;
 				}
