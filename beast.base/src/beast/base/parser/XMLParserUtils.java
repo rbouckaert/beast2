@@ -40,8 +40,7 @@ import beast.pkgmgmt.PackageManager;
  */
 public class XMLParserUtils {
 	
-	final static public List<String> beastObjectNames = PackageManager.find(beast.base.core.BEASTInterface.class, PackageManager.IMPLEMENTATION_DIR);
-
+	final static public Set<String> beastObjectNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
 
     /**
      * Expand plates in XML by duplicating the containing XML and replacing

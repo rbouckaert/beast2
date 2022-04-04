@@ -76,7 +76,7 @@ public class PackageManager {
 
     public enum UpdateStatus {AUTO_CHECK_AND_ASK, AUTO_UPDATE, DO_NOT_CHECK};
 
-    public final static String[] IMPLEMENTATION_DIR = {"beast", "snap"};
+    // public final static String[] IMPLEMENTATION_DIR = {"beast", "snap"};
     public final static String TO_DELETE_LIST_FILE = "toDeleteList";
     public final static String TO_INSTALL_LIST_FILE = "toInstallList";
     
@@ -1175,9 +1175,9 @@ public class PackageManager {
 	// However, because they live in separate BEAST packages, they are loaded using their own
 	// package name, which hinders launchers, so BEAST.app loader is merged with BEAST.base loader
     private static String standardise(String packageName) {
-    	if (packageName.equals("BEAST.app")) {
-    		packageName = "BEAST.base";
-    	}
+//    	if (packageName.equals("BEAST.app")) {
+//    		packageName = "BEAST.base";
+//    	}
 		return packageName;
 	}
 

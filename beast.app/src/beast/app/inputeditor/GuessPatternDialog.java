@@ -26,8 +26,6 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import beast.app.beauti.Beauti;
-import beast.app.beauti.WrappedOptionPane;
-import beast.app.beauti.GuessPatternDialog.Status;
 import beast.app.util.Utils;
 import beast.base.core.Log;
 import beast.base.core.ProgramStatus;
@@ -213,7 +211,7 @@ public class GuessPatternDialog extends JDialog {
 
         btnBrowse = new JButton("Browse");
         btnBrowse.addActionListener(e -> {
-                File file = Utils.getLoadFile("Load trait from file", new File(Beauti.g_sDir), "Select trait file", "dat","txt");
+                File file = Utils.getLoadFile("Load trait from file", new File(ProgramStatus.g_sDir), "Select trait file", "dat","txt");
                 if (file != null) {
                     txtFile.setText(file.getPath());
                     readFromFile.setSelected(true);

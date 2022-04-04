@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -15,6 +17,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import javax.swing.filechooser.FileFilter;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import beagle.BeagleFactory;
 import beagle.BeagleFlag;
@@ -27,6 +35,7 @@ import beast.base.core.Log;
 import beast.base.parser.XMLParserException;
 import beast.base.util.Randomizer;
 import beast.pkgmgmt.Arguments;
+import beast.pkgmgmt.PackageManager;
 import beast.pkgmgmt.Version;
 import jam.util.IconUtils;
 
@@ -241,6 +250,25 @@ public class BeastMain {
         Log.info.println();
     }
 
+	private static void printVersion() {
+    	Log.info("BEAST " + (new BEASTVersion2()).getVersionString());
+        for (String jarDirName : PackageManager.getBeastDirectories()) {
+            File versionFile = new File(jarDirName + "/version.xml");
+            if (versionFile.exists()) {
+            	try {
+	                // print name and version of package
+	                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	                Document doc = factory.newDocumentBuilder().parse(versionFile);
+	                Element packageElement = doc.getDocumentElement();
+	                Log.info(packageElement.getAttribute("name") + " v" + packageElement.getAttribute("version") + " " + jarDirName);
+            	} catch (IOException| SAXException| ParserConfigurationException e) {
+            		Log.err(e.getMessage());
+            	}
+            }
+        }
+    	Log.info("Java version " + System.getProperty("java.version"));
+	}
+
     //Main method
     public static void main(final String[] args) throws java.io.IOException {
 
@@ -299,7 +327,7 @@ public class BeastMain {
         }
 
         if (arguments.hasOption("version")) {
-        	Log.info.println((new BEASTVersion2()).getVersionString());
+        	printVersion();
         	System.exit(0);
         }
 
@@ -704,6 +732,7 @@ public class BeastMain {
             System.exit(0);
         }
     }
+
 }
 
 

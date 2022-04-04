@@ -8,6 +8,7 @@ import java.util.*;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -110,7 +111,7 @@ public class BEASTClassLoader extends URLClassLoader {
 				return Class.forName(className, false, loader);
 			}
 			
-			System.err.println("Loading non-service: " + className);
+//			System.err.println("Loading non-service: " + className);
 			for (MultiParentURLClassLoader loader : package2classLoaderMap.values()) {
 				try { 
 					// System.err.println("Trying to load "+className+" using " + loader.name);
@@ -216,12 +217,17 @@ public class BEASTClassLoader extends URLClassLoader {
 		        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		        Document doc = factory.newDocumentBuilder().parse(versionFile);
 		        services = PackageManager.parseServices(doc);
-				BEASTClassLoader.classLoader.addServices("BEAST.base", services);
+		        Element packageElement = doc.getDocumentElement();
+                String packageName = packageElement.getAttribute("name"); 
+				BEASTClassLoader.classLoader.addServices(packageName, services);
 			} catch (Throwable e) {
 				// ignore
 			}
 		}	
 		
+		public static Set<String> listServices(String service) {
+			return BEASTClassLoader.services.get(service);
+		}
 		
 		public void addServices(String packageName, Map<String, Set<String>> services) {
 			ClassLoader loader = getClassLoader(packageName);

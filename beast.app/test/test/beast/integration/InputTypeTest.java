@@ -7,6 +7,7 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -31,8 +32,7 @@ public class InputTypeTest extends TestCase {
 	 */
 	@Test
 	public void testInputTypeCanBeSet() throws Exception {
-		List<String> beastObjectNames = PackageManager.find(beast.base.core.BEASTObject.class,
-				PackageManager.IMPLEMENTATION_DIR);
+		final Set<String> beastObjectNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
 		List<String> failingInputs = new ArrayList<String>();
 		for (String beastObjectName : beastObjectNames) {
 			try {
@@ -63,11 +63,7 @@ public class InputTypeTest extends TestCase {
 
 	@Test
 	public void testAnnotatedInputHasGetters() throws Exception {
-		testAnnotatedInputHasGetters(PackageManager.IMPLEMENTATION_DIR);
-	}
-	
-	public void testAnnotatedInputHasGetters(String [] packages) throws Exception {
-		List<String> beastObjectNames = PackageManager.find(Object.class, packages);
+		final Set<String> beastObjectNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
 		System.err.println("Testing " + beastObjectNames.size() + " classes");
 		List<String> failingInputs = new ArrayList<String>();
 		for (String beastObject : beastObjectNames) {

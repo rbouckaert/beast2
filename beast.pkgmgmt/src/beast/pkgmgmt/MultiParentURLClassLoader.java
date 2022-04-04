@@ -97,5 +97,10 @@ public class MultiParentURLClassLoader extends URLClassLoader {
 		} catch (NoClassDefFoundError e2) {
 			throw new ClassNotFoundException(e2.getMessage());
 		}
-	}	
+	}
+    
+    @Override
+    public String toString() {
+    	return super.toString() +"["+ name + "]";
+    }
 }

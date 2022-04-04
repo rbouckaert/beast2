@@ -58,7 +58,7 @@ public class BeastLauncher {
 		// first try beast from the package_user_dir/lib/beast.jar
 		String beastUserDir = getPackageUserDir();
 		pathDelimiter = isWindows() ? "\\\\" : "/";
-		beastUserDir += pathDelimiter + "BEAST.base" + pathDelimiter;
+		beastUserDir += pathDelimiter + packageName + pathDelimiter;
 		String beastJar = beastUserDir + "lib";
 		boolean foundJavaJarFile = checkForBEAST(new File(beastJar), packageName);
 

@@ -23,7 +23,7 @@ public class XMLElementNameTest extends TestCase {
      */
     @Test
     public void test_NameUniqueness() {
-        List<String> pluginNames = PackageManager.find(beast.base.core.BEASTObject.class, PackageManager.IMPLEMENTATION_DIR);
+		final Set<String> pluginNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
         List<String> improperInputs = new ArrayList<String>();
         for (String beastObjectName : pluginNames) {
             try {
@@ -67,7 +67,7 @@ public class XMLElementNameTest extends TestCase {
         element2ClassMap.put("parameter", "beast.core.parameter.Parameter");
 
         // check each beastObject
-        List<String> pluginNames = PackageManager.find(beast.base.core.BEASTObject.class, PackageManager.IMPLEMENTATION_DIR);
+		final Set<String> pluginNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
         List<String> improperInputs = new ArrayList<String>();
         for (String beastObjectName : pluginNames) {
             try {

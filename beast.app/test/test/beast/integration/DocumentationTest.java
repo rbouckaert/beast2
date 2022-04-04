@@ -3,6 +3,7 @@ package test.beast.integration;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -28,7 +29,7 @@ public class DocumentationTest extends TestCase {
      */
     @Test
     public void testDescriptions() {
-        final List<String> pluginNames = PackageManager.find(beast.base.core.BEASTObject.class, PackageManager.IMPLEMENTATION_DIR);
+        final Set<String> pluginNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
         final List<String> undocumentedPlugins = new ArrayList<String>();
         for (final String beastObjectName : pluginNames) {
             try {
@@ -59,7 +60,7 @@ public class DocumentationTest extends TestCase {
      */
     @Test
     public void testInputTipText() {
-        final List<String> pluginNames = PackageManager.find(beast.base.core.BEASTObject.class, PackageManager.IMPLEMENTATION_DIR);
+        final Set<String> pluginNames = BEASTClassLoader.listServices("beast.base.core.BEASTInterface");
         final List<String> undocumentedInputs = new ArrayList<String>();
         for (final String beastObjectName : pluginNames) {
             try {

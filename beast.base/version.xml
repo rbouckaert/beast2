@@ -122,8 +122,10 @@
                 <provider classname="beast.base.inference.DirectSimulator"/>
                 <provider classname="beast.base.inference.Logger"/>
                 <provider classname="beast.base.inference.MCMC"/>
+                <provider classname="beast.base.inference.Operator"/>
                 <provider classname="beast.base.inference.OperatorSchedule"/>
                 <provider classname="beast.base.inference.State"/>
+                <provider classname="beast.base.inference.Distribution"/>
                 <provider classname="beast.base.inference.distribution.Beta"/>
                 <provider classname="beast.base.inference.distribution.ChiSquare"/>
                 <provider classname="beast.base.inference.distribution.Dirichlet"/>

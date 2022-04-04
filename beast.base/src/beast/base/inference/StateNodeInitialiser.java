@@ -32,5 +32,5 @@ public interface StateNodeInitialiser {
      *         This information is used to ensure StateNode are not initialised more than once.
      * @param stateNodes
      */
-    void getInitialisedStateNodes(List<StateNode> stateNodes);
+    public void getInitialisedStateNodes(List<StateNode> stateNodes);
 }
