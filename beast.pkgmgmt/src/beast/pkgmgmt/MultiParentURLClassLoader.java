@@ -100,6 +100,32 @@ public class MultiParentURLClassLoader extends URLClassLoader {
 	}
     
     @Override
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
+    	System.err.println("MPCL: load class " + name + " " + this.name);
+		try {
+			return loadClass(name, false);
+		} catch (NoClassDefFoundError | ClassNotFoundException e) {
+			// ignore -- try the next class loader instead
+		}
+
+		// no luck trying the parents
+		for (ClassLoader parentLoader : parentLoaders) {			
+			try {
+				Class<?> c =  parentLoader.loadClass(name);
+				if (c != null) {
+					return c;
+				}
+			} catch (NoClassDefFoundError e) {
+				// ignore -- try the next class loader instead
+			}			
+		}
+
+		System.err.println("MPCL: giving up " + name + " " + this.name);
+				
+		throw new NoClassDefFoundError(name);
+    }
+    
+    @Override
     public String toString() {
     	return super.toString() +"["+ name + "]";
     }

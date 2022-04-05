@@ -75,7 +75,7 @@ public class BEASTClassLoader extends URLClassLoader {
     		}
 	    	MultiParentURLClassLoader loader = getClassLoader(packageName);
 	    	MultiParentURLClassLoader parentLoader = getClassLoader(parentPackage);
-	    	loader.addParentLoader(parentLoader);
+	    	loader.addParentLoader(parentLoader);	    	
 	    }
 	    
 	    /** dynamically load jars **/
@@ -106,12 +106,15 @@ public class BEASTClassLoader extends URLClassLoader {
 	     *  The latter won't work for loading classes from packages from BEAST v2.6.0 onwards. 
 	     * **/
 		public static Class<?> forName(String className) throws ClassNotFoundException {
+			// System.err.println("forName: " + className);
+			
 			if (class2loaderMap.containsKey(className)) {
 				ClassLoader loader = class2loaderMap.get(className);
+				// System.err.println("class2loaderMap " + loader.toString());
 				return Class.forName(className, false, loader);
 			}
 			
-//			System.err.println("Loading non-service: " + className);
+			// System.err.println("Loading non-service: " + className);
 			for (MultiParentURLClassLoader loader : package2classLoaderMap.values()) {
 				try { 
 					// System.err.println("Trying to load "+className+" using " + loader.name);
@@ -123,13 +126,17 @@ public class BEASTClassLoader extends URLClassLoader {
 			
 			try { 
 				// System.err.println("Trying to load using BEASTClassLoader.classLoader");
-				return Class.forName(className, false, BEASTClassLoader.classLoader);
+				Class<?> c = Class.forName(className, false, BEASTClassLoader.classLoader);
+				// System.err.println("Loading from " + c.getProtectionDomain().getCodeSource().getLocation());
+				return c;
 			} catch (NoClassDefFoundError e) {
 				throw new ClassNotFoundException(e.getMessage());
 			}
 		}	
 		
 		public static Class<?> forName(String className, String service) throws ClassNotFoundException {
+			// System.err.println("forName: " + className + " " + service);
+
 			if (!services.containsKey(service)) {
 				if (services.size() == 0) {
 					services.put(service, new HashSet<>());

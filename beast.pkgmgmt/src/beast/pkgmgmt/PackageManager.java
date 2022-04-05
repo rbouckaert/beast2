@@ -763,13 +763,13 @@ public class PackageManager {
 
     /**
      * Returns directory where BEAST installation resides, based on the location of the jar containing the
-     * BeastMain class file.  This assumes that the parent directory of the beast.jar is the base install
+     * beast.pkgmgmt.PackageManager class file.  This assumes that the parent directory of the launcher.jar is the base install
      * directory.
      *
      * @return string representation of BEAST install directory or null if this directory cannot be identified.
      */
     public static String getBEASTInstallDir() {
-    	return getInstallDir(BEAST_PACKAGE_NAME, "beast.app.beastapp.BeastMain");
+    	return getInstallDir(BEAST_PACKAGE_NAME, "beast.pkgmgmt.PackageManager");
     	
     }
     
