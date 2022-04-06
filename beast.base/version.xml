@@ -85,7 +85,6 @@
                 <provider classname="beast.base.inference.operator.kernel.Transform$NegateTransform"/>
                 <provider classname="beast.base.inference.operator.kernel.Transform$NoTransform"/>
                 <provider classname="beast.base.inference.operator.kernel.Transform$NoTransformMultivariable"/>
-                <provider classname="beast.base.inference.operator.kernel.Transform$ParsedTransform"/>
                 <provider classname="beast.base.inference.operator.kernel.Transform$PositiveOrdered"/>
                 <provider classname="beast.base.inference.operator.kernel.Transform$PowerTransform"/>
 

@@ -25,9 +25,16 @@
               args=""
               icon=""
             />
+    <packageapp description="Does sanity checks on a BEAST package"
+              class="beast.app.tools.PackageHealthChecker"
+              args=""
+              icon=""
+            />
+            <!--
 			<service type="beast.pkgmgmt.NameSpaceInfo">
 				<provider classname="beast.app.NameSpaceInfo"/>
 			</service>
+			-->
 			
 			<service type="beast.app.inputeditor.InputEditor">
 				<provider classname="beast.app.inputeditor.AlignmentListInputEditor"/>

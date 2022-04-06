@@ -270,7 +270,6 @@ beast.math.distributions.Normal beast.base.inference.distribution.Normal
 beast.math.distributions.OneOnX beast.base.inference.distribution.OneOnX
 beast.math.distributions.ParametricDistribution beast.base.inference.distribution.ParametricDistribution
 beast.math.distributions.Poisson beast.base.inference.distribution.Poisson
-beast.math.distributions.WeibullDistribution org.apache.commons.math.distribution.WeibullDistribution
 beast.math.matrixalgebra.CholeskyDecomposition beast.base.math.matrixalgebra.CholeskyDecomposition
 beast.math.matrixalgebra.IllegalDimension beast.base.math.matrixalgebra.IllegalDimension
 beast.math.matrixalgebra.LUPDecomposition beast.base.math.matrixalgebra.LUPDecomposition
@@ -340,7 +339,9 @@ BeastMCMC.m_nThreads ProgramStatus.m_nThreads
 BeastMCMC.g_exec ProgramStatus.g_exec
 org.apache.commons.math.distribution.Distribution beast.base.inference.Distribution
 beast.core: beast.base.core:beast.base.inference:
-beast.core.util: beast.base.util:';
+beast.core.util: beast.base.util:
+beast.math.distributions.WeibullDistribution beastlabs.math.distributions.WeibullDistribution
+';
 
 if ($#ARGV < 0) {
 	print "Usage: perl migrate.pl <directory>\n";

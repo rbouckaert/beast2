@@ -77,8 +77,8 @@ public class PackageHealthChecker extends Runnable {
 		
 		
 		// do checks
-		checkVersionFile();
-		checkServices();
+		String versionFileName = checkVersionFile();
+		checkServices(versionFileName);
 		checkFolders();
 		checkSourceCode();
 		
@@ -91,8 +91,8 @@ public class PackageHealthChecker extends Runnable {
 		System.exit(0);
 	}
 	
-	private void checkServices() {
-		Map<String, Set<String>> declaredSerices = collectDecladedServices();
+	private void checkServices(String versionFileName) {
+		Map<String, Set<String>> declaredSerices = collectDecladedServices(versionFileName);
 		for (String file : new File(packageDir + "/lib").list()) {
 			if (file.toLowerCase().endsWith(".jar")) {
 				JarHealthChecker jarCheck = new JarHealthChecker(new File(file));
@@ -102,38 +102,48 @@ public class PackageHealthChecker extends Runnable {
 	}
 	
 	
-	private Map<String, Set<String>> collectDecladedServices() {
-		Map<String,Set<String>> declaredServices = new HashMap<>();		
-		for (String file : new File(packageDir + "/lib").list()) {
-			if (file.toLowerCase().endsWith(".jar")) {
-				String destDir = packageDir + "/lib/" + file + "_extracted";
-				new File(destDir).mkdir();
-				try {
-					PackageManager.doUnzip(packageDir + "/lib/" + file, destDir);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				File serviceDir = new File(destDir +"/META-INF/services");
-				if (!serviceDir.exists()) {
-					report("No services found in jar " + file);
-				} else {
-					for (String metaInfFile : serviceDir.list()) {
-						if (!metaInfFile.endsWith("MANIFEST.MF") && !(metaInfFile.charAt(0)=='.')) {
-							if (!declaredServices.containsKey(metaInfFile)) {
-								declaredServices.put(metaInfFile, new HashSet<String>());
-							}
-							try {
-								for (String className : FileUtils.load(metaInfFile).split("\n")) {
-									declaredServices.get(metaInfFile).add(className);
-								}
-							} catch (IOException e) {
-								e.printStackTrace();
-							}
-						}
-					}
-				}
-			}
-		}
+	private Map<String, Set<String>> collectDecladedServices(String versionFileName) {
+		Map<String,Set<String>> declaredServices = new HashMap<>();
+        try {
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            Document doc = factory.newDocumentBuilder().parse(versionFileName);
+            declaredServices = PackageManager.parseServices(doc);
+        } catch (Exception e) {
+            // ignore
+            System.err.println(e.getMessage());
+        }
+		
+//		Map<String,Set<String>> declaredServices = new HashMap<>();		
+//		for (String file : new File(packageDir + "/lib").list()) {
+//			if (file.toLowerCase().endsWith(".jar")) {
+//				String destDir = packageDir + "/lib/" + file + "_extracted";
+//				new File(destDir).mkdir();
+//				try {
+//					PackageManager.doUnzip(packageDir + "/lib/" + file, destDir);
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
+//				File serviceDir = new File(destDir +"/META-INF/services");
+//				if (!serviceDir.exists()) {
+//					report("No services found in jar " + file);
+//				} else {
+//					for (String metaInfFile : serviceDir.list()) {
+//						if (!metaInfFile.endsWith("MANIFEST.MF") && !(metaInfFile.charAt(0)=='.')) {
+//							if (!declaredServices.containsKey(metaInfFile)) {
+//								declaredServices.put(metaInfFile, new HashSet<String>());
+//							}
+//							try {
+//								for (String className : FileUtils.load(metaInfFile).split("\n")) {
+//									declaredServices.get(metaInfFile).add(className);
+//								}
+//							} catch (IOException e) {
+//								e.printStackTrace();
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
 		return declaredServices;
 	}
 
@@ -260,7 +270,7 @@ public class PackageHealthChecker extends Runnable {
 		}
 	}
 
-	private void checkVersionFile() {
+	private String checkVersionFile() {
 		report("Checking version.xml");
 		String versionFileName = packageDir + "/version.xml";
 		if (!new File(versionFileName).exists()) {
@@ -283,7 +293,7 @@ public class PackageHealthChecker extends Runnable {
 			report("Could not find file version.xml where I expected it: " + versionFileName);
 			report("Cannot determine package name, so assume it is " + packageFileName);
 			packageName = packageFileName;
-			return;
+			return versionFileName;
 		}
 		
 		packageName = determinPackageName(versionFileName);
@@ -291,6 +301,7 @@ public class PackageHealthChecker extends Runnable {
 		checkDependenciesInVersionXML(versionFileName);
 		checkApplicationsInVersionXML(versionFileName);
 		checkMapElementsInVersionXML(versionFileName);
+		return versionFileName;
 	}
 	
 	private String determinPackageName(String versionFileName) {
@@ -319,7 +330,7 @@ public class PackageHealthChecker extends Runnable {
             	Node node = content.item(i);
             	if (node instanceof Element) {
             		String name = ((Element) node).getNodeName();
-            		if (!(name.equals("packageapp") || name.equals("map") || name.equals("addonapp") || name.equals("depends"))) {
+            		if (!(name.equals("packageapp") || name.equals("map") || name.equals("addonapp") || name.equals("depends") || name.equals("servicex"))) {
             			report("Unrecognised element found in version.xml, which will be ignored:" + name + " (potentially a typo)");
             		}
             	}
