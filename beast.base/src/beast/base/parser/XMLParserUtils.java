@@ -482,6 +482,9 @@ public class XMLParserUtils {
     }
 
     public static String resolveClass(String specClass, String [] nameSpaces) {
+    	if (specClass.equals("beast.base.core.BEASTInterface")) {
+    		return "beast.base.core.BEASTInterface";
+    	}
 		for (String nameSpace : nameSpaces) {
 			if (XMLParserUtils.getBeastObjectNames().contains(nameSpace + specClass)) {
 				String clazzName = nameSpace + specClass;

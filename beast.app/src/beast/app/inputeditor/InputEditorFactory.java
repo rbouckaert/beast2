@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ServiceLoader;
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -20,7 +21,6 @@ import beast.base.core.BEASTInterface;
 import beast.base.core.Input;
 import beast.base.core.Log;
 import beast.base.core.Input.Validate;
-import beast.base.inference.ModelLogger;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
 
@@ -56,11 +56,8 @@ public class InputEditorFactory {
         }
 
         if (beast.pkgmgmt.Utils6.isJUnitTest() || inputEditorMap.size() == 0) {
-	        String[] PACKAGE_DIRS = {"beast.app","beast.base"};
-	        for (String packageName : PACKAGE_DIRS) {
-	            List<String> inputEditors = PackageManager.find("beast.app.inputeditor.InputEditor", packageName);
-	            registerInputEditors(inputEditors.toArray(new String[0]));
-	        }
+        	Set<String> inputEditors = PackageManager.listServices("beast.app.inputeditor.InputEditor");
+            registerInputEditors(inputEditors.toArray(new String[0]));
         }
     }
 
@@ -260,6 +257,7 @@ public class InputEditorFactory {
 
             }
         }
+// System.err.println("createInputEditor: " + inputEditor.getClass().getName());        
         inputEditor.setDoc(doc);
         inputEditor.init(input, beastObject, listItemNr, expandOption, addButtons);
         ((JComponent) inputEditor).setBorder(BorderFactory.createEmptyBorder());
@@ -322,7 +320,7 @@ public class InputEditorFactory {
         }
         /* add all beastObject-classes of type assignable to the input */
         if (doc.isExpertMode()) {
-            List<String> classes = PackageManager.find(input.getType(), "beast");
+            Set<String> classes = PackageManager.listServices(BEASTInterface.class.getName());
             for (String className : classes) {
                 try {
                     Object o = BEASTClassLoader.forName(className).newInstance();

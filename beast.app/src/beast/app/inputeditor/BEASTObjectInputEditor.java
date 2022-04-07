@@ -14,7 +14,6 @@ import javax.swing.border.EtchedBorder;
 
 import beast.base.core.BEASTInterface;
 import beast.base.core.Input;
-import beast.pkgmgmt.PackageManager;
 
 public class BEASTObjectInputEditor extends InputEditor.Base {
     private static final long serialVersionUID = 1L;
@@ -72,7 +71,7 @@ public class BEASTObjectInputEditor extends InputEditor.Base {
         addComboBox(this, input, beastObject);
 
         if (m_bAddButtons) {
-            if (BEASTObjectPanel.countInputs((BEASTInterface) m_input.get(), doc) > 0) {
+            if (BEASTObjectPanel.countInputs(m_input.get(), doc) > 0) {
                 m_editBEASTObjectButton = new SmallButton("e", true);
                 if (input.get() == null) {
                     m_editBEASTObjectButton.setEnabled(false);
@@ -193,8 +192,10 @@ public class BEASTObjectInputEditor extends InputEditor.Base {
             String id2;
             if (o == null) {
                 id2 = beastObject0.getID();
-            } else {
+            } else if (o instanceof BEASTInterface) {
                 id2 = ((BEASTInterface) o).getID();
+            } else {
+            	id2 = input.getName();
             }
             if (id2.indexOf('.')>=0) {
             	id2 = id2.substring(0, id2.indexOf('.'));
@@ -473,9 +474,9 @@ public class BEASTObjectInputEditor extends InputEditor.Base {
 //        }
 //    }
 
-    String[] getAvailablePlugins() {
-        List<String> beastObjectNames = PackageManager.find(m_input.getType(), "beast");
-        return beastObjectNames.toArray(new String[0]);
-    } // getAvailablePlugins
+//    String[] getAvailablePlugins() {
+//        List<String> beastObjectNames = PackageManager.find(m_input.getType(), "beast");
+//        return beastObjectNames.toArray(new String[0]);
+//    } // getAvailablePlugins
 
 } // class PluginInputEditor

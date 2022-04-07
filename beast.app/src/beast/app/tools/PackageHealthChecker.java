@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.zip.ZipEntry;
@@ -27,7 +29,9 @@ import beast.app.util.Utils;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.core.Log;
+import beast.base.inference.Logger;
 import beast.base.inference.Runnable;
+import beast.base.parser.XMLParser;
 import beast.base.util.FileUtils;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.BEASTVersion;
@@ -81,6 +85,8 @@ public class PackageHealthChecker extends Runnable {
 		checkServices(versionFileName);
 		checkFolders();
 		checkSourceCode();
+		checkXMLExample();
+		// checkBEAUTITemplates();
 		
 		// clean up package directory
 		deleteRecursively(new File(packageDir));
@@ -91,6 +97,45 @@ public class PackageHealthChecker extends Runnable {
 		System.exit(0);
 	}
 	
+	private void checkXMLExample() throws IOException {
+		PackageManager.loadExternalJars();
+		Logger.FILE_MODE = Logger.LogFileMode.overwrite;
+		
+		String separator = Utils.isWindows() ? "\\\\" : File.separator;
+		List<String> failedFiles = new ArrayList<>(); 
+		for (String fileName : new File(packageDir + separator + "examples").list()) {
+            Log.warning("Processing " + fileName);
+            XMLParser parser = new XMLParser();
+            try {
+                parser.parseFile(new File(packageDir + separator + "examples" + separator + fileName));
+            } catch (Exception e) {
+            	e.printStackTrace()
+            	;
+                out.println("Example Xml parsing failed for " + fileName
+                        + ": " + e.getMessage());
+                failedFiles.add(fileName);
+            }
+		}		
+	}
+
+	private void checkBEAUTITemplates() {
+		String separator = Utils.isWindows() ? "\\\\" : File.separator;
+		List<String> failedFiles = new ArrayList<>(); 
+		for (String fileName : new File(packageDir + separator + "templates").list()) {
+            Log.warning("Processing " + fileName);
+            XMLParser parser = new XMLParser();
+            try {            	
+            	String xml = FileUtils.load(new File(packageDir + separator + "templates" + separator + fileName));
+                parser.parseBareFragment(xml, false);
+            } catch (Exception e) {
+            	e.printStackTrace()
+            	;
+                out.println("BEAUti template parsing failed for " + fileName
+                        + ": " + e.getMessage());
+                failedFiles.add(fileName);
+            }
+		}			}
+
 	private void checkServices(String versionFileName) {
 		Map<String, Set<String>> declaredSerices = collectDecladedServices(versionFileName);
 		for (String file : new File(packageDir + "/lib").list()) {
@@ -330,7 +375,7 @@ public class PackageHealthChecker extends Runnable {
             	Node node = content.item(i);
             	if (node instanceof Element) {
             		String name = ((Element) node).getNodeName();
-            		if (!(name.equals("packageapp") || name.equals("map") || name.equals("addonapp") || name.equals("depends") || name.equals("servicex"))) {
+            		if (!(name.equals("packageapp") || name.equals("map") || name.equals("addonapp") || name.equals("depends") || name.equals("service"))) {
             			report("Unrecognised element found in version.xml, which will be ignored:" + name + " (potentially a typo)");
             		}
             	}
