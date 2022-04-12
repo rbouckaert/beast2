@@ -1,5 +1,5 @@
-// Generated from NewickParser.g4 by ANTLR 4.7
 package beast.base.evolution.tree.treeparser;
+// Generated from NewickParser.g4 by ANTLR 4.10
 import org.antlr.v4.runtime.atn.*;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.antlr.v4.runtime.*;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class NewickParser extends Parser {
-	static { RuntimeMetaData.checkVersion("4.7", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.10", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -25,20 +25,29 @@ public class NewickParser extends Parser {
 		RULE_tree = 0, RULE_node = 1, RULE_post = 2, RULE_label = 3, RULE_meta = 4, 
 		RULE_attrib = 5, RULE_attribValue = 6, RULE_number = 7, RULE_attribNumber = 8, 
 		RULE_vector = 9;
-	public static final String[] ruleNames = {
-		"tree", "node", "post", "label", "meta", "attrib", "attribValue", "number", 
-		"attribNumber", "vector"
-	};
+	private static String[] makeRuleNames() {
+		return new String[] {
+			"tree", "node", "post", "label", "meta", "attrib", "attribValue", "number", 
+			"attribNumber", "vector"
+		};
+	}
+	public static final String[] ruleNames = makeRuleNames();
 
-	private static final String[] _LITERAL_NAMES = {
-		null, "';'", null, "'('", "')'", "':'", null, null, null, "'[&'", null, 
-		null, "'='", null, "'{'", "'}'", null, null, null, null, null, "']'"
-	};
-	private static final String[] _SYMBOLIC_NAMES = {
-		null, "SEMI", "COMMA", "OPENP", "CLOSEP", "COLON", "FLOAT_SCI", "FLOAT", 
-		"INT", "OPENA", "WHITESPACE", "STRING", "EQ", "ACOMMA", "OPENV", "CLOSEV", 
-		"AFLOAT_SCI", "AFLOAT", "AINT", "AWHITESPACE", "ASTRING", "CLOSEA", "ATTRIBWS"
-	};
+	private static String[] makeLiteralNames() {
+		return new String[] {
+			null, "';'", null, "'('", "')'", "':'", null, null, null, "'[&'", null, 
+			null, "'='", null, "'{'", "'}'", null, null, null, null, null, "']'"
+		};
+	}
+	private static final String[] _LITERAL_NAMES = makeLiteralNames();
+	private static String[] makeSymbolicNames() {
+		return new String[] {
+			null, "SEMI", "COMMA", "OPENP", "CLOSEP", "COLON", "FLOAT_SCI", "FLOAT", 
+			"INT", "OPENA", "WHITESPACE", "STRING", "EQ", "ACOMMA", "OPENV", "CLOSEV", 
+			"AFLOAT_SCI", "AFLOAT", "AINT", "AWHITESPACE", "ASTRING", "CLOSEA", "ATTRIBWS"
+		};
+	}
+	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
 	/**
@@ -88,11 +97,13 @@ public class NewickParser extends Parser {
 		super(input);
 		_interp = new ParserATNSimulator(this,_ATN,_decisionToDFA,_sharedContextCache);
 	}
+
 	public static class TreeContext extends ParserRuleContext {
 		public NodeContext node() {
 			return getRuleContext(NodeContext.class,0);
 		}
 		public TerminalNode EOF() { return getToken(NewickParser.EOF, 0); }
+		public TerminalNode SEMI() { return getToken(NewickParser.SEMI, 0); }
 		public TreeContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -150,12 +161,14 @@ public class NewickParser extends Parser {
 		public PostContext post() {
 			return getRuleContext(PostContext.class,0);
 		}
+		public TerminalNode OPENP() { return getToken(NewickParser.OPENP, 0); }
 		public List<NodeContext> node() {
 			return getRuleContexts(NodeContext.class);
 		}
 		public NodeContext node(int i) {
 			return getRuleContext(NodeContext.class,i);
 		}
+		public TerminalNode CLOSEP() { return getToken(NewickParser.CLOSEP, 0); }
 		public List<TerminalNode> COMMA() { return getTokens(NewickParser.COMMA); }
 		public TerminalNode COMMA(int i) {
 			return getToken(NewickParser.COMMA, i);
@@ -238,6 +251,7 @@ public class NewickParser extends Parser {
 		public LabelContext label() {
 			return getRuleContext(LabelContext.class,0);
 		}
+		public TerminalNode COLON() { return getToken(NewickParser.COLON, 0); }
 		public List<MetaContext> meta() {
 			return getRuleContexts(MetaContext.class);
 		}
@@ -391,12 +405,14 @@ public class NewickParser extends Parser {
 	}
 
 	public static class MetaContext extends ParserRuleContext {
+		public TerminalNode OPENA() { return getToken(NewickParser.OPENA, 0); }
 		public List<AttribContext> attrib() {
 			return getRuleContexts(AttribContext.class);
 		}
 		public AttribContext attrib(int i) {
 			return getRuleContext(AttribContext.class,i);
 		}
+		public TerminalNode CLOSEA() { return getToken(NewickParser.CLOSEA, 0); }
 		public List<TerminalNode> ACOMMA() { return getTokens(NewickParser.ACOMMA); }
 		public TerminalNode ACOMMA(int i) {
 			return getToken(NewickParser.ACOMMA, i);
@@ -464,6 +480,7 @@ public class NewickParser extends Parser {
 
 	public static class AttribContext extends ParserRuleContext {
 		public Token attribKey;
+		public TerminalNode EQ() { return getToken(NewickParser.EQ, 0); }
 		public AttribValueContext attribValue() {
 			return getRuleContext(AttribValueContext.class,0);
 		}
@@ -691,12 +708,14 @@ public class NewickParser extends Parser {
 	}
 
 	public static class VectorContext extends ParserRuleContext {
+		public TerminalNode OPENV() { return getToken(NewickParser.OPENV, 0); }
 		public List<AttribValueContext> attribValue() {
 			return getRuleContexts(AttribValueContext.class);
 		}
 		public AttribValueContext attribValue(int i) {
 			return getRuleContext(AttribValueContext.class,i);
 		}
+		public TerminalNode CLOSEV() { return getToken(NewickParser.CLOSEV, 0); }
 		public List<TerminalNode> ACOMMA() { return getTokens(NewickParser.ACOMMA); }
 		public TerminalNode ACOMMA(int i) {
 			return getToken(NewickParser.ACOMMA, i);
@@ -763,30 +782,60 @@ public class NewickParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\30`\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t\13\3"+
-		"\2\3\2\5\2\31\n\2\3\2\3\2\3\3\3\3\3\3\3\3\7\3!\n\3\f\3\16\3$\13\3\3\3"+
-		"\3\3\5\3(\n\3\3\3\3\3\3\4\5\4-\n\4\3\4\5\4\60\n\4\3\4\3\4\5\4\64\n\4\3"+
-		"\4\5\4\67\n\4\3\5\3\5\5\5;\n\5\3\6\3\6\3\6\3\6\7\6A\n\6\f\6\16\6D\13\6"+
-		"\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\3\b\5\bO\n\b\3\t\3\t\3\n\3\n\3\13\3\13"+
-		"\3\13\3\13\7\13Y\n\13\f\13\16\13\\\13\13\3\13\3\13\3\13\2\2\f\2\4\6\b"+
-		"\n\f\16\20\22\24\2\4\3\2\b\n\3\2\22\24\2a\2\26\3\2\2\2\4\'\3\2\2\2\6,"+
-		"\3\2\2\2\b:\3\2\2\2\n<\3\2\2\2\fG\3\2\2\2\16N\3\2\2\2\20P\3\2\2\2\22R"+
-		"\3\2\2\2\24T\3\2\2\2\26\30\5\4\3\2\27\31\7\3\2\2\30\27\3\2\2\2\30\31\3"+
-		"\2\2\2\31\32\3\2\2\2\32\33\7\2\2\3\33\3\3\2\2\2\34\35\7\5\2\2\35\"\5\4"+
-		"\3\2\36\37\7\4\2\2\37!\5\4\3\2 \36\3\2\2\2!$\3\2\2\2\" \3\2\2\2\"#\3\2"+
-		"\2\2#%\3\2\2\2$\"\3\2\2\2%&\7\6\2\2&(\3\2\2\2\'\34\3\2\2\2\'(\3\2\2\2"+
-		"()\3\2\2\2)*\5\6\4\2*\5\3\2\2\2+-\5\b\5\2,+\3\2\2\2,-\3\2\2\2-/\3\2\2"+
-		"\2.\60\5\n\6\2/.\3\2\2\2/\60\3\2\2\2\60\66\3\2\2\2\61\63\7\7\2\2\62\64"+
-		"\5\n\6\2\63\62\3\2\2\2\63\64\3\2\2\2\64\65\3\2\2\2\65\67\5\20\t\2\66\61"+
-		"\3\2\2\2\66\67\3\2\2\2\67\7\3\2\2\28;\5\20\t\29;\7\r\2\2:8\3\2\2\2:9\3"+
-		"\2\2\2;\t\3\2\2\2<=\7\13\2\2=B\5\f\7\2>?\7\17\2\2?A\5\f\7\2@>\3\2\2\2"+
-		"AD\3\2\2\2B@\3\2\2\2BC\3\2\2\2CE\3\2\2\2DB\3\2\2\2EF\7\27\2\2F\13\3\2"+
-		"\2\2GH\7\26\2\2HI\7\16\2\2IJ\5\16\b\2J\r\3\2\2\2KO\5\22\n\2LO\7\26\2\2"+
-		"MO\5\24\13\2NK\3\2\2\2NL\3\2\2\2NM\3\2\2\2O\17\3\2\2\2PQ\t\2\2\2Q\21\3"+
-		"\2\2\2RS\t\3\2\2S\23\3\2\2\2TU\7\20\2\2UZ\5\16\b\2VW\7\17\2\2WY\5\16\b"+
-		"\2XV\3\2\2\2Y\\\3\2\2\2ZX\3\2\2\2Z[\3\2\2\2[]\3\2\2\2\\Z\3\2\2\2]^\7\21"+
-		"\2\2^\25\3\2\2\2\r\30\"\',/\63\66:BNZ";
+		"\u0004\u0001\u0016^\u0002\u0000\u0007\u0000\u0002\u0001\u0007\u0001\u0002"+
+		"\u0002\u0007\u0002\u0002\u0003\u0007\u0003\u0002\u0004\u0007\u0004\u0002"+
+		"\u0005\u0007\u0005\u0002\u0006\u0007\u0006\u0002\u0007\u0007\u0007\u0002"+
+		"\b\u0007\b\u0002\t\u0007\t\u0001\u0000\u0001\u0000\u0003\u0000\u0017\b"+
+		"\u0000\u0001\u0000\u0001\u0000\u0001\u0001\u0001\u0001\u0001\u0001\u0001"+
+		"\u0001\u0005\u0001\u001f\b\u0001\n\u0001\f\u0001\"\t\u0001\u0001\u0001"+
+		"\u0001\u0001\u0003\u0001&\b\u0001\u0001\u0001\u0001\u0001\u0001\u0002"+
+		"\u0003\u0002+\b\u0002\u0001\u0002\u0003\u0002.\b\u0002\u0001\u0002\u0001"+
+		"\u0002\u0003\u00022\b\u0002\u0001\u0002\u0003\u00025\b\u0002\u0001\u0003"+
+		"\u0001\u0003\u0003\u00039\b\u0003\u0001\u0004\u0001\u0004\u0001\u0004"+
+		"\u0001\u0004\u0005\u0004?\b\u0004\n\u0004\f\u0004B\t\u0004\u0001\u0004"+
+		"\u0001\u0004\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0005\u0001\u0006"+
+		"\u0001\u0006\u0001\u0006\u0003\u0006M\b\u0006\u0001\u0007\u0001\u0007"+
+		"\u0001\b\u0001\b\u0001\t\u0001\t\u0001\t\u0001\t\u0005\tW\b\t\n\t\f\t"+
+		"Z\t\t\u0001\t\u0001\t\u0001\t\u0000\u0000\n\u0000\u0002\u0004\u0006\b"+
+		"\n\f\u000e\u0010\u0012\u0000\u0002\u0001\u0000\u0006\b\u0001\u0000\u0010"+
+		"\u0012_\u0000\u0014\u0001\u0000\u0000\u0000\u0002%\u0001\u0000\u0000\u0000"+
+		"\u0004*\u0001\u0000\u0000\u0000\u00068\u0001\u0000\u0000\u0000\b:\u0001"+
+		"\u0000\u0000\u0000\nE\u0001\u0000\u0000\u0000\fL\u0001\u0000\u0000\u0000"+
+		"\u000eN\u0001\u0000\u0000\u0000\u0010P\u0001\u0000\u0000\u0000\u0012R"+
+		"\u0001\u0000\u0000\u0000\u0014\u0016\u0003\u0002\u0001\u0000\u0015\u0017"+
+		"\u0005\u0001\u0000\u0000\u0016\u0015\u0001\u0000\u0000\u0000\u0016\u0017"+
+		"\u0001\u0000\u0000\u0000\u0017\u0018\u0001\u0000\u0000\u0000\u0018\u0019"+
+		"\u0005\u0000\u0000\u0001\u0019\u0001\u0001\u0000\u0000\u0000\u001a\u001b"+
+		"\u0005\u0003\u0000\u0000\u001b \u0003\u0002\u0001\u0000\u001c\u001d\u0005"+
+		"\u0002\u0000\u0000\u001d\u001f\u0003\u0002\u0001\u0000\u001e\u001c\u0001"+
+		"\u0000\u0000\u0000\u001f\"\u0001\u0000\u0000\u0000 \u001e\u0001\u0000"+
+		"\u0000\u0000 !\u0001\u0000\u0000\u0000!#\u0001\u0000\u0000\u0000\" \u0001"+
+		"\u0000\u0000\u0000#$\u0005\u0004\u0000\u0000$&\u0001\u0000\u0000\u0000"+
+		"%\u001a\u0001\u0000\u0000\u0000%&\u0001\u0000\u0000\u0000&\'\u0001\u0000"+
+		"\u0000\u0000\'(\u0003\u0004\u0002\u0000(\u0003\u0001\u0000\u0000\u0000"+
+		")+\u0003\u0006\u0003\u0000*)\u0001\u0000\u0000\u0000*+\u0001\u0000\u0000"+
+		"\u0000+-\u0001\u0000\u0000\u0000,.\u0003\b\u0004\u0000-,\u0001\u0000\u0000"+
+		"\u0000-.\u0001\u0000\u0000\u0000.4\u0001\u0000\u0000\u0000/1\u0005\u0005"+
+		"\u0000\u000002\u0003\b\u0004\u000010\u0001\u0000\u0000\u000012\u0001\u0000"+
+		"\u0000\u000023\u0001\u0000\u0000\u000035\u0003\u000e\u0007\u00004/\u0001"+
+		"\u0000\u0000\u000045\u0001\u0000\u0000\u00005\u0005\u0001\u0000\u0000"+
+		"\u000069\u0003\u000e\u0007\u000079\u0005\u000b\u0000\u000086\u0001\u0000"+
+		"\u0000\u000087\u0001\u0000\u0000\u00009\u0007\u0001\u0000\u0000\u0000"+
+		":;\u0005\t\u0000\u0000;@\u0003\n\u0005\u0000<=\u0005\r\u0000\u0000=?\u0003"+
+		"\n\u0005\u0000><\u0001\u0000\u0000\u0000?B\u0001\u0000\u0000\u0000@>\u0001"+
+		"\u0000\u0000\u0000@A\u0001\u0000\u0000\u0000AC\u0001\u0000\u0000\u0000"+
+		"B@\u0001\u0000\u0000\u0000CD\u0005\u0015\u0000\u0000D\t\u0001\u0000\u0000"+
+		"\u0000EF\u0005\u0014\u0000\u0000FG\u0005\f\u0000\u0000GH\u0003\f\u0006"+
+		"\u0000H\u000b\u0001\u0000\u0000\u0000IM\u0003\u0010\b\u0000JM\u0005\u0014"+
+		"\u0000\u0000KM\u0003\u0012\t\u0000LI\u0001\u0000\u0000\u0000LJ\u0001\u0000"+
+		"\u0000\u0000LK\u0001\u0000\u0000\u0000M\r\u0001\u0000\u0000\u0000NO\u0007"+
+		"\u0000\u0000\u0000O\u000f\u0001\u0000\u0000\u0000PQ\u0007\u0001\u0000"+
+		"\u0000Q\u0011\u0001\u0000\u0000\u0000RS\u0005\u000e\u0000\u0000SX\u0003"+
+		"\f\u0006\u0000TU\u0005\r\u0000\u0000UW\u0003\f\u0006\u0000VT\u0001\u0000"+
+		"\u0000\u0000WZ\u0001\u0000\u0000\u0000XV\u0001\u0000\u0000\u0000XY\u0001"+
+		"\u0000\u0000\u0000Y[\u0001\u0000\u0000\u0000ZX\u0001\u0000\u0000\u0000"+
+		"[\\\u0005\u000f\u0000\u0000\\\u0013\u0001\u0000\u0000\u0000\u000b\u0016"+
+		" %*-148@LX";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

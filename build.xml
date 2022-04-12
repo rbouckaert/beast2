@@ -29,7 +29,7 @@
         <fileset dir="${lib}" includes="assertj-core-3.20.2.jar"/>
         <fileset dir="${lib}" includes="assertj-swing-3.17.1.jar"/>
         <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
-        <fileset dir="${lib}" includes="antlr-runtime-4.9.2.jar"/>
+        <fileset dir="${lib}" includes="antlr-runtime-4.10.jar"/>
         <fileset dir="${lib}" includes="commons-math3-3.6.1.jar" />
     </path>
 
@@ -206,7 +206,7 @@
             <zipgroupfileset dir="${lib}" includes="jam.jar" />
             <zipgroupfileset dir="${lib}" includes="beagle.jar" />
             <zipgroupfileset dir="${lib}" includes="colt.jar" />
-            <zipgroupfileset dir="${lib}" includes="antlr-runtime-4.9.2.jar"/>
+            <zipgroupfileset dir="${lib}" includes="antlr-runtime-4.10.jar"/>
 	        <zipgroupfileset dir="${lib}" includes="commons-math3-3.6.1.jar" />
         </jar>
 
@@ -346,7 +346,7 @@
 			        <fileset dir="${lib}" includes="jam.jar"/>
 			        <fileset dir="${lib}" includes="colt.jar"/>
 			        <fileset dir="${lib}" includes="fest.jar"/>
-			        <fileset dir="${lib}" includes="antlr-runtime-4.9.2.jar"/>
+			        <fileset dir="${lib}" includes="antlr-runtime-4.10.jar"/>
 			        <fileset dir="build/dist" includes="beast.base.jar" />
 			        <fileset dir="build/dist" includes="beast.app.jar" />
 			        <fileset dir="build/dist" includes="launcher.jar" />
@@ -396,7 +396,7 @@
 			        <fileset dir="${lib}" includes="jam.jar"/>
 			        <fileset dir="${lib}" includes="colt.jar"/>
 			        <fileset dir="${lib}" includes="fest.jar"/>
-			        <fileset dir="${lib}" includes="antlr-runtime-4.9.2.jar"/>
+			        <fileset dir="${lib}" includes="antlr-runtime-4.10.jar"/>
 			        <fileset dir="build/dist" includes="beast.base.jar" />
 			        <fileset dir="build/dist" includes="beast.app.jar" />
 			        <fileset dir="build/dist" includes="launcher.jar" />

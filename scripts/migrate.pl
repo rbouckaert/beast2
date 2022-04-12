@@ -341,6 +341,7 @@ org.apache.commons.math.distribution.Distribution beast.base.inference.Distribut
 beast.core: beast.base.core:beast.base.inference:
 beast.core.util: beast.base.util:
 beast.math.distributions.WeibullDistribution beastlabs.math.distributions.WeibullDistribution
+util.CompoundDistribution beast.base.inference.CompoundDistribution
 ';
 
 if ($#ARGV < 0) {
