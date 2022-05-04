@@ -309,7 +309,7 @@ public class CladeSystem {
     // Get tree clades as bitSets on target taxa
     // codes is an array of existing BitSet objects, which are reused
 
-    void getTreeCladeCodes(Tree tree, BitSet[] codes) {
+    public void getTreeCladeCodes(Tree tree, BitSet[] codes) {
         getTreeCladeCodes(tree.getRoot(), codes);
     }
 
