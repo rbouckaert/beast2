@@ -22,7 +22,7 @@
         <fileset dir="${lib}" includes="colt.jar"/>
         <fileset dir="${lib}" includes="fest.jar"/>
         <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
-        <fileset dir="${lib}" includes="antlr-runtime-4.9.2.jar"/>
+        <fileset dir="${lib}" includes="antlr-runtime-4.10.1.jar"/>
         <fileset dir="${lib}" includes="commons-math3-3.6.1.jar" />
     </path>
 
@@ -150,7 +150,7 @@
             <zipgroupfileset dir="${lib}" includes="jam.jar" />
             <zipgroupfileset dir="${lib}" includes="beagle.jar" />
             <zipgroupfileset dir="${lib}" includes="colt.jar" />
-            <zipgroupfileset dir="${lib}" includes="antlr-runtime-4.9.2.jar"/>
+            <zipgroupfileset dir="${lib}" includes="antlr-runtime-4.10.1.jar"/>
 	        <zipgroupfileset dir="${lib}" includes="commons-math3-3.6.1.jar" />
         </jar>
     </target>
@@ -198,7 +198,7 @@
 			        <fileset dir="${lib}" includes="jam.jar"/>
 			        <fileset dir="${lib}" includes="colt.jar"/>
 			        <fileset dir="${lib}" includes="fest.jar"/>
-			        <fileset dir="${lib}" includes="antlr-runtime-4.9.2.jar"/>
+			        <fileset dir="${lib}" includes="antlr-runtime-4.10.1.jar"/>
 			        <fileset dir="build/dist" includes="beast.base.jar" />
 			        <fileset dir="build/dist" includes="beast.app.jar" />
 			        <fileset dir="build/dist" includes="beast.pkgmgmt.jar" />
@@ -237,7 +237,7 @@
 			        <fileset dir="/beast2/${lib}" includes="jam.jar"/>
 			        <fileset dir="/beast2/${lib}" includes="colt.jar"/>
 			        <fileset dir="/beast2/${lib}" includes="fest.jar"/>
-			        <fileset dir="/beast2/${lib}" includes="antlr-runtime-4.9.2.jar"/>
+			        <fileset dir="/beast2/${lib}" includes="antlr-runtime-4.10.1.jar"/>
 			        <fileset dir="/beast2/build/dist" includes="beast.base.jar" />
 			        <fileset dir="/beast2/build/dist" includes="beast.app.jar" />
 			        <fileset dir="/beast2/build/dist" includes="launcher.jar" />
@@ -287,7 +287,7 @@
 			        <fileset dir="/beast2/${lib}" includes="jam.jar"/>
 			        <fileset dir="/beast2/${lib}" includes="colt.jar"/>
 			        <fileset dir="/beast2/${lib}" includes="fest.jar"/>
-			        <fileset dir="/beast2/${lib}" includes="antlr-runtime-4.9.2.jar"/>
+			        <fileset dir="/beast2/${lib}" includes="antlr-runtime-4.10.1.jar"/>
 			        <fileset dir="/beast2/build/dist" includes="beast.base.jar" />
 			        <fileset dir="/beast2/build/dist" includes="beast.app.jar" />
 			        <fileset dir="/beast2/build/dist" includes="launcher.jar" />
