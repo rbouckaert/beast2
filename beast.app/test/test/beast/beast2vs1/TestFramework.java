@@ -7,12 +7,13 @@ import beagle.BeagleFlag;
 import beast.base.inference.Logger;
 import beast.base.parser.XMLParser;
 import beast.base.util.Randomizer;
-import junit.framework.Assert;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import test.beast.beast2vs1.trace.Expectation;
 import test.beast.beast2vs1.trace.LogAnalyser;
 
-public abstract class TestFramework extends TestCase {
+public abstract class TestFramework  {
     protected static long SEED = 128;
     private String[] xmls;
 
@@ -63,18 +64,20 @@ public abstract class TestFramework extends TestCase {
 
         for (Expectation expectation : logAnalyser.m_pExpectations.get()) {
         	try {
-            Assert.assertTrue(xmls[index_XML] + ": Expected " + expectation.traceName.get() + " delta mean: "
+            assertTrue(expectation.isPassed(),
+            		xmls[index_XML] + ": Expected " + expectation.traceName.get() + " delta mean: "
 	                    + expectation.expValue.get() + " - " + expectation.getTraceStatistics().getMean()
                     + " <= delta stdErr: 2*(" + expectation.getStdError() + " + "
-                    + expectation.getTraceStatistics().getStdErrorOfMean() + ")", expectation.isPassed());
+                    + expectation.getTraceStatistics().getStdErrorOfMean() + ")");
         	} catch (NullPointerException e) {
         		System.err.println(expectation.traceName.get() + " might be missing from trace log");
         		throw e;
         	}
         	
             if (checkESS)
-            	Assert.assertTrue(xmls[index_XML] + ":  has very low effective sample sizes (ESS) "
-                    + expectation.getTraceStatistics().getESS(), expectation.isValid());
+            	assertTrue(expectation.isValid(),
+            			xmls[index_XML] + ":  has very low effective sample sizes (ESS) "
+                    + expectation.getTraceStatistics().getESS());
         }
 
         System.out.println("\nSucceed " + fileName);

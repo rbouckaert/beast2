@@ -1,7 +1,9 @@
 package test.beast.util;
 
-import junit.framework.TestCase;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 import beast.base.core.BEASTInterface;
 import beast.base.evolution.alignment.Taxon;
@@ -17,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class XMLTest extends TestCase {
+public class XMLTest  {
 
     @Test
     public void testAnnotatedConstructor2() throws Exception {

@@ -1,7 +1,9 @@
 package test.beast.evolution.tree;
 
-import junit.framework.TestCase;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.TreeParser;
@@ -9,14 +11,14 @@ import beast.base.evolution.tree.TreeParser;
 /**
  * Test class for Node methods
  */
-public class NodeTest extends TestCase {
+public class NodeTest  {
     String[] trees = new String[]{
             "((A:1.5,B:0.5):1.1,C:3.0):0.0;",
             "((2:1.5,1:0.5):1.1,3:3.0):0.0;"
     };
     Node[] roots = new Node[trees.length];
 
-    @Override
+    @BeforeEach
     public void setUp() throws Exception {
         for (int i = 0; i < trees.length; i++) {
             TreeParser newickTree = new TreeParser(trees[i], false, false, true, 1);

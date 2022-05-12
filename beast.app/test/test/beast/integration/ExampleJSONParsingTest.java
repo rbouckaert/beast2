@@ -6,18 +6,18 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.inference.Logger;
 import beast.base.inference.MCMC;
 import beast.base.parser.JSONParser;
 import beast.base.util.Randomizer;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * check whether all example files parse *
  */
-public class ExampleJSONParsingTest extends TestCase {
+public class ExampleJSONParsingTest  {
 	{
 		ExampleXmlParsingTest.setUpTestDir();
 	}
@@ -61,7 +61,7 @@ public class ExampleJSONParsingTest extends TestCase {
             } else {
                 System.out.println("\ntest_ThatJSONExamplesParse::Success");
             }
-            assertTrue(failedFiles.toString(), failedFiles.size() == 0);
+            assertTrue(failedFiles.size() == 0, failedFiles.toString());
         } catch (Exception e) {
             System.out.println("exception thrown ");
             System.out.println(e.getMessage());
@@ -113,7 +113,7 @@ public class ExampleJSONParsingTest extends TestCase {
             } else {
                 System.out.println("SUCCESS!!!");
             }
-            assertTrue(failedFiles.toString(), failedFiles.size() == 0);
+            assertTrue(failedFiles.size() == 0, failedFiles.toString());
         } catch (Exception e) {
             System.out.println("exception thrown ");
             System.out.println(e.getMessage());
@@ -123,7 +123,13 @@ public class ExampleJSONParsingTest extends TestCase {
 
 
     public static void main(String args[]) {
-        org.junit.runner.JUnitCore.main("test.beast.integration.ExampleJSONParsingTest");
+    	// junit5 equivalent
+    	//JUnitCore junit = new JUnitCore();
+    	//junit.addListener(new TextListener(System.out));
+    	//junit.run(test.beast.integration.ExampleJSONParsingTest.class);
+    	
+    	// junit4 deprecated
+        // org.junit.runner.JUnitCore.main("test.beast.integration.ExampleJSONParsingTest");
     }
 
 } // ExampleJSONParsingTest

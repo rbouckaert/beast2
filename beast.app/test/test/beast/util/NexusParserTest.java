@@ -9,12 +9,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.parser.NexusParser;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class NexusParserTest extends TestCase {
+public class NexusParserTest  {
 
     @Test
     public void testThatNexusExamplesParse() {
@@ -48,7 +50,7 @@ public class NexusParserTest extends TestCase {
             } else {
                 System.out.println("\ntest_ThatNexusExamplesParse::Success");
             }
-            assertTrue(failedFiles.toString(), failedFiles.size() == 0);
+            assertTrue(failedFiles.size() == 0, failedFiles.toString());
         } catch (Exception e) {
             System.out.println("exception thrown ");
             System.out.println(e.getMessage());

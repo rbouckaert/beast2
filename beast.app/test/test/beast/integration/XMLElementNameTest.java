@@ -6,17 +6,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.core.BEASTObject;
 import beast.base.core.Input;
 import beast.base.parser.XMLParser;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-public class XMLElementNameTest extends TestCase {
+public class XMLElementNameTest  {
     /**
      * test that Inputs have a unique name
      * It can happen that a derived class uses the same Input name as one of its ancestors
@@ -51,7 +52,8 @@ public class XMLElementNameTest extends TestCase {
             System.err.println("Input names are not unique:\n" + str);
         }
         // not activated till problem with naming is solved
-        assertTrue("Input names are not unique: " + improperInputs.toString(), improperInputs.size() == 0);
+        assertTrue(improperInputs.size() == 0,
+        		"Input names are not unique: " + improperInputs.toString());
     }
 
     /**
@@ -98,7 +100,8 @@ public class XMLElementNameTest extends TestCase {
             System.err.println("Reserved element names used for wrong types in:\n" + str);
         }
         // not activated till problem with naming is solved
-        assertTrue("Reserved element names used for wrong types in: " + improperInputs.toString(), improperInputs.size() == 0);
+        assertTrue(improperInputs.size() == 0,
+        		"Reserved element names used for wrong types in: " + improperInputs.toString());
     }
 
     /**

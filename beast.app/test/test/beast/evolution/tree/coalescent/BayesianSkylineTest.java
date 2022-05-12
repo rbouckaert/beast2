@@ -1,19 +1,19 @@
 package test.beast.evolution.tree.coalescent;
 
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeIntervals;
 import beast.base.evolution.tree.coalescent.BayesianSkyline;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 
 /**
  * @author Alexei Drummond
  */
-public class BayesianSkylineTest extends TestCase {
+public class BayesianSkylineTest  {
 
     @Test
     public void testSkyline() throws Exception {

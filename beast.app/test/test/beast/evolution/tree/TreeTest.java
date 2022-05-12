@@ -1,12 +1,12 @@
 package test.beast.evolution.tree;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.tree.Node;
 import beast.base.evolution.tree.TreeParser;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TreeTest extends TestCase {
+public class TreeTest  {
 	final static double EPSILON = 1e-10;
 
 	@Test

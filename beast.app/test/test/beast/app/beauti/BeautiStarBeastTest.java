@@ -8,7 +8,7 @@ import org.assertj.swing.fixture.JMenuItemFixture;
 import org.assertj.swing.fixture.JOptionPaneFixture;
 import org.assertj.swing.fixture.JTabbedPaneFixture;
 import org.assertj.swing.image.ScreenshotTaker;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 

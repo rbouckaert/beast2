@@ -3,7 +3,7 @@ package test.beast.math.distributions;
 import org.apache.commons.math.MathException;
 
 import beast.base.inference.distribution.InverseGamma;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Simple test for inverse gamma distribution.
@@ -11,7 +11,7 @@ import junit.framework.TestCase;
  * @author Joseph Heled
  *         Date: 24/04/2009
  */
-public class InvGammaTest extends TestCase {
+public class InvGammaTest  {
     interface TestData {
         double getShape();
 

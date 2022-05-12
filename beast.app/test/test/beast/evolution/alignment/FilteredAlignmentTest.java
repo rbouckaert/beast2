@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.alignment.FilteredAlignment;
 import beast.base.evolution.alignment.Sequence;
 import beast.base.evolution.alignment.Taxon;
 import beast.base.evolution.alignment.TaxonSet;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /** test FilteredAlignment as well as some aspects of Alignment **/
-public class FilteredAlignmentTest extends TestCase {
+public class FilteredAlignmentTest  {
 
     static public Alignment getAlignment() throws Exception {
         Sequence human = new Sequence("0human", "AAAACCCCGGGGTTTT");

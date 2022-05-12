@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.app.inputeditor.BeautiDoc;
 import beast.app.tools.LogAnalyser;
@@ -13,9 +13,9 @@ import beast.app.tools.LogCombiner;
 import beast.base.evolution.tree.Tree;
 import beast.base.parser.NexusParser;
 import beast.base.util.Randomizer;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LogCombinerTest extends TestCase {
+public class LogCombinerTest  {
 
 	static void creatLogFiles(int filesCount, int sampleInterval, int sampleCount) {
 		for (int i = 0; i < filesCount; i++) {

@@ -1,14 +1,14 @@
 package test.beast.evolution.datatype;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
+import org.junit.jupiter.api.Test;
+//import org.junit.runner.RunWith;
+//import org.junit.runners.Parameterized;
 
 import beast.base.evolution.datatype.Aminoacid;
 import beast.base.evolution.datatype.Binary;
@@ -17,7 +17,7 @@ import beast.base.evolution.datatype.Nucleotide;
 import beast.base.evolution.datatype.TwoStateCovarion;
 import beast.base.evolution.datatype.DataType.Base;
 
-@RunWith(Parameterized.class)
+//@RunWith(Parameterized.class)
 public class DataTypeDeEncodeTest {
 	private Base d;
 	private String s;
@@ -29,7 +29,7 @@ public class DataTypeDeEncodeTest {
 		c = codes;
 	}
 
-	@Parameterized.Parameters
+	// @Parameterized.Parameters
 	public static Collection<Object[]> typestrings() {
 		Base dAa = new Aminoacid();
 		Base dBi = new Binary();

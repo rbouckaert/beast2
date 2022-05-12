@@ -3,16 +3,16 @@ package test.beast.evolution.alignment;
 
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.alignment.Sequence;
 import beast.base.evolution.datatype.DataType;
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeParser;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UncertainAlignmentTest extends TestCase {
+public class UncertainAlignmentTest  {
 
 	static public Tree getTreeB(Alignment data) throws Exception {
         TreeParser tree = new TreeParser();

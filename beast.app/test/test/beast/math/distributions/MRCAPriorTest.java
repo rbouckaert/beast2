@@ -4,7 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.alignment.Taxon;
@@ -12,10 +12,10 @@ import beast.base.evolution.alignment.TaxonSet;
 import beast.base.evolution.tree.MRCAPrior;
 import beast.base.evolution.tree.TreeParser;
 import beast.base.inference.distribution.Exponential;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import test.beast.BEASTTestCase;
 
-public class MRCAPriorTest extends TestCase {
+public class MRCAPriorTest  {
 
     @Test
     public void testSingleMonophyleticConstraint() throws Exception {

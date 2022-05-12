@@ -15,7 +15,7 @@ import org.assertj.swing.edt.GuiTask;
 import org.assertj.swing.fixture.JComboBoxFixture;
 import org.assertj.swing.fixture.JTabbedPaneFixture;
 import org.assertj.swing.fixture.JTableFixture;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.app.util.Utils;
 import beast.base.core.BEASTInterface;

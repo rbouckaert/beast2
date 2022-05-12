@@ -19,7 +19,7 @@ import org.assertj.swing.fixture.JTableCellFixture;
 import org.assertj.swing.fixture.JTableFixture;
 import org.assertj.swing.fixture.JTextComponentFixture;
 import org.assertj.swing.image.ScreenshotTaker;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 

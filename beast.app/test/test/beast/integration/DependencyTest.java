@@ -5,17 +5,17 @@ import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.util.FileUtils;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * 
  * Test for java package dependencies
  * 
  */
-public class DependencyTest extends TestCase {
+public class DependencyTest  {
 
 	
 	private static class StreamGobbler implements Runnable {

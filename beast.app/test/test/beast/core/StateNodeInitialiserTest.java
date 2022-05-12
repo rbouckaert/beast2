@@ -1,15 +1,17 @@
 package test.beast.core;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.tree.ClusterTree;
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeParser;
-import junit.framework.TestCase;
+
 import test.beast.BEASTTestCase;
 
-public class StateNodeInitialiserTest extends TestCase {
+public class StateNodeInitialiserTest  {
 
     @Test
     public void testClusterTree() throws Exception {

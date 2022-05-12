@@ -1,12 +1,12 @@
 package test.beast.evolution.datatype;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.datatype.IntegerData;
 import beast.base.util.Randomizer;
-import junit.framework.TestCase;;
+import static org.junit.jupiter.api.Assertions.assertEquals;;
 
-public class IntegerDataTest extends TestCase {
+public class IntegerDataTest  {
 
 	
 	@Test

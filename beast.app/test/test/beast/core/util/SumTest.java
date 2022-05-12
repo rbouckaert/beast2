@@ -1,14 +1,16 @@
 package test.beast.core.util;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.Sum;
 import beast.base.inference.parameter.BooleanParameter;
 import beast.base.inference.parameter.IntegerParameter;
 import beast.base.inference.parameter.RealParameter;
-import junit.framework.TestCase;
 
-public class SumTest extends TestCase {
+
+public class SumTest  {
 
 	
 	@Test

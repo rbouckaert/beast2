@@ -1,15 +1,17 @@
 package test.beast.core;
 
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.operator.ScaleOperator;
 import beast.base.inference.OperatorSchedule;
 import beast.base.inference.operator.DeltaExchangeOperator;
 import beast.base.inference.parameter.RealParameter;
-import junit.framework.TestCase;
 
-public class OperatorScheduleTest extends TestCase {
+
+public class OperatorScheduleTest  {
 	
 	RealParameter parameter = new RealParameter(new Double[] {1., 1., 1., 1.});
 	

@@ -3,8 +3,8 @@ package test.beast.core;
 import java.util.*;
 
 import org.json.JSONException;
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import beast.base.core.BEASTInterface;
 import beast.base.core.Input;
 import beast.base.parser.JSONParser;
@@ -14,12 +14,12 @@ import beast.base.parser.XMLParser;
 import beast.base.parser.XMLParserException;
 import beast.base.parser.XMLProducer;
 import beast.pkgmgmt.BEASTClassLoader;
-import junit.framework.TestCase;
+
 import test.beast.core.PrimitiveBeastObject.Enumeration;
 import test.beast.core.PrimitiveBeastObject.InnerClass;
 import test.beast.core.PrimitiveInterface.InterfaceInnerClass;
 
-public class InputForAnnotatedConstructorTest extends TestCase {
+public class InputForAnnotatedConstructorTest  {
 
 	
 	@Test

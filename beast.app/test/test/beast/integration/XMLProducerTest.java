@@ -5,7 +5,7 @@ import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.core.BEASTInterface;
 import beast.base.evolution.datatype.Nucleotide;
@@ -14,9 +14,10 @@ import beast.base.parser.NexusParser;
 import beast.base.parser.XMLParser;
 import beast.base.parser.XMLProducer;
 import beast.base.util.Randomizer;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class XMLProducerTest extends TestCase {
+public class XMLProducerTest  {
 
 //    @Test
 //    public void test_ThatXmlExamplesProduces() {
@@ -81,7 +82,7 @@ public class XMLProducerTest extends TestCase {
             } else {
                 System.out.println("\test_ThatNexusExamplesProduces::Success");
             }
-            assertTrue(failedFiles.toString(), failedFiles.size() == 0);
+            assertTrue(failedFiles.size() == 0, failedFiles.toString());
         } catch (Exception e) {
             System.out.println("exception thrown ");
             System.out.println(e.getMessage());
@@ -140,7 +141,7 @@ public class XMLProducerTest extends TestCase {
             } else {
                 System.out.println("\ntest_ThatXmlExamplesProduces::Success");
             }
-            assertTrue(failedFiles.toString(), failedFiles.size() == 0);
+            assertTrue(failedFiles.size() == 0, failedFiles.toString());
         } catch (Exception e) {
             System.out.println("exception thrown ");
             System.out.println(e.getMessage());

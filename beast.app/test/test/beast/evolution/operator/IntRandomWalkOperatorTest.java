@@ -1,16 +1,17 @@
 package test.beast.evolution.operator;
 
 
+
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.inference.State;
 import beast.base.inference.operator.IntRandomWalkOperator;
 import beast.base.inference.parameter.IntegerParameter;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class IntRandomWalkOperatorTest extends TestCase {
+public class IntRandomWalkOperatorTest  {
 
     @Test
     public void testIntRandomWalkDistribution3x10() {
@@ -65,7 +66,8 @@ public class IntRandomWalkOperatorTest extends TestCase {
 					}
 		        }
 		        System.out.println(" Average deviation: " + sum/(dimension * (upper + 1)));
-		        assertTrue("average deviation (" + sum/(dimension * (upper + 1)) + ") exceeds 10000", sum/(dimension * (upper + 1)) < 10000); 
+		        assertTrue(sum/(dimension * (upper + 1)) < 10000,
+		        		"average deviation (" + sum/(dimension * (upper + 1)) + ") exceeds 10000"); 
 	    	} catch (Exception e) {
 				e.printStackTrace();
 			}

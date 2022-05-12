@@ -1,16 +1,18 @@
 package test.beast.evolution.tree;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.BitSet;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import beast.app.inputeditor.BeautiDoc;
 import beast.app.treeannotator.CladeSystem;
@@ -37,7 +39,7 @@ public class TreeAnnotatorTest {
     protected double[] logTreeScoresSA = new double[] {-2.367124, -1.268511, -1.961659, -3.060271}; //scores calculated in R
     protected double[] treeScoresSA = new double[] {2.5, 3.0, 2.27, 2.25}; //scores calculated in R
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         final String[] treesString = new String[]{"((A:1,B:1):1,(C:1,D:1):1);",
                 "(((A:1,B:1):1,C:2):2,D:3);", "((A:2,(B:1,C:1):1):2,D:3);"};
@@ -64,7 +66,7 @@ public class TreeAnnotatorTest {
         for (Tree tree : trees) {
             cladeSystem.add(tree, false);
         }
-        Assert.assertEquals(clades.length, cladeSystem.getCladeMap().size());
+        assertEquals(clades.length, cladeSystem.getCladeMap().size());
 
         cladeSystem.calculateCladeCredibilities(trees.length);
 
@@ -80,8 +82,8 @@ public class TreeAnnotatorTest {
                 }
             }
             //if the clade is not found then index = -1
-            Assert.assertFalse(index ==  -1);
-            Assert.assertEquals(cladesCount[index], entry.getValue().getCount());
+            assertFalse(index ==  -1);
+            assertEquals(cladesCount[index], entry.getValue().getCount());
             i++;
         }
 
@@ -106,8 +108,8 @@ public class TreeAnnotatorTest {
             i++;
         }
 //        System.out.println(maxScoreIndex + " => " + maxScore + ", log " + maxScoreLog);
-        Assert.assertEquals(1, maxScoreIndex);
-        Assert.assertEquals(1, maxScoreLogIndex);
+        assertEquals(1, maxScoreIndex);
+        assertEquals(1, maxScoreLogIndex);
     }
 
     @Test
@@ -115,7 +117,7 @@ public class TreeAnnotatorTest {
         for (Tree tree : treesSA) {
             cladeSystemSA.add(tree, false);
         }
-        Assert.assertEquals(cladesSA.length, cladeSystemSA.getCladeMap().size());
+        assertEquals(cladesSA.length, cladeSystemSA.getCladeMap().size());
 
         cladeSystemSA.calculateCladeCredibilities(treesSA.length);
 
@@ -131,8 +133,8 @@ public class TreeAnnotatorTest {
                 }
             }
             //if the clade is not found then index = -1
-            Assert.assertFalse(i == -1);
-            Assert.assertEquals(cladesCountSA[index], entry.getValue().getCount());
+            assertFalse(i == -1);
+            assertEquals(cladesCountSA[index], entry.getValue().getCount());
             i++;
         }
 
@@ -145,7 +147,7 @@ public class TreeAnnotatorTest {
             double score = treeAnnotatorSA.scoreTree(tree, cladeSystemSA, true);
             double scoreLog = treeAnnotatorSA.scoreTree(tree, cladeSystemSA, false);
 
-//            Assert.assertEquals(logTreeScoresSA[i], scoreLog, 1e-6);
+//            assertEquals(logTreeScoresSA[i], scoreLog, 1e-6);
 
             System.out.println(i + " => " + score + ", log " + scoreLog);
             if (maxScore < score) {
@@ -159,19 +161,20 @@ public class TreeAnnotatorTest {
             i++;
         }
 //        System.out.println(maxScoreIndex + " => " + maxScore + ", log " + maxScoreLog);
-        Assert.assertEquals(1, maxScoreIndex);
-        Assert.assertEquals(1, maxScoreLogIndex);
+        assertEquals(1, maxScoreIndex);
+        assertEquals(1, maxScoreLogIndex);
     }
     
-    @Rule
-	public TemporaryFolder f = new TemporaryFolder();
+//    @Rule
+//	public TemporaryFolder f = new TemporaryFolder();
     
     
     @Test
     public void testNewickTargetTree() throws Exception {
     	// create target tree file in temp folder
     	TreeParser tree = new TreeParser("((A,B),(C,D))");
-    	String tmpFolder = f.newFolder("test").getPath();
+    	Path p = Files.createTempDirectory("test");
+    	String tmpFolder = p.toFile().getPath();
     	File target = new File(tmpFolder + "/target.tree");
         PrintStream outfile = new PrintStream(target);
         tree.init(outfile);

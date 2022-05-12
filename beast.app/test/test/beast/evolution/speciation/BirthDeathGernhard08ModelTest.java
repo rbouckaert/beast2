@@ -1,15 +1,15 @@
 package test.beast.evolution.speciation;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.speciation.BirthDeathGernhard08Model;
 import beast.base.evolution.tree.Tree;
 import beast.base.inference.parameter.RealParameter;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import test.beast.BEASTTestCase;
 
-public class BirthDeathGernhard08ModelTest extends TestCase {
+public class BirthDeathGernhard08ModelTest  {
 
 
     @Test

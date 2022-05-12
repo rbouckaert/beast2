@@ -1,6 +1,7 @@
 package test.beast;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,10 +9,9 @@ import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.alignment.Sequence;
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeParser;
-import junit.framework.TestCase;
 
 
-public class BEASTTestCase extends TestCase {
+public class BEASTTestCase  {
     public static final double PRECISION = 1e-6;
 
     public Alignment getFourTaxaNoData() throws Exception {

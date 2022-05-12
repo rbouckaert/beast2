@@ -1,8 +1,6 @@
 package test.beast.base.inference;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.Test;
 
 import beast.app.tools.LogAnalyser;
 import beast.base.inference.DirectSimulator;
@@ -11,12 +9,12 @@ import beast.base.inference.Logger.LogFileMode;
 import beast.base.inference.distribution.Normal;
 import beast.base.inference.distribution.Prior;
 import beast.base.inference.parameter.RealParameter;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class DirectSimulatorTest extends TestCase {
+public class DirectSimulatorTest  {
 
-	@Rule
-	public TemporaryFolder folder = new TemporaryFolder();
+//	@Rule
+//	public TemporaryFolder folder = new TemporaryFolder();
 
 	
 	@Test

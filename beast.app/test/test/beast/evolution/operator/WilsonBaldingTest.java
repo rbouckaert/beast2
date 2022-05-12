@@ -16,9 +16,8 @@
  */
 package test.beast.evolution.operator;
 
-import junit.framework.JUnit4TestAdapter;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import beast.app.tools.TreeTraceAnalysis;
 import beast.base.core.BEASTObject;
@@ -91,9 +90,9 @@ public class WilsonBaldingTest {
 	 * Interface with JUnit 3.* test runner:
 	 * @return 
 	 */
-	public static junit.framework.Test suite() {
-		return new JUnit4TestAdapter(WilsonBaldingTest.class);
-	}
+//	public static junit.framework.Test suite() {
+//		return new JUnit4TestAdapter(WilsonBaldingTest.class);
+//	}
 
 	/**
 	 * Test topology distribution.
@@ -178,7 +177,7 @@ public class WilsonBaldingTest {
 			boolean withinTol = (thisProb > probs[i]-tol
 					&& thisProb < probs[i]+tol);
 
-			Assert.assertTrue(withinTol);
+			assertTrue(withinTol);
 
 			System.err.format("Topology %s rel. freq. %.3f",
 					topologies[i], thisProb);

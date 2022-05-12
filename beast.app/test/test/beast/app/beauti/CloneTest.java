@@ -13,7 +13,7 @@ import org.assertj.swing.fixture.JListFixture;
 import org.assertj.swing.fixture.JTabbedPaneFixture;
 import org.assertj.swing.fixture.JTableFixture;
 import org.assertj.swing.fixture.JTextComponentFixture;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 public class CloneTest extends BeautiBase {

@@ -4,7 +4,7 @@ import beast.base.core.Description;
 import beast.base.evolution.substitutionmodel.Frequencies;
 import beast.base.evolution.substitutionmodel.HKY;
 import beast.base.inference.parameter.RealParameter;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test HKY matrix exponentiation
@@ -14,7 +14,7 @@ import junit.framework.TestCase;
  *         imported by Walter Xie from BEAST 1
  */
 @Description("Test HKY matrix exponentiation")
-public class HKYTest extends TestCase {
+public class HKYTest  {
 
     public interface Instance {
         Double[] getPi();

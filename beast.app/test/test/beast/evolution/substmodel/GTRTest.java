@@ -5,14 +5,14 @@ import beast.base.core.Description;
 import beast.base.evolution.substitutionmodel.Frequencies;
 import beast.base.evolution.substitutionmodel.GTR;
 import beast.base.inference.parameter.RealParameter;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * Test GTR matrix exponentiation
  *
  */
 @Description("Test GTR matrix exponentiation")
-public class GTRTest extends TestCase {
+public class GTRTest  {
 
     public interface Instance {
         Double[] getPi();

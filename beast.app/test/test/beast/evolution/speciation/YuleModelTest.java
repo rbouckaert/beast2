@@ -1,8 +1,8 @@
 package test.beast.evolution.speciation;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.speciation.YuleModel;
 import beast.base.evolution.tree.Tree;
@@ -12,7 +12,7 @@ import beast.base.inference.parameter.RealParameter;
 /**
  * Created by Denise on 16.11.16.
  */
-public class YuleModelTest extends TestCase {
+public class YuleModelTest  {
 
     @Test
     public void testYule() throws Exception {

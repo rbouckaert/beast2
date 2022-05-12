@@ -1,19 +1,22 @@
 package test.beast.math.distributions;
 
+
 import org.apache.commons.math.ConvergenceException;
 import org.apache.commons.math.FunctionEvaluationException;
 import org.apache.commons.math.MathException;
 import org.apache.commons.math.analysis.UnivariateRealFunction;
 import org.apache.commons.math.analysis.integration.RombergIntegrator;
 import org.apache.commons.math.analysis.integration.UnivariateRealIntegrator;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.inference.distribution.Gamma;
 import beast.base.util.GammaFunction;
 import beast.base.util.Randomizer;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GammaTest extends TestCase {
+public class GammaTest  {
 	
 	@Test
 	public void testGammaCummulative() throws Exception {
@@ -87,7 +90,7 @@ public class GammaTest extends TestCase {
 
             totErr +=  mypdf != 0 ? Math.abs((pdf - mypdf)/mypdf) : pdf;
 
-            assertFalse("nan", Double.isNaN(totErr));
+            assertFalse(Double.isNaN(totErr), "nan");
             //assertEquals("" + shape + "," + scale + "," + value, mypdf,gamma.pdf(value),1e-10);
 
             final double cdf = gamma.cumulativeProbability(value);
@@ -121,9 +124,9 @@ public class GammaTest extends TestCase {
         //System.out.println( !Double.isNaN(totErr) );
        // System.out.println(totErr);
         // bad test, but I can't find a good threshold that works for all individual cases 
-        assertTrue("failed " + totErr/numberOfTests, totErr/numberOfTests < 1e-7);
-        assertTrue("failed " + qtotErr/numberOfTests , qtotErr/numberOfTests < 1e-10);
-        assertTrue("failed " + ptotErr/np, np > 0 ? (ptotErr/np < 2e-7) : true);
+        assertTrue(totErr/numberOfTests < 1e-7, "failed " + totErr/numberOfTests);
+        assertTrue(qtotErr/numberOfTests < 1e-10, "failed " + qtotErr/numberOfTests);
+        assertTrue(np > 0 ? (ptotErr/np < 2e-7) : true, "failed " + ptotErr/np);
 	}
 
 }

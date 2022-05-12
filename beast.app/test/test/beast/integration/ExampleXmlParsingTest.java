@@ -9,19 +9,20 @@ import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.app.beastapp.BeastMain;
 import beast.base.inference.Logger;
 import beast.base.inference.MCMC;
 import beast.base.parser.XMLParser;
 import beast.base.util.Randomizer;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * check whether all example files parse *
  */
-public class ExampleXmlParsingTest extends TestCase {
+public class ExampleXmlParsingTest  {
 	public static void setUpTestDir() {
 		// make sure output goes to test directory
 		File testDir = 	new File("./test");
@@ -79,7 +80,7 @@ public class ExampleXmlParsingTest extends TestCase {
             } else {
                 System.out.println("\ntest_ThatXmlExamplesParse::Success");
             }
-            assertTrue(failedFiles.toString(), failedFiles.size() == 0);
+            assertTrue(failedFiles.size() == 0, failedFiles.toString());
         } catch (Exception e) {
             System.out.println("exception thrown ");
             System.out.println(e.getMessage());
@@ -131,7 +132,7 @@ public class ExampleXmlParsingTest extends TestCase {
             } else {
                 System.out.println("SUCCESS!!!");
             }
-            assertTrue(failedFiles.toString(), failedFiles.size() == 0);
+            assertTrue(failedFiles.size() == 0, failedFiles.toString());
         } catch (Exception e) {
             System.out.println("exception thrown ");
             System.out.println(e.getMessage());
@@ -201,7 +202,8 @@ public class ExampleXmlParsingTest extends TestCase {
     
 
     public static void main(String args[]) {
-        org.junit.runner.JUnitCore.main("test.beast.integration.ExampleXmlParsingTest");
+    	// see ExampleJSONParsingTest.main for comments
+        // org.junit.runner.JUnitCore.main("test.beast.integration.ExampleXmlParsingTest");
     }
 
 

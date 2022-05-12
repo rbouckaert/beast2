@@ -1,6 +1,6 @@
 package test.beast.core;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.core.BEASTObject;
 import beast.base.core.Citation;
@@ -8,9 +8,9 @@ import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.core.Input.Validate;
 import beast.base.inference.*;
-import junit.framework.TestCase;
 
-public class InputTest extends TestCase {
+
+public class InputTest  {
 
 	@Description("class that impements BEASTInterface but is not a BEASTObject")
 	@Citation("this is a dummy citation")

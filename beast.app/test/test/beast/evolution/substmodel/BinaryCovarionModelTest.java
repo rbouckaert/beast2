@@ -1,15 +1,15 @@
 package test.beast.evolution.substmodel;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.substitutionmodel.BinaryCovarion;
 import beast.base.evolution.substitutionmodel.Frequencies;
 import beast.base.inference.parameter.RealParameter;
 import beast.base.util.Randomizer;
 import cern.colt.Arrays;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BinaryCovarionModelTest extends TestCase {
+public class BinaryCovarionModelTest  {
     final static double EPSILON = 1e-6;
 
 	

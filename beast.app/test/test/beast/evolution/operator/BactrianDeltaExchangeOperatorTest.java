@@ -4,7 +4,7 @@ package test.beast.evolution.operator;
 import test.beast.evolution.operator.TestOperator;
 
 import org.apache.commons.math3.stat.StatUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import beast.base.core.Function;
@@ -18,6 +18,8 @@ import beast.base.inference.operator.kernel.BactrianDeltaExchangeOperator;
 import beast.base.inference.parameter.IntegerParameter;
 import beast.base.inference.parameter.RealParameter;
 import beast.base.util.Randomizer;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.util.List;
@@ -116,7 +118,7 @@ public class BactrianDeltaExchangeOperatorTest extends BactrianRandomWalkOperato
 		for (Double p : parameter.getValues()) {
 			i += p;
 		}
-		assertEquals("The BactrianDeltaExchangeOperator should not change the sum of a parameter", i, 4, 0.00001);
+		assertEquals(i, 4, 0.00001, "The BactrianDeltaExchangeOperator should not change the sum of a parameter");
 	}
 	
 	@Test
@@ -126,8 +128,7 @@ public class BactrianDeltaExchangeOperatorTest extends BactrianRandomWalkOperato
 				"weightvector", new IntegerParameter(new Integer[] {0, 1, 2, 1}),
 				"parameter", parameter);
 		Double[] p = parameter.getValues();
-		assertEquals("The BactrianDeltaExchangeOperator should not change the sum of a parameter",
-				0*p[1]+1*p[1]+2*p[2]+1*p[3], 4, 0.00001);
+		assertEquals(0*p[1]+1*p[1]+2*p[2]+1*p[3], 4, 0.00001, "The BactrianDeltaExchangeOperator should not change the sum of a parameter");
 	}
 	
 	@Test

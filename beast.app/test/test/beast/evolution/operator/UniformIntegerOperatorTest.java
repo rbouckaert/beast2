@@ -6,17 +6,15 @@ import beast.base.inference.State;
 import beast.base.inference.operator.UniformOperator;
 import beast.base.inference.parameter.IntegerParameter;
 import beast.base.inference.parameter.RealParameter;
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class UniformIntegerOperatorTest extends TestCase {
+public class UniformIntegerOperatorTest  {
     private final int dimension = 3;
     private int[][] count;
 
-    public static Test suite() {
-        return new TestSuite(UniformIntegerOperatorTest.class);
-    }
+//    public static Test suite() {
+//        return new TestSuite(UniformIntegerOperatorTest.class);
+//    }
 
     public void testParameterBound() {
     	try {
@@ -45,9 +43,9 @@ public class UniformIntegerOperatorTest extends TestCase {
 		        System.out.println("x[" +j + "] = " + Arrays.toString(count[j]));
 			}
 	
-	        assertTrue("Expected count[0][0-2] > 0 && count[0][3] == 0", (count[0][0] > 0) && (count[0][1] > 0) && (count[0][2] > 0) && (count[0][3] == 0));
-	        assertTrue("Expected count[1][0-2] > 0 && count[1][3] == 0", (count[1][0] > 0) && (count[1][1] > 0) && (count[1][2] > 0) && (count[1][3] == 0));
-	        assertTrue("Expected count[2][0-2] > 0 && count[2][3] == 0", (count[2][0] > 0) && (count[2][1] > 0) && (count[2][2] > 0) && (count[2][3] == 0));
+	        assertTrue((count[0][0] > 0) && (count[0][1] > 0) && (count[0][2] > 0) && (count[0][3] == 0), "Expected count[0][0-2] > 0 && count[0][3] == 0");
+	        assertTrue((count[1][0] > 0) && (count[1][1] > 0) && (count[1][2] > 0) && (count[1][3] == 0), "Expected count[1][0-2] > 0 && count[1][3] == 0");
+	        assertTrue((count[2][0] > 0) && (count[2][1] > 0) && (count[2][2] > 0) && (count[2][3] == 0), "Expected count[2][0-2] > 0 && count[2][3] == 0");
     	} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -81,9 +79,9 @@ public class UniformIntegerOperatorTest extends TestCase {
 		        System.out.println("x[" +j + "] = " + Arrays.toString(count[j]));
 			}
 	
-	        assertTrue("Expected count[0][0-3] > 0", count[0][0] > 0 && count[0][1] > 0 && count[0][2] > 0 && count[0][3] > 0);
-	        assertTrue("Expected count[1][0-3] > 0", count[1][0] > 0 && count[1][1] > 0 && count[1][2] > 0 && count[1][3] > 0);
-	        assertTrue("Expected count[2][0-3] > 0", count[2][0] > 0 && count[2][1] > 0 && count[2][2] > 0 && count[2][3] > 0);
+	        assertTrue(count[0][0] > 0 && count[0][1] > 0 && count[0][2] > 0 && count[0][3] > 0, "Expected count[0][0-3] > 0");
+	        assertTrue(count[1][0] > 0 && count[1][1] > 0 && count[1][2] > 0 && count[1][3] > 0, "Expected count[1][0-3] > 0");
+	        assertTrue(count[2][0] > 0 && count[2][1] > 0 && count[2][2] > 0 && count[2][3] > 0, "Expected count[2][0-3] > 0");
     	} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -1,7 +1,9 @@
 package test.beast.evolution.substmodel;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
 import beast.base.evolution.substitutionmodel.Frequencies;
 import beast.base.evolution.substitutionmodel.GeneralSubstitutionModel;
@@ -11,8 +13,6 @@ import beast.base.inference.parameter.RealParameter;
 import java.util.Arrays;
 import java.util.stream.DoubleStream;
 
-import static junit.framework.Assert.assertEquals;
-import static org.junit.Assert.assertArrayEquals;
 
 /**
  * This tests transition probability matrix from {@link GeneralSubstitutionModel} given rates.
@@ -23,7 +23,7 @@ import static org.junit.Assert.assertArrayEquals;
 public class GeneralSubstitutionModelTest {
     GeneralSubstitutionModel geneSubstModel;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         RealParameter f = new RealParameter(new Double[]{0.3333333, 0.3333333, 0.3333333});
         Frequencies freqs = new Frequencies();

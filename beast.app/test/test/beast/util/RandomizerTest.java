@@ -1,11 +1,11 @@
 package test.beast.util;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.util.DiscreteStatistics;
 import beast.base.util.Randomizer;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RandomizerTest {
 

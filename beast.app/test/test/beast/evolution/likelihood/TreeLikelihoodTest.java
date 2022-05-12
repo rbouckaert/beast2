@@ -1,7 +1,7 @@
 package test.beast.evolution.likelihood;
 
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.alignment.Sequence;
@@ -25,7 +25,7 @@ import beast.base.evolution.substitutionmodel.SubstitutionModel;
 import beast.base.evolution.substitutionmodel.WAG;
 import beast.base.evolution.tree.Tree;
 import beast.base.inference.parameter.RealParameter;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import test.beast.BEASTTestCase;
 import test.beast.evolution.alignment.UncertainAlignmentTest;
 
@@ -34,7 +34,7 @@ import test.beast.evolution.alignment.UncertainAlignmentTest;
  * So, it these tests succeed, then Beast II calculates the same for these simple models as Beast 1 and PAUP.
  * *
  */
-public class TreeLikelihoodTest extends TestCase {
+public class TreeLikelihoodTest  {
 
     public TreeLikelihoodTest() {
         super();

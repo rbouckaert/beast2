@@ -1,17 +1,18 @@
 package test.beast.core.parameter;
 
-import junit.framework.TestCase;
-import org.junit.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+
+import org.junit.jupiter.api.Test;
 
 import beast.base.inference.parameter.RealParameter;
+
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class ParameterTest extends TestCase {
+public class ParameterTest  {
 
     @Test
     public void testParamter() throws Exception {
@@ -49,8 +50,8 @@ public class ParameterTest extends TestCase {
 
     }
 
-    @Rule
-    public final ExpectedException exception = ExpectedException.none();
+//    @Rule
+//    public final ExpectedException exception = ExpectedException.none();
     @Test
     public void testGetKeyException() {
         RealParameter keyParam = new RealParameter();
@@ -60,8 +61,14 @@ public class ParameterTest extends TestCase {
         // if (getDimension() == 1) return "0";
         assertEquals("0", keyParam.getKey(0));
 
-        exception.expect(IllegalArgumentException.class);
+//        exception.expect(IllegalArgumentException.class);
+        try {
         keyParam.getKey(2);
+        } catch (IllegalArgumentException e) {
+        	// as expected
+        	return;
+        }
+        assertEquals("should not get here", "but got here");
     }
 
 
@@ -94,8 +101,8 @@ public class ParameterTest extends TestCase {
         twoCols.initByName("value", twoTraitsValues, "keys", spNames, "minordimension", colCount);
 
         assertEquals(twoCols.getDimension()/colCount, twoCols.getKeysList().size());
-        Assert.assertArrayEquals(twoCols.getRowValues("sp1"), new Double[] { 0.326278727608277, 1.8164550628074 });
-        Assert.assertArrayEquals(twoCols.getRowValues("sp8"), new Double[] { 4.22298205455098, 1.51483058860744 });
+        assertArrayEquals(twoCols.getRowValues("sp1"), new Double[] { 0.326278727608277, 1.8164550628074 });
+        assertArrayEquals(twoCols.getRowValues("sp8"), new Double[] { 4.22298205455098, 1.51483058860744 });
     }
 
     /**
@@ -110,10 +117,10 @@ public class ParameterTest extends TestCase {
 
         assertEquals(oneTraits.getDimension(), oneTraits.getKeysList().size());
         // 1d array now, so values positions are diff
-        Assert.assertArrayEquals(oneTraits.getRowValues("sp1"), new Double[] { 0.326278727608277 });
-        Assert.assertArrayEquals(oneTraits.getRowValues("sp8"), new Double[] { -0.187743059073837 });
-        Assert.assertArrayEquals(oneTraits.getRowValues("sp11"), new Double[] { -3.22668212260941 });
-        Assert.assertArrayEquals(oneTraits.getRowValues("sp19"), new Double[] { -0.743303344769609 });
+        assertArrayEquals(oneTraits.getRowValues("sp1"), new Double[] { 0.326278727608277 });
+        assertArrayEquals(oneTraits.getRowValues("sp8"), new Double[] { -0.187743059073837 });
+        assertArrayEquals(oneTraits.getRowValues("sp11"), new Double[] { -3.22668212260941 });
+        assertArrayEquals(oneTraits.getRowValues("sp19"), new Double[] { -0.743303344769609 });
     }
 
 

@@ -1,7 +1,7 @@
 package test.beast.beast2vs1.tutorials;
 
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import test.beast.beast2vs1.TestFramework;
 import test.beast.beast2vs1.trace.Expectation;
 

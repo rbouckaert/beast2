@@ -3,14 +3,14 @@ package test.beast.app;
 import java.io.File;
 import java.io.PrintStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.app.beauti.Beauti;
 import beast.app.inputeditor.BeautiDoc;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import test.beast.integration.ExampleXmlParsingTest;
 
-public class BeautiTest extends TestCase {
+public class BeautiTest  {
 	{
 		ExampleXmlParsingTest.setUpTestDir();
 	}

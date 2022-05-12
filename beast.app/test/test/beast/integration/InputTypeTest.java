@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.core.BEASTInterface;
 import beast.base.core.BEASTObject;
@@ -17,9 +17,10 @@ import beast.base.core.Input;
 import beast.base.core.Param;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class InputTypeTest extends TestCase {
+public class InputTypeTest  {
 
 	{
 		System.setProperty("beast.is.junit.testing", "true");
@@ -55,10 +56,9 @@ public class InputTypeTest extends TestCase {
 			}
 		}
 
-		assertTrue(
+		assertTrue(failingInputs.size() == 0,
 				"Type of input could not be set for these inputs (probably requires to be set by using the appropriate constructure of Input): "
-						+ failingInputs.toString(),
-				failingInputs.size() == 0);
+						+ failingInputs.toString());
 	}
 
 	@Test
@@ -145,9 +145,8 @@ public class InputTypeTest extends TestCase {
 		}
 		System.err.println("Done!");
 
-		assertTrue(
+		assertTrue(failingInputs.size() == 0,
 				"Something is wrong with these annotated constructor(s): \n"
-						+ failingInputs.toString(),
-				failingInputs.size() == 0);
+						+ failingInputs.toString());
 	}
 }

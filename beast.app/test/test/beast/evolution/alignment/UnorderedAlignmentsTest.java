@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.app.seqgen.SimulatedAlignment;
 import beast.base.evolution.alignment.Alignment;
@@ -20,9 +20,9 @@ import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.coalescent.ConstantPopulation;
 import beast.base.evolution.tree.coalescent.RandomTree;
 import beast.base.inference.parameter.RealParameter;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class UnorderedAlignmentsTest extends TestCase {
+public class UnorderedAlignmentsTest  {
 
     static public TaxonSet getTaxa() throws Exception {
         return new TaxonSet(IntStream.range(65, 81).mapToObj(i -> ((Character) (char) i).toString()).map((java.util.function.Function<String, Taxon>) (id) -> {

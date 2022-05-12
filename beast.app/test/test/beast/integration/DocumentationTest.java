@@ -5,18 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.core.BEASTObject;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.PackageManager;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 
-public class DocumentationTest extends TestCase {
+public class DocumentationTest  {
 
 	
 	{
@@ -51,7 +52,7 @@ public class DocumentationTest extends TestCase {
             } catch (Exception e) {
             }
         }
-        assertTrue("No proper description for: " + undocumentedPlugins.toString(), undocumentedPlugins.size() == 0);
+        assertTrue(undocumentedPlugins.size() == 0, "No proper description for: " + undocumentedPlugins.toString());
     } // testDescriptions
 
     /**
@@ -80,8 +81,8 @@ public class DocumentationTest extends TestCase {
             }
         }
 
-        assertTrue("No proper input tip text (at least " + N_WORDS + " words and " + N_CHARS + " characters) for: "
-                + undocumentedInputs.toString(), undocumentedInputs.size() == 0);
+        assertTrue(undocumentedInputs.size() == 0, "No proper input tip text (at least " + N_WORDS + " words and " + N_CHARS + " characters) for: "
+                + undocumentedInputs.toString());
     } // testInputTipText
 
 

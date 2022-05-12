@@ -4,14 +4,14 @@ import org.apache.commons.math.MathException;
 
 import beast.base.inference.distribution.Normal;
 import beast.base.util.Randomizer;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * adapted from BEAST 1
  * @author Wai Lok Sibon Li
  * 
  */
-public class NormalDistributionTest extends TestCase {
+public class NormalDistributionTest  {
     Normal norm;
 
     public void setUp() {

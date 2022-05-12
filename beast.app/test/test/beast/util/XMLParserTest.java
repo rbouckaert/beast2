@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Files;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.core.BEASTInterface;
 import beast.base.evolution.substitutionmodel.JukesCantor;
@@ -13,9 +13,9 @@ import beast.base.parser.XMLParser;
 import beast.pkgmgmt.BEASTClassLoader;
 import beast.pkgmgmt.BEASTVersion;
 import beast.pkgmgmt.PackageManager;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class XMLParserTest extends TestCase {
+public class XMLParserTest  {
 
 	
 	// Note that this test must run in a separate class from XMLTest

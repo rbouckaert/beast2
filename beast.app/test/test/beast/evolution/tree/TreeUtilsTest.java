@@ -1,7 +1,7 @@
 package test.beast.evolution.tree;
 
-import junit.framework.TestCase;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.tree.TreeParser;
 import beast.base.evolution.tree.TreeUtils;
@@ -9,7 +9,7 @@ import beast.base.evolution.tree.TreeUtils;
 /**
  * Test class for TreeUtils methods
  */
-public class TreeUtilsTest extends TestCase {
+public class TreeUtilsTest  {
 
     @Test
     public void testSortTreeAlphabetically() {

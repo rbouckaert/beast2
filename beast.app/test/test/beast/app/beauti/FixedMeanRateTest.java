@@ -1,15 +1,16 @@
 package test.beast.app.beauti;
 
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.File;
 import java.util.List;
 
 import org.assertj.swing.data.TableCell;
 import org.assertj.swing.fixture.JTabbedPaneFixture;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.inference.operator.DeltaExchangeOperator;
-import junit.framework.Assert;
 
 /** test how the FixedMeanRate flag interact with link/unlink **/
 public class FixedMeanRateTest extends BeautiBase {
@@ -70,10 +71,10 @@ public class FixedMeanRateTest extends BeautiBase {
 		}
 
 		List<Integer> weights = operator.parameterWeightsInput.get().valuesInput.get();
-		Assert.assertEquals(weights.size(), 3);
-		Assert.assertEquals(weights.get(0), (Integer)614);
-		Assert.assertEquals(weights.get(1), (Integer)601);
-		Assert.assertEquals(weights.get(2), (Integer)819);
+		assertEquals(weights.size(), 3);
+		assertEquals(weights.get(0), (Integer)614);
+		assertEquals(weights.get(1), (Integer)601);
+		assertEquals(weights.get(2), (Integer)819);
 
 		beautiFrame.table().selectCells(TableCell.row(0).column(1), TableCell.row(2).column(1));
 		beautiFrame.button("Link Site Models").click();
@@ -86,9 +87,9 @@ public class FixedMeanRateTest extends BeautiBase {
 			throw new IllegalArgumentException("Expected 2 parameters for deltaExchangeOperator, not " + nrOfParameters);
 		}
 		weights = operator.parameterWeightsInput.get().valuesInput.get();
-		Assert.assertEquals(weights.size(), 2);
-		Assert.assertEquals(weights.get(0), (Integer)(614 + 819));
-		Assert.assertEquals(weights.get(1), (Integer)601);
+		assertEquals(weights.size(), 2);
+		assertEquals(weights.get(0), (Integer)(614 + 819));
+		assertEquals(weights.get(1), (Integer)601);
 
 		makeSureXMLParses();
 	}

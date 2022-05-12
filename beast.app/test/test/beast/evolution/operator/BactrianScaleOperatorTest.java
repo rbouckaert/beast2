@@ -2,7 +2,7 @@ package test.beast.evolution.operator;
 
 
 import org.apache.commons.math3.stat.StatUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xml.sax.SAXException;
 
 import beast.base.evolution.operator.kernel.BactrianScaleOperator;
@@ -16,6 +16,8 @@ import beast.base.inference.distribution.ParametricDistribution;
 import beast.base.inference.distribution.Prior;
 import beast.base.inference.parameter.RealParameter;
 import beast.base.util.Randomizer;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.util.List;

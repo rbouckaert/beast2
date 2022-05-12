@@ -1,5 +1,7 @@
 package test.beast.core;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,16 +9,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.junit.Test;
-
+import org.junit.jupiter.api.Test;
 import beast.base.core.BEASTInterface;
 import beast.base.core.Citation;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.core.Input.Validate;
-import junit.framework.TestCase;
 
-public class BEASTInterfaceTest extends TestCase {
+
+public class BEASTInterfaceTest  {
 
 	@Description("class that impements BEASTInterface but is not a BEASTObject")
 	@Citation("this is a dummy citation")

@@ -1,5 +1,9 @@
 package test.beast.evolution.tree.coalescent;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.BeforeEach;
+
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.tree.Tree;
 import beast.base.evolution.tree.TreeIntervals;
@@ -16,9 +20,9 @@ public class CoalescentTest extends BEASTTestCase {
     Alignment data;
     final double pop = 10000;
 
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception {
-        super.setUp();
+        //super.setUp();
         data = getFourTaxaNoData();
     }
 

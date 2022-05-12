@@ -3,13 +3,13 @@ package test.beast.evolution.operator;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.inference.operator.CompoundParameterHelper;
 import beast.base.inference.parameter.RealParameter;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class CompoundParameterHelperTest extends TestCase {
+public class CompoundParameterHelperTest  {
 
 	
 	@Test

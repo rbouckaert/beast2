@@ -1,14 +1,14 @@
 package test.beast.evolution.operator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.core.Log;
 import beast.base.inference.operator.kernel.KernelDistribution;
 import beast.base.inference.operator.kernel.KernelDistribution.Bactrian.mode;
 import beast.base.util.Randomizer;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class KernelDistiburionTest extends TestCase {
+public class KernelDistiburionTest  {
 	
 	@Test
 	public void testBactrianKernelDistribution() {

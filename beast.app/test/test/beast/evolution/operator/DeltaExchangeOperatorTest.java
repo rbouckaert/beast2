@@ -3,7 +3,9 @@
  */
 package test.beast.evolution.operator;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+import org.junit.jupiter.api.Test;
 
 import beast.base.inference.State;
 import beast.base.inference.operator.DeltaExchangeOperator;
@@ -29,7 +31,7 @@ public class DeltaExchangeOperatorTest extends TestOperator {
 		for (Double p : parameter.getValues()) {
 			i += p;
 		}
-		assertEquals("The DeltaExchangeOperator should not change the sum of a parameter", i, 4, 0.00001);
+		assertEquals(i, 4, 0.00001, "The DeltaExchangeOperator should not change the sum of a parameter");
 	}
 	
 	@Test
@@ -39,8 +41,8 @@ public class DeltaExchangeOperatorTest extends TestOperator {
 				"weightvector", new IntegerParameter(new Integer[] {0, 1, 2, 1}),
 				"parameter", parameter);
 		Double[] p = parameter.getValues();
-		assertEquals("The DeltaExchangeOperator should not change the sum of a parameter",
-				0*p[1]+1*p[1]+2*p[2]+1*p[3], 4, 0.00001);
+		assertEquals(0*p[1]+1*p[1]+2*p[2]+1*p[3], 4, 0.00001,
+				"The DeltaExchangeOperator should not change the sum of a parameter");
 	}
 	
 	@Test

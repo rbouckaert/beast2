@@ -1,9 +1,9 @@
 package test.beast.evolution.operator;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.math3.stat.StatUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.core.BEASTObject;
 import beast.base.core.Function;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class BactrianRandomWalkOperatorTest extends TestCase {
+public class BactrianRandomWalkOperatorTest  {
 
 	@Test
 	public void testNormalDistribution() throws Exception {

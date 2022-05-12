@@ -2,18 +2,18 @@ package test.beast.integration;
 
 import java.io.File;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.inference.Logger;
 import beast.base.inference.MCMC;
 import beast.base.parser.XMLParser;
 import beast.base.util.Randomizer;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * check that a chain can be resumed after termination *
  */
-public class ResumeTest extends TestCase {
+public class ResumeTest  {
 
     final static String XML_FILE = "testHKY.xml";
 	{

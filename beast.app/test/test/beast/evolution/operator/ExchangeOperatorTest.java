@@ -1,6 +1,6 @@
 package test.beast.evolution.operator;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.alignment.Alignment;
 import beast.base.evolution.alignment.Sequence;
@@ -8,9 +8,10 @@ import beast.base.evolution.operator.Exchange;
 import beast.base.evolution.tree.TreeParser;
 import beast.base.inference.State;
 import beast.base.util.Randomizer;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ExchangeOperatorTest extends TestCase {
+public class ExchangeOperatorTest  {
 	
 	@Test 
 	public void testNarrowExchange4Taxa() throws Exception {
@@ -121,7 +122,7 @@ public class ExchangeOperatorTest extends TestCase {
         }
         
         System.out.println(" Matches: " + match2 * 100.0/runs+ "%");
-        assertTrue("difference(" + 100*(match-match2)/runs + ") exceeds 1.0%", 100.0*Math.abs(match-match2)/runs < 1.0); 
+        assertTrue(100.0*Math.abs(match-match2)/runs < 1.0, "difference(" + 100*(match-match2)/runs + ") exceeds 1.0%"); 
 	
 	}
 

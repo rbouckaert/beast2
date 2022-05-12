@@ -1,13 +1,13 @@
 package test.beast.app;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.app.inputeditor.BeautiConnector;
 import beast.app.inputeditor.BeautiSubTemplate;
 import beast.base.inference.parameter.RealParameter;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BeautiSubTemplateTest extends TestCase {
+public class BeautiSubTemplateTest  {
 	
 	@Test
 	public void testBeautiSubTemplate() throws Exception {

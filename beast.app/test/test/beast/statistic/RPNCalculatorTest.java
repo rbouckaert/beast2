@@ -1,6 +1,6 @@
 package test.beast.statistic;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.core.BEASTInterface;
 import beast.base.inference.parameter.BooleanParameter;
@@ -8,9 +8,9 @@ import beast.base.inference.parameter.RealParameter;
 import beast.base.inference.util.RPNcalculator;
 import beast.base.parser.XMLParser;
 import beast.base.parser.XMLParserException;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class RPNCalculatorTest extends TestCase {
+public class RPNCalculatorTest  {
 
 	
 	@Test

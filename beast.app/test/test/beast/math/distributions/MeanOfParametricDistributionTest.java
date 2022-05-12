@@ -2,7 +2,7 @@ package test.beast.math.distributions;
 
 
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.core.BEASTInterface;
 import beast.base.inference.distribution.Exponential;
@@ -11,9 +11,9 @@ import beast.base.inference.distribution.LogNormalDistributionModel;
 import beast.base.inference.distribution.Normal;
 import beast.base.inference.distribution.Uniform;
 import beast.base.parser.XMLParser;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class MeanOfParametricDistributionTest extends TestCase {
+public class MeanOfParametricDistributionTest  {
 
 	@Test
     public void testMeanOfNormal() throws Exception {

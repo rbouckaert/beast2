@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.app.inputeditor.BeautiDoc;
 import beast.base.core.BEASTInterface;
@@ -14,9 +14,9 @@ import beast.base.evolution.alignment.Taxon;
 import beast.base.inference.parameter.RealParameter;
 import beast.base.parser.JSONParser;
 import beast.base.parser.JSONProducer;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class JSONTest extends TestCase {
+public class JSONTest  {
 	public static String JSON_FILE = "examples/testUCLNclock.json";
 
     @Test

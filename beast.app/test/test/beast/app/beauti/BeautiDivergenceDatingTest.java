@@ -6,7 +6,7 @@ import org.assertj.swing.data.TableCell;
 import org.assertj.swing.finder.WindowFinder;
 import org.assertj.swing.fixture.*;
 import org.assertj.swing.image.ScreenshotTaker;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import javax.swing.*;
 import java.awt.*;

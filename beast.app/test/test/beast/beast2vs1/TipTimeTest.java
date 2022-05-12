@@ -4,6 +4,8 @@ package test.beast.beast2vs1;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import test.beast.beast2vs1.trace.Expectation;
 
 /**
@@ -33,7 +35,7 @@ public class TipTimeTest extends TestFramework {
         analyse(4);
     }
 
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception {
         super.setUp(XML_FILES);
     }

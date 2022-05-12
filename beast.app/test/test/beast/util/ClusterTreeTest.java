@@ -9,11 +9,11 @@ import beast.base.evolution.alignment.Sequence;
 import beast.base.evolution.sitemodel.SiteModel;
 import beast.base.evolution.substitutionmodel.JukesCantor;
 import beast.base.evolution.tree.ClusterTree;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import test.beast.BEASTTestCase;
 
 
-public class ClusterTreeTest extends TestCase {
+public class ClusterTreeTest  {
 
     public void testUPGMA() throws Exception {
         Alignment alignment = BEASTTestCase.getAlignment();

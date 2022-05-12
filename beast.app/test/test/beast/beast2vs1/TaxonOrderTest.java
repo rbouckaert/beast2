@@ -4,6 +4,8 @@ package test.beast.beast2vs1;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
+
 import test.beast.beast2vs1.trace.Expectation;
 
 public class TaxonOrderTest extends TestFramework {
@@ -14,7 +16,7 @@ public class TaxonOrderTest extends TestFramework {
         analyse(0);
     }
 
-    @Override
+    @BeforeEach
     protected void setUp() throws Exception {
     	checkESS = false;
         super.setUp(XML_FILES);

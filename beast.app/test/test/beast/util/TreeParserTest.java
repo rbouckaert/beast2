@@ -1,7 +1,9 @@
 package test.beast.util;
 
-import org.junit.Assert;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import org.junit.jupiter.api.Test;
 
 import beast.base.evolution.tree.TreeParser;
 
@@ -19,11 +21,11 @@ public class TreeParserTest {
             TreeParser treeParser = new TreeParser(newick, false, false, isLabeled, 0);
             treeParser.offsetInput.setValue(0, treeParser);
 
-            Assert.assertEquals(newick.split(";")[0], treeParser.getRoot().toShortNewick(true));
+            assertEquals(newick.split(";")[0], treeParser.getRoot().toShortNewick(true));
 
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.  \
-            Assert.assertTrue("Exception!", false);
+            assertTrue(false, "Exception!");
         }
 
     }
@@ -37,7 +39,7 @@ public class TreeParserTest {
 
         TreeParser treeParser = new TreeParser(newick, false, false, isLabeled, 1);
         System.out.println("adfgad");
-        Assert.assertEquals(newick.split(";")[0], treeParser.getRoot().toNewick());
+        assertEquals(newick.split(";")[0], treeParser.getRoot().toNewick());
 
     }
 
@@ -53,7 +55,7 @@ public class TreeParserTest {
         
         String newick2 = treeParser.getRoot().toNewick();
         
-        Assert.assertEquals(newick.replaceAll(";", ""), newick2);
+        assertEquals(newick.replaceAll(";", ""), newick2);
     }
 
     @Test
@@ -67,11 +69,11 @@ public class TreeParserTest {
 
             TreeParser treeParser = new TreeParser(newick, false, false, isLabeled, 1);
 
-            Assert.assertEquals(newick.split(";")[0], treeParser.getRoot().toNewick());
+            assertEquals(newick.split(";")[0], treeParser.getRoot().toNewick());
 
         } catch (Exception e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.  \
-            Assert.assertTrue("Exception!", false);
+            assertTrue(false, "Exception!");
         }
 
 
@@ -94,7 +96,7 @@ public class TreeParserTest {
             exceptionRaised = true;
         }
 
-        Assert.assertTrue(exceptionRaised);
+        assertTrue(exceptionRaised);
     }
 
     @Test
@@ -106,7 +108,7 @@ public class TreeParserTest {
         boolean isLabeled = true;
 
         TreeParser treeParser = new TreeParser(newick, false, false, isLabeled, 1);
-        Assert.assertEquals(binaryNewick.split(";")[0], treeParser.getRoot().toNewick());
+        assertEquals(binaryNewick.split(";")[0], treeParser.getRoot().toNewick());
 
     }
 
@@ -118,7 +120,7 @@ public class TreeParserTest {
         boolean isLabeled = true;
 
         TreeParser treeParser = new TreeParser(newick, false, false, isLabeled, 1, false);
-        Assert.assertEquals(newick.split(";")[0], treeParser.getRoot().toNewick());
+        assertEquals(newick.split(";")[0], treeParser.getRoot().toNewick());
 
     }
 
@@ -130,9 +132,9 @@ public class TreeParserTest {
         boolean isLabeled = true;
 
         TreeParser treeParser = new TreeParser(newick, false, false, isLabeled, 1);
-        Assert.assertTrue(treeParser.getNode(1).getMetaData("key").equals(2.0));
-        Assert.assertTrue(treeParser.getNode(1).getMetaData("rate").equals(3.0));
-        Assert.assertTrue(treeParser.getNode(1).getMetaData("type").equals("OK"));
+        assertTrue(treeParser.getNode(1).getMetaData("key").equals(2.0));
+        assertTrue(treeParser.getNode(1).getMetaData("rate").equals(3.0));
+        assertTrue(treeParser.getNode(1).getMetaData("type").equals("OK"));
     }
 
     @Test
@@ -143,7 +145,7 @@ public class TreeParserTest {
         boolean isLabeled = true;
 
         TreeParser treeParser = new TreeParser(newick, false, false, isLabeled, 1);
-        Assert.assertTrue((treeParser.getNode(1).getMetaData("key") instanceof Double[])
+        assertTrue((treeParser.getNode(1).getMetaData("key") instanceof Double[])
                 && ((Double[])(treeParser.getNode(1).getMetaData("key"))).length == 3);
 
     }
@@ -156,8 +158,8 @@ public class TreeParserTest {
         boolean isLabeled = true;
 
         TreeParser treeParser = new TreeParser(newick, false, false, isLabeled, 1);
-        Assert.assertTrue(treeParser.getNode(1).getLengthMetaData("key").equals(2.5));
-        Assert.assertTrue(treeParser.getNode(1).getMetaData("key").equals(42.0));
+        assertTrue(treeParser.getNode(1).getLengthMetaData("key").equals(2.5));
+        assertTrue(treeParser.getNode(1).getMetaData("key").equals(42.0));
     }
 
     @Test
@@ -169,9 +171,9 @@ public class TreeParserTest {
 
         TreeParser treeParser = new TreeParser(newick,false, true, isLabeled, 0, false);
 
-        Assert.assertTrue(treeParser.getNode(0).getID().equals("knw"));
-        Assert.assertTrue(treeParser.getNode(1).getID().equals("xmr"));
-        Assert.assertTrue(treeParser.getNode(0).getParent().getID().equals("ctm"));
-        Assert.assertTrue(treeParser.getNode(1).getParent().getID() == null);
+        assertTrue(treeParser.getNode(0).getID().equals("knw"));
+        assertTrue(treeParser.getNode(1).getID().equals("xmr"));
+        assertTrue(treeParser.getNode(0).getParent().getID().equals("ctm"));
+        assertTrue(treeParser.getNode(1).getParent().getID() == null);
     }
 }

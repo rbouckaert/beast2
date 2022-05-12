@@ -1,8 +1,8 @@
 package test.beast.math.distributions;
 
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.apache.commons.math.MathException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import beast.base.inference.distribution.LaplaceDistribution;
 import beast.base.util.Randomizer;
@@ -13,7 +13,7 @@ import test.beast.BEASTTestCase;
  * @author Louis du Plessis
  *         Date: 2018/08/06
  */
-public class LaplaceDistributionTest extends TestCase {
+public class LaplaceDistributionTest  {
 
     LaplaceDistribution laplace;
 

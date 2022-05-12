@@ -9,13 +9,13 @@ import java.util.HashMap;
 import beast.base.inference.Operator;
 import beast.base.inference.State;
 import beast.base.inference.StateNode;
-import junit.framework.TestCase;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author gereon
  *
  */
-public abstract class TestOperator extends TestCase {
+public abstract class TestOperator  {
 
 	static public void register(Operator operator, final Object... operands) {
 		HashMap<String, StateNode> operandsMap;
