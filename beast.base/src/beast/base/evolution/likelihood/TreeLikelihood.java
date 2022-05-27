@@ -533,6 +533,10 @@ public class TreeLikelihood extends GenericTreeLikelihood {
             //m_nHasDirt = Tree.IS_DIRTY;
             return true;
         }
+        if (rootFrequenciesInput.get() != null && rootFrequenciesInput.get().isDirtyCalculation()) {
+            hasDirt = Tree.IS_DIRTY;
+            return true;
+        }
         return treeInput.get().somethingIsDirty();
     }
 

@@ -10,6 +10,7 @@ import java.util.List;
 import beast.base.core.Description;
 import beast.base.core.Input;
 import beast.base.core.Log;
+import beast.base.core.ProgramStatus;
 import beast.base.inference.Operator;
 import beast.base.inference.StateNode;
 import beast.base.inference.parameter.IntegerParameter;
@@ -86,6 +87,9 @@ public class DeltaExchangeOperator extends Operator {
 	}
 
     public void initAndValidate() {
+    	if (ProgramStatus.name.equals("BEAUti")) {
+    		return;
+    	}
         autoOptimize = autoOptimizeiInput.get();
         delta = deltaInput.get();
         isIntegerOperator = integerOperatorInput.get();

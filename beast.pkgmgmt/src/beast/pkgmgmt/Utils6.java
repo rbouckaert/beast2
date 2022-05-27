@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.Properties;
 
 /**
@@ -276,7 +275,8 @@ public class Utils6 {
             try {
                 propsFile.createNewFile();
             } catch (IOException ex) {
-                ex.printStackTrace();
+                System.err.println("saveBeautiProperty " + ex.getClass().getName() + " " + ex.getMessage());
+                return;
             }
         }
         

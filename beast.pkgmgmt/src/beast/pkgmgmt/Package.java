@@ -152,6 +152,19 @@ public class Package {
         return availableVersionDeps.get(version);
     }
 
+    public String getDependencies() {
+        Set<PackageDependency> dependencies = getDependencies(getInstalledVersion());
+        StringBuilder str = new StringBuilder();
+        for (PackageDependency p: dependencies) {
+        	str.append(p.dependencyName);
+        	str.append(", ");
+        }
+        if (str.length() > 2) {
+        	str.delete(str.length()-3, str.length()-1);
+        }
+        return str.toString();
+    }
+
     /**
      * @return list of available package versions, sorted in order of decreasing version.
      */
