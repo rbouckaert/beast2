@@ -41,7 +41,7 @@ RUN echo "#!/bin/bash\n" \
         "export USER=root\n" \
         "export DISPLAY=:1\n" \
         "vncserver :1 -geometry 1920x1080\n" \
-        "ant -f build-testing.xml \$1\n" > entrypoint.sh
+        "ant -lib lib -f build-testing.xml \$1\n" > entrypoint.sh
 RUN chmod a+x entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
