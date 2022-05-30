@@ -7,7 +7,7 @@
 #   docker run beast_testing
 #
 # To run the tests interactively, use
-#   docker run -it -p 5900:5900 beast_testing /bin/bash
+#   docker run --entrypoint /bin/bash -it -p 5900:5900 beast_testing
 # This will give you a shell in the container. From this
 # shell, run
 #   vncserver $DISPLAY -geometry 1920x1080; ant -f build-testing.xml
@@ -18,6 +18,7 @@
 # the graphical output of these tests.
 
 FROM openjdk:11
+WORKDIR /beast2
 
 # Install Apache Ant
 RUN apt-get update && apt-get install -y ant

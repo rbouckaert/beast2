@@ -68,6 +68,7 @@ public class XMLParserTest  {
     	}
 
     	// restore version.xml
+    	new File(versionFile).delete();
     	if (new File("version.xml.backup").exists())    	
     		Files.move(new File("version.xml.backup").toPath(), 
         		new File(versionFile).toPath(), 

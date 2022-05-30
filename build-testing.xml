@@ -139,7 +139,7 @@
             <include name="org/**/**" />
         </javac>
                 
-        <jar jarfile="build/dist/beast.base.jar">
+        <jar jarfile="build/dist/BEAST.base.jar">
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>
@@ -171,7 +171,7 @@
             <include name="beast/**/**" />
         </javac>
                 
-        <jar jarfile="build/dist/beast.app.jar">
+        <jar jarfile="build/dist/BEAST.app.jar">
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>
@@ -233,8 +233,8 @@
 			    <path location="build"/>
 			    -->
                 <path id="classpath2">
-			        <fileset dir="build/dist" includes="beast.base.jar" />
-			        <fileset dir="build/dist" includes="beast.app.jar" />
+			        <fileset dir="build/dist" includes="BEAST.base.jar" />
+			        <fileset dir="build/dist" includes="BEAST.app.jar" />
 			        <fileset dir="build/dist" includes="launcher.jar" />
 			        <fileset dir="build/dist" includes="test.beast.jar" />
 			    </path>
@@ -258,28 +258,39 @@
     </target>
 
 
+    <target name="junit" depends="junit-unit, junit-integration"/>
 
-
-    <target name="junit">
-        <pathconvert property="classpathProp" refid="classpath"/>
-        <echo>Classpath is ${classpathProp}</echo>
-
+    <target name="junit-unit">
         <java classpathref="classpath" classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="true">
             <arg line="-p test.beast.base"/>
             <arg line="-p test.beast.core"/>
             <arg line="-p test.beast.evolution"/>
             <arg line="-p test.beast.math"/>
             <arg line="-p test.beast.statistic"/>
-
             <arg line="-p test.beast.util"/>
-            <arg line="-p test.beast.integration"/>
             <arg line="--reports-dir build/junitreport"/>
         </java>
         <junitreport todir="build/junitreport">
             <fileset dir="build/junitreport">
                 <include name="TEST-*.xml"/>
             </fileset>
-            <report format="frames" todir="build/junitreport/html"/>
+            <report format="frames" todir="build/junitreport"/>
+        </junitreport>
+    </target>
+
+    <target name="junit-integration">
+        <pathconvert property="classpathProp" refid="classpath"/>
+        <echo>Classpath is ${classpathProp}</echo>
+
+        <java classpathref="classpath" classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="true">
+            <arg line="-p test.beast.integration"/>
+            <arg line="--reports-dir build/integrationreport"/>
+        </java>
+        <junitreport todir="build/integrationreport">
+            <fileset dir="build/junitreport">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="build/integrationreport"/>
         </junitreport>
     </target>
 
@@ -310,8 +321,8 @@
 			        <fileset dir="/beast2/${lib}" includes="colt.jar"/>
 			        <fileset dir="/beast2/${lib}" includes="fest.jar"/>
 			        <fileset dir="/beast2/${lib}" includes="antlr-runtime-4.10.1.jar"/>
-			        <fileset dir="/beast2/build/dist" includes="beast.base.jar" />
-			        <fileset dir="/beast2/build/dist" includes="beast.app.jar" />
+			        <fileset dir="/beast2/build/dist" includes="BEAST.base.jar" />
+			        <fileset dir="/beast2/build/dist" includes="BEAST.app.jar" />
 			        <fileset dir="/beast2/build/dist" includes="launcher.jar" />
 			        <fileset dir="/beast2/build/dist" includes="test.beast.jar" />
 			        <fileset dir="/beast2/${lib}" includes="assertj-swing-junit-3.17.1.jar"/>
