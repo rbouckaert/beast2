@@ -3,13 +3,9 @@ package test.beast.evolution.datatype;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
-//import org.junit.runner.RunWith;
-//import org.junit.runners.Parameterized;
-
 import beast.base.evolution.datatype.Aminoacid;
 import beast.base.evolution.datatype.Binary;
 import beast.base.evolution.datatype.IntegerData;
@@ -17,27 +13,17 @@ import beast.base.evolution.datatype.Nucleotide;
 import beast.base.evolution.datatype.TwoStateCovarion;
 import beast.base.evolution.datatype.DataType.Base;
 
-//@RunWith(Parameterized.class)
 public class DataTypeDeEncodeTest {
-	private Base d;
-	private String s;
-	private List<Integer> c;
 
-	public DataTypeDeEncodeTest(Base dataType, String sequence, List<Integer> codes) {
-		d = dataType;
-		s = sequence;
-		c = codes;
-	}
-
-	// @Parameterized.Parameters
-	public static Collection<Object[]> typestrings() {
+	@Test
+	public void testDataTypeDeEncode() {
 		Base dAa = new Aminoacid();
 		Base dBi = new Binary();
 		Base dIn = new IntegerData();
 		Base dNt = new Nucleotide();
 		Base d2C = new TwoStateCovarion();
 
-		return Arrays.asList(new Object[][] {
+		for (Object [] o : Arrays.asList(new Object[][] {
 				{ dIn, "1,2,14,23,?", Arrays.asList(new Integer[] { 1, 2, 14, 23, -1 }) },
 				{ dNt, "ACGTURYMWSKBDHVNX", Arrays.asList(
 						new Integer[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 }) },
@@ -45,17 +31,15 @@ public class DataTypeDeEncodeTest {
 				{ d2C, "01ABCD-?", Arrays.asList(new Integer[] { 0, 1, 2, 3, 4, 5, 6, 7 }) },
 				{ dAa, "ACDEFGHIKLMNPQRSTVWY", Arrays.asList(
 						new Integer[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 }) }
-			});
-	}
-
-	@Test
-	public void testStingToEncoding() {
-		assertEquals(c, d.stringToEncoding(s));
-	}
-
-	@Test
-	public void testRoundTrip() {
-		assertEquals(s, d.encodingToString(d.stringToEncoding(s)));
+			})) {
+				Base d = (Base) o[0];
+				String s = (String) o[1];
+				List<Integer> c = (List<Integer>) o[2];
+				// o.testStingToEncoding();
+				assertEquals(c, d.stringToEncoding(s));
+				//o.testRoundTrip();
+				assertEquals(s, d.encodingToString(d.stringToEncoding(s)));
+		}
 	}
 
 }

@@ -31,9 +31,9 @@ public class JSONTest  {
 		outfile.close();
 
 		String expected = BeautiDoc.load(JSON_FILE).trim();//.replaceAll("\\s+", " ");
-		assertEquals("Produced JSON differs from original", 
-				expected, 
-				actual);
+		assertEquals(expected, 
+				actual,
+				"Produced JSON differs from original");
     }
 
     @Test

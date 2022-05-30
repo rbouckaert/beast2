@@ -65,10 +65,10 @@ public class ParameterTest  {
         try {
         keyParam.getKey(2);
         } catch (IllegalArgumentException e) {
-        	// as expected
-        	return;
+            assertEquals("should not get here", "but got here");
         }
-        assertEquals("should not get here", "but got here");
+    	// as expected
+    	return;
     }
 
 

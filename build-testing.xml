@@ -21,15 +21,13 @@
         <fileset dir="${lib}" includes="jam.jar"/>
         <fileset dir="${lib}" includes="colt.jar"/>
         <fileset dir="${lib}" includes="fest.jar"/>
-        <fileset dir="${lib}/junit" includes="org.junit.jupiter.api_5.8.1.jar"/>
-        <fileset dir="${lib}/junit" includes="org.junit.jupiter.engine_5.8.1.jar"/>
-        <fileset dir="${lib}/junit" includes="org.junit.platform.commons_1.8.1.jar"/>
-        <fileset dir="${lib}/junit" includes="org.junit.platform.engine_1.8.1.jar"/>
-        <fileset dir="${lib}/junit" includes="org.junit.platform.launcher_1.8.1.jar"/>
-        <fileset dir="${lib}/junit" includes="opentest4j-1.1.1.jar"/>
+        <fileset dir="${lib}/junit" includes="junit-platform-console-standalone-1.8.2.jar"/>
         <fileset dir="${lib}" includes="antlr-runtime-4.10.1.jar"/>
         <fileset dir="${lib}" includes="commons-math3-3.6.1.jar" />
+        <path location="build"/>
     </path>
+
+
 
     <target name="init">
         <echo message="${ant.project.name}: ${ant.file}" />
@@ -223,7 +221,7 @@
 
     
    <!-- JUnit test -->
-    <target name="junit">
+    <target name="junitX">
         <mkdir dir="${report}" />
         <!--
         <junit printsummary="yes" failureproperty="junitfailed" fork="true" dir="/beast2">
@@ -257,6 +255,32 @@
             </testclasses>
         </junitlauncher>
         <echo message="JUnit test finished." />
+    </target>
+
+
+
+
+    <target name="junit">
+        <pathconvert property="classpathProp" refid="classpath"/>
+        <echo>Classpath is ${classpathProp}</echo>
+
+        <java classpathref="classpath" classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="true">
+            <arg line="-p test.beast.base"/>
+            <arg line="-p test.beast.core"/>
+            <arg line="-p test.beast.evolution"/>
+            <arg line="-p test.beast.math"/>
+            <arg line="-p test.beast.statistic"/>
+
+            <arg line="-p test.beast.util"/>
+            <arg line="-p test.beast.integration"/>
+            <arg line="--reports-dir build/junitreport"/>
+        </java>
+        <junitreport todir="build/junitreport">
+            <fileset dir="build/junitreport">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="build/junitreport/html"/>
+        </junitreport>
     </target>
 
     <target name="junitreport">

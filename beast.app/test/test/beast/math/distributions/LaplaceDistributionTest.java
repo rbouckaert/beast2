@@ -2,6 +2,7 @@ package test.beast.math.distributions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.apache.commons.math.MathException;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import beast.base.inference.distribution.LaplaceDistribution;
@@ -17,8 +18,8 @@ public class LaplaceDistributionTest  {
 
     LaplaceDistribution laplace;
 
+    @BeforeEach 
     public void setUp() {
-
         laplace = new LaplaceDistribution();
         laplace.initAndValidate();
         Randomizer.setSeed(123);
