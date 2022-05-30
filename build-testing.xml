@@ -258,9 +258,12 @@
     </target>
 
 
-    <target name="junit" depends="junit-unit, junit-integration"/>
+    <target name="junit" depends="junit-unit, junit-integration, junit-xmlparsertest"/>
 
     <target name="junit-unit">
+        <pathconvert property="classpathProp" refid="classpath"/>
+        <echo>Classpath is ${classpathProp}</echo>
+
         <java classpathref="classpath" classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="true">
             <arg line="-p test.beast.base"/>
             <arg line="-p test.beast.core"/>
@@ -268,6 +271,7 @@
             <arg line="-p test.beast.math"/>
             <arg line="-p test.beast.statistic"/>
             <arg line="-p test.beast.util"/>
+            <arg line="-N test.beast.util.XMLParserTest"/>
             <arg line="--reports-dir build/junitreport"/>
         </java>
         <junitreport todir="build/junitreport">
@@ -277,11 +281,22 @@
             <report format="frames" todir="build/junitreport"/>
         </junitreport>
     </target>
-
+	
+	<!-- separate out test.beast.util.XMLParserTest so the version.xml files get loaded -->
+    <target name="junit-xmlparsertest">
+        <java classpathref="classpath" classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="true">
+            <arg line="-c test.beast.util.XMLParserTest"/>
+            <arg line="--reports-dir build/xmlparserreport"/>
+        </java>
+        <junitreport todir="build/xmlparserreport">
+            <fileset dir="build/xmlparserreport">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="build/xmlparserreport"/>
+        </junitreport>
+    </target>
+    
     <target name="junit-integration">
-        <pathconvert property="classpathProp" refid="classpath"/>
-        <echo>Classpath is ${classpathProp}</echo>
-
         <java classpathref="classpath" classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="true">
             <arg line="-p test.beast.integration"/>
             <arg line="--reports-dir build/integrationreport"/>
@@ -346,32 +361,17 @@
     </target>
     
 
-    <target name="create-symlinks">
-        <mkdir dir="/beast2"/>
-        <symlink link="/beast2/lib" resource="/lib"/>
-        <symlink link="/beast2/test" resource="/test"/>
-        <symlink link="/beast2/build" resource="/build"/>
-        <symlink link="/beast2/examples" resource="/examples"/>
-        <symlink link="/beast2/templates" resource="/templates"/>
-        <symlink link="/beast2/beast.app" resource="/beast.app"/>
-        <symlink link="/beast2/beast.base" resource="/beast.base"/>
-        <symlink link="/beast2/beast.pkgmgmt" resource="/beast.pkgmgmt"/>
-    	<mkdir dir="/test"/>
-        <symlink link="/beast2/test" resource="/test"/>
-    </target>
-
-
     <!-- Target for CI testing with non-zero exit status on test failure. -->
-    <target name="test-all" depends="clean, compile-all, create-symlinks, junit, junitb">
+    <target name="test-all" depends="clean, compile-all, junit, junitb">
         <fail if="junitfailed" message="One or more CORE BEAST tests failed."/>
         <fail if="junitbfailed" message="One or more BEAUTI tests failed."/>
     </target>
 
-    <target name="test-core" depends="clean, compile-all, create-symlinks, junit">
+    <target name="test-core" depends="clean, compile-all, junit">
         <fail if="junitfailed" message="One or more CORE BEAST tests failed."/>
     </target>
 
-    <target name="test-beauti" depends="clean, compile-all, create-symlinks, junitb">
+    <target name="test-beauti" depends="clean, compile-all, junitb">
         <fail if="junitbfailed" message="One or more BEAUTI tests failed."/>
     </target>
 
