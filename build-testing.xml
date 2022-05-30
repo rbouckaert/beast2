@@ -220,44 +220,7 @@
     
 
     
-   <!-- JUnit test -->
-    <target name="junitX">
-        <mkdir dir="${report}" />
-        <!--
-        <junit printsummary="yes" failureproperty="junitfailed" fork="true" dir="/beast2">
-        -->
-        <junitlauncher printsummary="yes">
-	        <classpath refid="classpath"/>
-            <classpath>
-	            <!--
-			    <path location="build"/>
-			    -->
-                <path id="classpath2">
-			        <fileset dir="build/dist" includes="BEAST.base.jar" />
-			        <fileset dir="build/dist" includes="BEAST.app.jar" />
-			        <fileset dir="build/dist" includes="launcher.jar" />
-			        <fileset dir="build/dist" includes="test.beast.jar" />
-			    </path>
-	        </classpath>
-
-               <testclasses outputdir="build/junitreport">
-                <fileset dir="build">
-                    <!--
-                    <include name="test/beast/core/*Test.class" />
-                    -->
-                    <include name="test/**/*Test.class" />
-                    <exclude name="test/beast/beast2vs1/**/*Test.class"/>
-                    <exclude name="test/beast/app/beauti/**/*Test.class"/>
-                </fileset>
-                
-                <listener type="legacy-brief" sendSysOut="true" sendSysErr="true"/>
-                <listener type="legacy-xml" sendSysErr="true" sendSysOut="true"/>
-            </testclasses>
-        </junitlauncher>
-        <echo message="JUnit test finished." />
-    </target>
-
-
+    <!-- JUnit test -->
     <target name="junit" depends="junit-unit, junit-integration, junit-xmlparsertest"/>
 
     <target name="junit-unit">

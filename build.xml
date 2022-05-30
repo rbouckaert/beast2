@@ -9,8 +9,7 @@
     </description>
 
     <!-- set global properties for this build -->
-    <!--property name="beast2" location="beast2.7"/-->
-    <property name="beast2" location="../beast2"/>
+    <property name="beast2" location="../beast2.7"/>
     <property name="src" location="${beast2}/src"/>
     <property name="build" location="${beast2}/build" />
     <property name="lib" location="${beast2}/lib" />
@@ -28,16 +27,12 @@
         <fileset dir="${lib}" includes="assertj-swing-junit-3.17.1.jar"/>
         <fileset dir="${lib}" includes="assertj-core-3.20.2.jar"/>
         <fileset dir="${lib}" includes="assertj-swing-3.17.1.jar"/>
-        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
+        <fileset dir="${lib}/junit" includes="junit-platform-console-standalone-1.8.2.jar"/>
         <fileset dir="${lib}" includes="antlr-runtime-4.10.1.jar"/>
         <fileset dir="${lib}" includes="commons-math3-3.6.1.jar" />
+        <path location="build"/>
     </path>
 
-    <!--
-        <path id="testclasspath">
-            <fileset dir="${lib}" includes="**/*.jar" />
-        </path>
-    -->
 
     <!-- start -->
     <target name="init">
@@ -192,7 +187,7 @@
             <include name="org/**/**" />
         </javac>
                 
-        <jar jarfile="${build}/dist/beast.base.jar">
+        <jar jarfile="${build}/dist/BEAST.base.jar">
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>
@@ -210,7 +205,7 @@
 	        <zipgroupfileset dir="${lib}" includes="commons-math3-3.6.1.jar" />
         </jar>
 
-        <jar jarfile="${dist}/beast.base.src.jar">
+        <jar jarfile="${dist}/BEAST.base.src.jar">
             <fileset dir="${beast2}/beast.base/src">
                 <include name="beast/base/**/*.java" />
                 <include name="org/**/*.java" />
@@ -231,7 +226,7 @@
             <include name="beast/**/**" />
         </javac>
                 
-        <jar jarfile="${build}/dist/beast.app.jar">
+        <jar jarfile="${build}/dist/BEAST.app.jar">
             <manifest>
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>
@@ -243,7 +238,7 @@
             </fileset>
         </jar>
 
-        <jar jarfile="${dist}/beast.app.src.jar">
+        <jar jarfile="${dist}/BEAST.app.src.jar">
             <fileset dir="${beast2}/beast.app/src">
                 <include name="beast/app/**/*.java" />
             </fileset>
@@ -290,15 +285,15 @@
         <!-- create BEAST.base package -->
         <mkdir dir="${release_dir}/package/beast.base/" />
         <mkdir dir="${release_dir}/package/beast.base/lib" />
-        <copy file="${dist}/beast.base.src.jar" todir="${release_dir}/package/beast.base/"/>
-        <copy file="${dist}/beast.base.jar" todir="${release_dir}/package/beast.base/lib/"/>
+        <copy file="${dist}/BEAST.base.src.jar" todir="${release_dir}/package/beast.base/"/>
+        <copy file="${dist}/BEAST.base.jar" todir="${release_dir}/package/beast.base/lib/"/>
         <copy file="${beast2}/beast.base/version.xml" todir="${release_dir}/package/beast.base/"/>
 
         <jar jarfile="${release_dir}/package/BEAST.base.package.v${version}.zip">
             <fileset dir="${release_dir}/package/beast.base">
                 <include name="version.xml" />
-                <include name="lib/beast.base.jar" />
-                <include name="beast.base.src.jar" />
+                <include name="lib/BEAST.base.jar" />
+                <include name="BEAST.base.src.jar" />
             </fileset>
             <fileset dir="${beast2}/beast.base/">
                 <include name="templates/*.xml" />
@@ -310,15 +305,15 @@
         <!-- create BEAST.app package -->
         <mkdir dir="${release_dir}/package/beast.app/" />
         <mkdir dir="${release_dir}/package/beast.app/lib" />
-        <copy file="${dist}/beast.app.src.jar" todir="${release_dir}/package/beast.app/"/>
-        <copy file="${dist}/beast.app.jar" todir="${release_dir}/package/beast.app/lib/"/>
+        <copy file="${dist}/BEAST.app.src.jar" todir="${release_dir}/package/beast.app/"/>
+        <copy file="${dist}/BEAST.app.jar" todir="${release_dir}/package/beast.app/lib/"/>
         <copy file="${beast2}/beast.app/version.xml" todir="${release_dir}/package/beast.app/"/>
 
         <jar jarfile="${release_dir}/package/BEAST.app.package.v${version}.zip">
             <fileset dir="${release_dir}/package/beast.app">
                 <include name="version.xml" />
-                <include name="lib/beast.app.jar" />
-                <include name="beast.app.src.jar" />
+                <include name="lib/BEAST.app.jar" />
+                <include name="BEAST.app.src.jar" />
             </fileset>
             <fileset dir="${beast2}/beast.app">
                 <include name="templates/*.xml" />
@@ -335,39 +330,55 @@
     </target>
 
     <!-- JUnit test -->
-    <target name="junit">
-        <mkdir dir="${report}" />
-        
-        <junit printsummary="yes" failureproperty="junitfailed" fork="true">
-            <classpath>
-                <path id="classpath2">
-			        <fileset dir="${lib}" includes="junit-4.8.2.jar"/>
-        			<fileset dir="${lib}" includes="beagle.jar"/>
-			        <fileset dir="${lib}" includes="jam.jar"/>
-			        <fileset dir="${lib}" includes="colt.jar"/>
-			        <fileset dir="${lib}" includes="fest.jar"/>
-			        <fileset dir="${lib}" includes="antlr-runtime-4.10.1.jar"/>
-			        <fileset dir="build/dist" includes="beast.base.jar" />
-			        <fileset dir="build/dist" includes="beast.app.jar" />
-			        <fileset dir="build/dist" includes="launcher.jar" />
-			        <fileset dir="build/dist" includes="test.beast.jar" />
-			    </path>		
-			    
-			    <!--	    
-			    <path location="build/test.beast"/>
-			    -->
-            </classpath>
-            <formatter type="xml" />
+  <target name="junit" depends="junit-unit, junit-integration, junit-xmlparsertest"/>
 
-            <batchtest fork="yes" todir="${report}">
-                <fileset dir="beast.app/test">
-                    <include name="test/**/*Test.java" />
-                    <exclude name="test/beast/beast2vs1/**/*Test.java"/>
-                    <exclude name="test/beast/app/beauti/**/*Test.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
-        <echo message="JUnit test finished." />
+    <target name="junit-unit">
+        <pathconvert property="classpathProp" refid="classpath"/>
+        <echo>Classpath is ${classpathProp}</echo>
+
+        <java classpathref="classpath" classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="true">
+            <arg line="-p test.beast.base"/>
+            <arg line="-p test.beast.core"/>
+            <arg line="-p test.beast.evolution"/>
+            <arg line="-p test.beast.math"/>
+            <arg line="-p test.beast.statistic"/>
+            <arg line="-p test.beast.util"/>
+            <arg line="-N test.beast.util.XMLParserTest"/>
+            <arg line="--reports-dir build/junitreport"/>
+        </java>
+        <junitreport todir="build/junitreport">
+            <fileset dir="build/junitreport">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="build/junitreport"/>
+        </junitreport>
+    </target>
+	
+	<!-- separate out test.beast.util.XMLParserTest so the version.xml files get loaded -->
+    <target name="junit-xmlparsertest">
+        <java classpathref="classpath" classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="true">
+            <arg line="-c test.beast.util.XMLParserTest"/>
+            <arg line="--reports-dir build/xmlparserreport"/>
+        </java>
+        <junitreport todir="build/xmlparserreport">
+            <fileset dir="build/xmlparserreport">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="build/xmlparserreport"/>
+        </junitreport>
+    </target>
+    
+    <target name="junit-integration">
+        <java classpathref="classpath" classname="org.junit.platform.console.ConsoleLauncher" fork="true" failonerror="true">
+            <arg line="-p test.beast.integration"/>
+            <arg line="--reports-dir build/integrationreport"/>
+        </java>
+        <junitreport todir="build/integrationreport">
+            <fileset dir="build/junitreport">
+                <include name="TEST-*.xml"/>
+            </fileset>
+            <report format="frames" todir="build/integrationreport"/>
+        </junitreport>
     </target>
 
     <target name="junitreport">
@@ -377,7 +388,7 @@
         </junitreport>
         <echo message="JUnit test report finished." />
     </target>
-
+    
     <!-- Target for Travis-CI with non-zero exit status on test failure. -->
     <target name="travis" depends="clean, compile-all, junit, junitb">
         <fail if="junitfailed" message="One or more CORE BEAST tests failed."/>
@@ -397,8 +408,8 @@
 			        <fileset dir="${lib}" includes="colt.jar"/>
 			        <fileset dir="${lib}" includes="fest.jar"/>
 			        <fileset dir="${lib}" includes="antlr-runtime-4.10.1.jar"/>
-			        <fileset dir="build/dist" includes="beast.base.jar" />
-			        <fileset dir="build/dist" includes="beast.app.jar" />
+			        <fileset dir="build/dist" includes="BEAST.base.jar" />
+			        <fileset dir="build/dist" includes="BEAST.app.jar" />
 			        <fileset dir="build/dist" includes="launcher.jar" />
 			        <fileset dir="build/dist" includes="test.beast.jar" />
 			        <fileset dir="${lib}" includes="assertj-swing-junit-3.17.1.jar"/>
@@ -871,10 +882,10 @@
         <!-- <copy file="${common_dir}/icons/utility.png" todir="${Linux_package_dir}/images" />
         -->
         <copy file="${dist}/launcher.jar" todir="${Linux_package_dir}/lib" />
-        <copy file="${dist}/beast.base.jar" todir="${Linux_package_dir}/lib" />
-        <copy file="${dist}/beast.base.src.jar" todir="${Linux_package_dir}/lib" />
-        <copy file="${dist}/beast.app.jar" todir="${Linux_package_dir}/lib" />
-        <copy file="${dist}/beast.app.src.jar" todir="${Linux_package_dir}/lib" />
+        <copy file="${dist}/BEAST.base.jar" todir="${Linux_package_dir}/lib" />
+        <copy file="${dist}/BEAST.base.src.jar" todir="${Linux_package_dir}/lib" />
+        <copy file="${dist}/BEAST.app.jar" todir="${Linux_package_dir}/lib" />
+        <copy file="${dist}/BEAST.app.src.jar" todir="${Linux_package_dir}/lib" />
         <!-- <copy file="${dist}/beast-beagle.jar" todir="${Linux_package_dir}/lib"/>
         <copy todir="${Linux_package_dir}/lib">
             <fileset dir="${Linux_dir}/lib" />
