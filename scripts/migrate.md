@@ -22,8 +22,9 @@ Not all imports may be resolved, and some APIs changed slightly, so some manual 
 Some library versions have been updated, so any references in your `build.xml` file need to be updated.
 
 commons-math => commons-math3-3.6.1.jar		
-antl => antlr-runtime-4.9.2.jar	
+antl => antlr-runtime-4.10.1.jar	
 fest.jar => assertj-core-3.20.2.jar, assertj-swing-junit-3.17.1.jar, assertj-swing-3.17.1.jar
+junit-4.8.2.jar => junit/junit-platform-console-standalone-1.8.2.jar
 
 ## Update `version.xml`
 

@@ -37,13 +37,13 @@
     <!-- start -->
     <target name="init">
         <echo message="${ant.project.name}: ${ant.file}" />
-        <available file="./beast.base/version.xml" property="versionAvailable"/>
+        <available file="${beast2}/beast.base/version.xml" property="versionAvailable"/>
         <fail unless="versionAvailable">
               ** Required file version.xml does not exist. **
         </fail>
 
         <!-- Read package name and version from xml file -->
-        <xmlproperty file="./beast.base/version.xml" prefix="fromVersionFile" />
+        <xmlproperty file="${beast2}/beast.base/version.xml" prefix="fromVersionFile" />
         <property name="version" value="${fromVersionFile.package(version)}" />
         <echo message="Version: ${version}" />
     </target>
