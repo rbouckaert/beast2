@@ -37,13 +37,13 @@
     <!-- start -->
     <target name="init">
         <echo message="${ant.project.name}: ${ant.file}" />
-        <available file="${beast2}/beast.base/version.xml" property="versionAvailable"/>
+        <available file="${beast2}/version.xml" property="versionAvailable"/>
         <fail unless="versionAvailable">
               ** Required file version.xml does not exist. **
         </fail>
 
         <!-- Read package name and version from xml file -->
-        <xmlproperty file="${beast2}/beast.base/version.xml" prefix="fromVersionFile" />
+        <xmlproperty file="${beast2}/version.xml" prefix="fromVersionFile" />
         <property name="version" value="${fromVersionFile.package(version)}" />
         <echo message="Version: ${version}" />
     </target>
@@ -51,7 +51,6 @@
 
     <target name="clean">
         <delete dir="${build}" />
-        <delete dir="${test}" />
     </target>
 
     <!-- clean previous build, and then compile Java source code, and Juint test -->
@@ -72,7 +71,7 @@
     </target>
 
     <!-- compile Java source code -->
-    <target name="compile-all" depends="init,beast.pkgmgmt,beast.base,beast.app,test.beast">
+    <target name="compile-all" depends="init,beast.pkgmgmt,beast.base,test.beast">
         <echo>Building BEAST 2</echo>
         <!--
         <mkdir dir="${build}" />
@@ -135,14 +134,14 @@
         <mkdir dir="${build}" />
     
     	<javac 
-               srcdir="${beast2}/beast.pkgmgmt/src"
+               srcdir="${beast2}/src"
                destdir="${build}"
                classpathref="classpath"
                fork="true"
                memoryinitialsize="256m"
                memorymaximumsize="1024m"
                includeAntRuntime='false'>
-            <include name="beast/**/**" />
+            <include name="beast/pkgmgmt/**/**" />
         </javac>
                 
         <jar jarfile="${build}/dist/launcher.jar">
@@ -166,7 +165,7 @@
         
         
         <jar jarfile="${dist}/launcher.src.jar">
-            <fileset dir="${beast2}/beast.pkgmgmt/src">
+            <fileset dir="${beast2}/src">
                 <include name="beast/pkgmgmt/**/*.java" />
             </fileset>
         </jar>
@@ -176,14 +175,14 @@
 
     <target name="beast.base" depends="init">
     	<javac 
-               srcdir="${beast2}/beast.base/src"
+               srcdir="${beast2}/src"
                destdir="${build}"
                classpathref="classpath"
                fork="true"
                memoryinitialsize="256m"
                memorymaximumsize="1024m"
                includeAntRuntime='false'>
-            <include name="beast/**/**" />
+            <include name="beast/base/**/**" />
             <include name="org/**/**" />
         </javac>
                 
@@ -206,7 +205,7 @@
         </jar>
 
         <jar jarfile="${dist}/BEAST.base.src.jar">
-            <fileset dir="${beast2}/beast.base/src">
+            <fileset dir="${beast2}/src">
                 <include name="beast/base/**/*.java" />
                 <include name="org/**/*.java" />
             </fileset>
@@ -214,40 +213,10 @@
     </target>
 
 
-    <target name="beast.app" depends="init">
-    	<javac 
-               srcdir="${beast2}/beast.app/src"
-               destdir="${build}"
-               classpathref="classpath"
-               fork="true"
-               memoryinitialsize="256m"
-               memorymaximumsize="1024m"
-               includeAntRuntime='false'>
-            <include name="beast/**/**" />
-        </javac>
-                
-        <jar jarfile="${build}/dist/BEAST.app.jar">
-            <manifest>
-                <attribute name="Built-By" value="${user.name}" />
-            </manifest>
-            
-            <fileset dir="${build}">
-                <include name="beast/app/**/*.class" />
-                <include name="beast/app/**/*.properties" />
-                <include name="beast/app/**/*.png" />
-            </fileset>
-        </jar>
 
-        <jar jarfile="${dist}/BEAST.app.src.jar">
-            <fileset dir="${beast2}/beast.app/src">
-                <include name="beast/app/**/*.java" />
-            </fileset>
-        </jar>
-    </target>
-    
     <target name="test.beast" depends="init">
     	<javac 
-               srcdir="${beast2}/beast.app/test"
+               srcdir="${beast2}/test"
                destdir="${build}"
                classpathref="classpath"
                fork="true"
@@ -262,14 +231,14 @@
                 <attribute name="Built-By" value="${user.name}" />
             </manifest>
             <fileset dir="${build}">
-                <include name="test/beast/**/*.class" />
-                <include name="test/beast/**/*.properties" />
-                <include name="test/beast/**/*.png" />
+                <include name="test/**/*.class" />
+                <include name="test/**/*.properties" />
+                <include name="test/**/*.png" />
             </fileset>
         </jar>
 
         <jar jarfile="${dist}/beast.test.src.jar">
-            <fileset dir="${beast2}/beast.app/src">
+            <fileset dir="${beast2}/src">
                 <include name="test/**/*.java" />
             </fileset>
         </jar>
@@ -287,7 +256,7 @@
         <mkdir dir="${release_dir}/package/beast.base/lib" />
         <copy file="${dist}/BEAST.base.src.jar" todir="${release_dir}/package/beast.base/"/>
         <copy file="${dist}/BEAST.base.jar" todir="${release_dir}/package/beast.base/lib/"/>
-        <copy file="${beast2}/beast.base/version.xml" todir="${release_dir}/package/beast.base/"/>
+        <copy file="${beast2}/version.xml" todir="${release_dir}/package/beast.base/"/>
 
         <jar jarfile="${release_dir}/package/BEAST.base.package.v${version}.zip">
             <fileset dir="${release_dir}/package/beast.base">
@@ -296,26 +265,6 @@
                 <include name="BEAST.base.src.jar" />
             </fileset>
             <fileset dir="${beast2}/beast.base/">
-                <include name="templates/*.xml" />
-                <include name="examples/*.*" />
-                <include name="examples/nexus/*.*" />
-            </fileset>
-         </jar>
-
-        <!-- create BEAST.app package -->
-        <mkdir dir="${release_dir}/package/beast.app/" />
-        <mkdir dir="${release_dir}/package/beast.app/lib" />
-        <copy file="${dist}/BEAST.app.src.jar" todir="${release_dir}/package/beast.app/"/>
-        <copy file="${dist}/BEAST.app.jar" todir="${release_dir}/package/beast.app/lib/"/>
-        <copy file="${beast2}/beast.app/version.xml" todir="${release_dir}/package/beast.app/"/>
-
-        <jar jarfile="${release_dir}/package/BEAST.app.package.v${version}.zip">
-            <fileset dir="${release_dir}/package/beast.app">
-                <include name="version.xml" />
-                <include name="lib/BEAST.app.jar" />
-                <include name="BEAST.app.src.jar" />
-            </fileset>
-            <fileset dir="${beast2}/beast.app">
                 <include name="templates/*.xml" />
                 <include name="examples/*.*" />
                 <include name="examples/nexus/*.*" />
@@ -434,13 +383,6 @@
 
 
     <!-- Release -->
-    
-    <!--
-    <property name="version" value="2.6.6" />    
-    -->
-    
-    
-    
     <property name="release_dir" value="release" />
     <property name="copyright" value="Beast 2 development team 2011-2022" />
 

@@ -37,12 +37,11 @@
 
     <target name="clean">
         <delete dir="${build}" />
-        <delete dir="${test}" />
     </target>
 
     <!-- compile Java source code -->
     <!-- compile Java source code -->
-    <target name="compile-all" depends="init,beast.pkgmgmt,beast.base,beast.app,test.beast">
+    <target name="compile-all" depends="init,beast.pkgmgmt,beast.base,test.beast">
         <echo>Building BEAST 2</echo>
         <!--
         <mkdir dir="${build}" />
@@ -103,14 +102,14 @@
     <target name="beast.pkgmgmt" depends="init">
         <mkdir dir="${build}" />
     	<javac 
-               srcdir="beast.pkgmgmt/src"
+               srcdir="src"
                destdir="build"
                classpathref="classpath"
                fork="true"
                memoryinitialsize="256m"
                memorymaximumsize="1024m"
                includeAntRuntime='false'>
-            <include name="beast/**/**" />
+            <include name="beast/pkgmgmt/**/**" />
         </javac>
                 
         <jar jarfile="build/dist/launcher.jar">
@@ -130,14 +129,14 @@
 
     <target name="beast.base" depends="init">
     	<javac 
-               srcdir="beast.base/src"
+               srcdir="src"
                destdir="build"
                classpathref="classpath"
                fork="true"
                memoryinitialsize="256m"
                memorymaximumsize="1024m"
                includeAntRuntime='false'>
-            <include name="beast/**/**" />
+            <include name="beast/base/**/**" />
             <include name="org/**/**" />
         </javac>
                 
@@ -161,35 +160,10 @@
     </target>
 
 
-    <target name="beast.app" depends="init">
-    	<javac 
-               srcdir="beast.app/src"
-               destdir="build"
-               classpathref="classpath"
-               fork="true"
-               memoryinitialsize="256m"
-               memorymaximumsize="1024m"
-               includeAntRuntime='false'>
-            <include name="beast/**/**" />
-        </javac>
-                
-        <jar jarfile="build/dist/BEAST.app.jar">
-            <manifest>
-                <attribute name="Built-By" value="${user.name}" />
-            </manifest>
 
-            	
-            <fileset dir="${build}">
-                <include name="beast/app/**/*.class" />
-                <include name="beast/app/**/*.properties" />
-                <include name="beast/app/**/*.png" />
-            </fileset>
-        </jar>
-    </target>
-    
     <target name="test.beast" depends="init">
     	<javac 
-               srcdir="beast.app/test"
+               srcdir="test"
                destdir="build"
                fork="true"
                classpathref="classpath"
