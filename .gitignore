@@ -20,3 +20,4 @@
 
 # OS X ignores
 .DS_Store
+/bin/

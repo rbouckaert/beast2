@@ -72,7 +72,7 @@ public class Logger extends BEASTObject {
             "Alignments are suppressed. This way, the log file documents itself. ");
     final public Input<LOGMODE> modeInput = new Input<>("mode", "logging mode, one of " + Arrays.toString(LOGMODE.values()), LOGMODE.autodetect, LOGMODE.values());
     final public Input<SORTMODE> sortModeInput = new Input<>("sort", "sort items to be logged, one of " + Arrays.toString(SORTMODE.values()), SORTMODE.none, SORTMODE.values());
-    final public Input<Boolean> sanitiseHeadersInput = new Input<>("sanitiseHeaders", "whether to remove any clutter introduced by Beauti" , false);
+    final public Input<Boolean> sanitiseHeadersInput = new Input<>("sanitiseHeaders", "whether to remove any clutter introduced by BEAUti" , false);
 
     final public Input<List<BEASTObject>> loggersInput = new Input<>("log",
             "Element in a log. This can be any plug in that is Loggable.",

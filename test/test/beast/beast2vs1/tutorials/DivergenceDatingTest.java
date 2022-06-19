@@ -6,13 +6,14 @@ import test.beast.beast2vs1.TestFramework;
 import test.beast.beast2vs1.trace.Expectation;
 
 import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DivergenceDatingTest {
     @Test
     public void DivergenceDatingTutorial() throws Exception {
-        DivergenceDatingRunner runner = new DivergenceDatingRunner(org.assertj.core.util.Files.temporaryFolder());
+        DivergenceDatingRunner runner = new DivergenceDatingRunner(Files.createTempDirectory("tmp").toFile());
         runner.analyse(0);
     }
 
