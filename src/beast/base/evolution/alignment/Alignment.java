@@ -577,7 +577,7 @@ public class Alignment extends Map<String> {
      * SiteComparator is used for ordering the sites,
      * which makes it easy to identify patterns.
      */
-    class SiteComparator implements Comparator<int[]> {
+    public class SiteComparator implements Comparator<int[]> {
         @Override
 		public int compare(int[] o1, int[] o2) {
             for (int i = 0; i < o1.length; i++) {
@@ -601,7 +601,7 @@ public class Alignment extends Map<String> {
          * calculate patterns from sequence data
          * *
          */
-    private void calcPatterns(boolean log) {
+    protected void calcPatterns(boolean log) {
         int taxonCount = counts.size();
         int siteCount = counts.get(0).size();
 

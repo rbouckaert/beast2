@@ -27,6 +27,7 @@ package beast.base.core;
 
 import java.io.File;
 import java.lang.reflect.*;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -578,7 +579,7 @@ public class Input<T> {
             String[] stringValues = stringValue2.split("\\s+");
             for (int i = 0; i < stringValues.length; i++) {
                 if (theClass.equals(Integer.class)) {
-                    list.add(new Integer(stringValues[i % stringValues.length]));
+                    list.add(new BigDecimal(stringValues[i % stringValues.length]).intValueExact());
                 } else if (theClass.equals(Double.class)) {
                     list.add(new Double(stringValues[i % stringValues.length]));
                 } else if (theClass.equals(Boolean.class)) {
@@ -592,11 +593,11 @@ public class Input<T> {
         }
 
         if (theClass.equals(Integer.class)) {
-            value = (T) new Integer(stringValue);
+            value = (T) (Integer) new BigDecimal(stringValue).intValueExact();
             return;
         }
         if (theClass.equals(Long.class)) {
-            value = (T) new Long(stringValue);
+            value = (T) (Long) new BigDecimal(stringValue).longValueExact();
             return;
         }
         if (theClass.equals(Double.class)) {

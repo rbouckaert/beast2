@@ -3,7 +3,9 @@ package beast.base.evolution.tree.coalescent;
 
 import java.util.List;
 
+import beast.base.core.BEASTInterface;
 import beast.base.core.Description;
+import beast.base.core.Function;
 import beast.base.core.Input;
 import beast.base.core.Input.Validate;
 import beast.base.inference.CalculationNode;
@@ -20,7 +22,7 @@ public class ScaledPopulationFunction extends PopulationFunction.Abstract {
     final public Input<PopulationFunction> popParameterInput = new Input<>("population",
             "population function to scale. ", Validate.REQUIRED);
 
-    final public Input<RealParameter> scaleFactorInput = new Input<>("factor",
+    final public Input<Function> scaleFactorInput = new Input<>("factor",
             "scale population by this facor.", Validate.REQUIRED);
 
     public ScaledPopulationFunction() {
@@ -31,19 +33,21 @@ public class ScaledPopulationFunction extends PopulationFunction.Abstract {
     @Override
 	public List<String> getParameterIds() {
         List<String> ids = popParameterInput.get().getParameterIds();
-        ids.add(scaleFactorInput.get().getID());
+        if (scaleFactorInput.get() instanceof BEASTInterface) {
+        	ids.add(((BEASTInterface)scaleFactorInput.get()).getID());
+        }
         return ids;
     }
 
     @Override
 	public double getPopSize(double t) {
-        return popParameterInput.get().getPopSize(t) * scaleFactorInput.get().getValue();
+        return popParameterInput.get().getPopSize(t) * scaleFactorInput.get().getArrayValue();
     }
 
     @Override
 	public double getIntensity(double t) {
         double intensity = popParameterInput.get().getIntensity(t);
-        double scale = scaleFactorInput.get().getValue();
+        double scale = scaleFactorInput.get().getArrayValue();
         return intensity / scale;
     }
 
@@ -54,6 +58,7 @@ public class ScaledPopulationFunction extends PopulationFunction.Abstract {
 
     @Override
     protected boolean requiresRecalculation() {
-        return ((CalculationNode) popParameterInput.get()).isDirtyCalculation() || scaleFactorInput.get().somethingIsDirty();
+    	return ((CalculationNode) popParameterInput.get()).isDirtyCalculation()
+                || ((CalculationNode)scaleFactorInput.get()).isDirtyCalculation();
     }
 }

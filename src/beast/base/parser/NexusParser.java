@@ -98,7 +98,7 @@ public class NexusParser {
             fin = new BufferedReader(reader);
         }
         try {
-            while (fin.ready()) {
+            while (true) {
                 final String str = nextLine(fin);
                 if (str == null) {
                     processSets();
@@ -120,7 +120,6 @@ public class NexusParser {
                     parseTreesBlock(fin);
                 }
             }
-            processSets();
 
         } catch (TreeParser.TreeParsingException e) {
         	e.printStackTrace();
@@ -1340,11 +1339,11 @@ public class NexusParser {
      * read line from nexus file *
      */
     protected String readLine(final BufferedReader fin) throws IOException {
-        if (!fin.ready()) {
-            return null;
-        }
-        lineNr++;
-        return fin.readLine();
+        String line = fin.readLine();
+        if (line != null)
+            lineNr++;
+
+        return line;    	
     }
 
     /**
