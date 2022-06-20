@@ -24,6 +24,8 @@ import java.util.Arrays;
 public class Log {
 	static PrintStream nullStream = new PrintStream(new OutputStream() {
 		@Override
+		public void write(byte[] b, int off, int len) throws IOException {};
+		@Override
 		public void write(int b) throws IOException {
 		}
 	});

@@ -169,7 +169,7 @@ public class XMLProducer extends XMLParser {
             StringBuilder b = new StringBuilder();
             for (int i = 0; i < xml.length(); i++) {
             	char c = xml.charAt(i);
-            	if (c == '\n') {
+            	while (c == '\n') {
             		int j = 0;
             		while (i < xml.length()-1 && xml.charAt(i+1) == ' ') {
             			i++;
@@ -178,10 +178,18 @@ public class XMLProducer extends XMLParser {
             		if (i < xml.length()-1 && xml.charAt(i+1) == '\n') {
             			i++;
             		} else {
-            			i = i - j;
+            			if (j == 4 && i + 2 < xml.length()-1 && xml.charAt(i+2) != '/') {
+                        	b.append('\n');
+            			}
+            			if (j == 0 && i + 2 < xml.length()-1 && xml.charAt(i+2) != 'm') {
+                        	b.append('\n');
+            			}
+                    	b.append('\n');            		
+            			i = i - j + 1;
             		}
+            		c = xml.charAt(i);
             	}
-            	b.append(c);
+            	b.append(c);            		
             }
             xml = b.toString();
 

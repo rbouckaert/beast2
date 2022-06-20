@@ -49,7 +49,7 @@ public class DocumentationTest  {
                 if (!hasSatisfactoryDescription) {
                     undocumentedPlugins.add(beastObjectName);
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
             }
         }
         assertTrue(undocumentedPlugins.size() == 0, "No proper description for: " + undocumentedPlugins.toString());
@@ -77,7 +77,7 @@ public class DocumentationTest  {
                         undocumentedInputs.add(beastObjectName + ":" + input.getName());
                     }
                 }
-            } catch (Exception e) {
+            } catch (Throwable e) {
             }
         }
 
